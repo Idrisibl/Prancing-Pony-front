@@ -1,0 +1,61 @@
+@font-face {
+  font-family: "PlayfairDisplay";
+  src: url("../assets/fonts/PlayfairDisplay-Bold.eot");
+  src: url("../assets/fonts/PlayfairDisplay-Bold.eot?#iefix")
+      format("embedded-opentype"),
+    url("../assets/fonts/PlayfairDisplay-Bold.woff") format("woff"),
+    url("../assets/fonts/PlayfairDisplay-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PlayfairDisplay";
+  src: url("../assets/fonts/PlayfairDisplay-Medium.eot");
+  src: url("../assets/fonts/PlayfairDisplay-Medium.eot?#iefix")
+      format("embedded-opentype"),
+    url("../assets/fonts/PlayfairDisplay-Medium.woff") format("woff"),
+    url("../assets/fonts/PlayfairDisplay-Medium.ttf") format("truetype");
+  font-weight: medium;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PlayfairDisplay";
+  src: url("../assets/fonts/PlayfairDisplay-Regular.eot");
+  src: url("../assets/fonts/PlayfairDisplay-Regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("../assets/fonts/PlayfairDisplay-Regular.woff") format("woff"),
+    url("../assets/fonts/PlayfairDisplay-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  font-family: "PlayfairDisplay", sans-serif;
+  font-size: 18px;
+}
+
+.container {
+  max-width: 1440px;
+  margin: auto;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
