@@ -1,11 +1,13 @@
 import React from "react";
+import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import SigninPage from "./pages/SigninPage";
 import SignupPage from "./pages/SignupPage";
-import HomePage from "./pages/HomePage";
 import { useSelector } from "react-redux";
-import "./App.css";
 import Layout from "./Layout";
+import AllTasks from "./pages/categoriesPage/AllTasks";
+import TasksOnCategories from "./pages/categoriesPage/TasksOnCategories";
+import CategoriesPage from "./pages/categoriesPage";
 
 const App = () => {
   const token = useSelector((state) => state.token);
@@ -19,7 +21,10 @@ const App = () => {
           element={token ? <Navigate to="/" /> : <SigninPage />}
         />
         <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
+          <Route path="/categories" element={<CategoriesPage />}>
+            <Route index element={<AllTasks />} />
+            <Route path="/categories/:id" element={<TasksOnCategories />} />
+          </Route>
         </Route>
       </Routes>
     </div>

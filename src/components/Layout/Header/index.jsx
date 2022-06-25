@@ -13,7 +13,7 @@ const Header = () => {
         </Link>
         <ul className={styles.list}>
           <li>
-            <Link to="/taks">Задания</Link>
+            <Link to="/categories">Задания</Link>
           </li>
           <li>
             <Link to="/users">Пользователи</Link>
