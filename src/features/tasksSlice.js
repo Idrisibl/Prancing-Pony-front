@@ -28,21 +28,21 @@ export const patchTask = createAsyncThunk(
 
 export const addTasks = createAsyncThunk(
   "tasks/post",
-  async ({ title, text, price, category }, thunkAPI) => {
+  async ({ title, text, price, categories }, thunkAPI) => {
     try {
-      // const state = thunkAPI.getState();
+      const state = thunkAPI.getState();
 
       const res = await fetch("http://localhost:3042/tasks", {
         method: "POST",
         headers: {
-          // Authorization: `Bearer ${state.auth.token}`,
+          Authorization: `Bearer ${state.auth.token}`,
           "Content-type": "application/json;charset=UTF-8",
         },
         body: JSON.stringify({
           title,
           text,
           price,
-          category,
+          categories
         }),
       });
       return res.json();

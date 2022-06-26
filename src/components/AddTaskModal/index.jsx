@@ -2,26 +2,26 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGetCategories } from "../../features/categoriesSlice";
 import { addTasks, fetchTasks } from "../../features/tasksSlice";
-import TasksItems from "../TasksItems";
+
 
 const AddTaskModal = () => {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
+  const [categories, setCategory] = useState("");
 
-  const tasks = useSelector((state) => state.tasksSlice.tasks);
-  const categories = useSelector((state) => state.categoriesSlice.categories);
+  const dispatch = useDispatch();
+
+  const AllCategories = useSelector((state) => state.categoriesSlice.categories);
 
   const addTask = () => {
-    dispatch(addTasks({ title, text, price, category }));
+    dispatch(addTasks({ title, text, price, categories }));
     setCategory("");
     setTitle("");
     setText("");
     setPrice("");
   };
 
-  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchGetCategories());
     dispatch(fetchTasks());
@@ -54,23 +54,16 @@ const AddTaskModal = () => {
         />
       </div>
       <div>
-        <select>
-          {categories.map((item) => {
+        <select onChange={(e) => setCategory(e.target.value)}>
+          {AllCategories.map((item) => {
             return (
-              <option
-                onChange={(e) => setCategory(e.target.value)}
-                value={item._id}
-                key={item._id}
-              >
+              <option value={item._id} key={item._id}>
                 {item.name}
               </option>
             );
           })}
         </select>
         <button onClick={addTask}>Добавить</button>
-        {tasks.map((item) => {
-          return <TasksItems key={item._id} task={item} />;
-        })}
       </div>
     </div>
   );
