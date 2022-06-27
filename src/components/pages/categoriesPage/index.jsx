@@ -12,32 +12,39 @@ const CategoriesPage = () => {
 
   const categories = useSelector((state) => state.categoriesSlice.categories);
 
-  const [opened, setOpened] = useState(false)
+  const [opened, setOpened] = useState(false);
 
   useEffect(() => {
     dispatch(fetchGetCategories());
   }, [dispatch]);
 
-  
   return (
     <div className={styles.main}>
-     <div onClick={() => setOpened(!opened)}>Выложить задание</div>
-     {opened && <AddTaskModal/> }
+      <div className={styles.openBtnWrapper}>
+        <span className={styles.openBtn} onClick={() => setOpened(true)}>
+          Выложить задание
+        </span>
+      </div>
+      {opened && <AddTaskModal setOpened={setOpened} />}
       <div className={styles.content}>
         <ul>
-          <NavLink to={'/categories'}><h2>Категории</h2></NavLink>
+          <NavLink to={"/categories"}>
+            <h2>Категории</h2>
+          </NavLink>
           {categories.map((item) => (
             <li key={item._id}>
               <NavLink
                 className={({ isActive }) =>
                   isActive ? `${styles.link} ${styles.active}` : styles.link
                 }
-                to={`/categories/${item._id}`}>
+                to={`/categories/${item._id}`}
+              >
                 {item.name}
               </NavLink>
             </li>
           ))}
         </ul>
+
         <Outlet />
       </div>
     </div>

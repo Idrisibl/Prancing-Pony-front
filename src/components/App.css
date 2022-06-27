@@ -57,6 +57,13 @@ body {
   margin: auto;
 }
 
+.mainContainer {
+  min-height: 100vh;
+  background: url("../assets/images/board-bg.jpg");
+  border: 10px outset #f8b700;
+  padding: 50px 0;
+}
+
 a {
   text-decoration: none;
   color: #000;

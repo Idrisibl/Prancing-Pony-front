@@ -1,0 +1,36 @@
+.sidebar {
+  padding-top: 150px;
+  list-style: none;
+  background: url("../../assets/images/pergament.png") center top / contain
+    no-repeat;
+  width: 25%;
+  min-height: 700px;
+  text-align: center;
+  font-size: 25px;
+}
+
+.sidebar li {
+  margin-bottom: 40px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.sidebar li:first-child {
+  margin-bottom: 100px;
+}
+
+.sidebar li:last-child {
+  margin-top: 100px;
+}
+
+.link {
+  transition: all 0.3s ease;
+}
+
+.link:hover {
+  color: #a86d00;
+}
+
+.active {
+  color: #a86d00;
+}

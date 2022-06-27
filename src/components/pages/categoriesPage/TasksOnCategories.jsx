@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCategoriesTasks } from "../../../features/tasksSlice";
 import TasksItems from "../../TasksItems";
+import styles from './Categories.module.css'
 
 const TasksOnCategories = () => {
   const { id } = useParams();
@@ -15,12 +16,10 @@ const TasksOnCategories = () => {
   }, [dispatch, id]);
 
   return (
-    <div>
-      <div>
-        {tasks.map((item) => {
-          return <TasksItems key={item._id} task={item} />;
-        })}
-      </div>
+    <div className={styles.tasks}>
+      {tasks.map((item) => {
+        return <TasksItems key={item._id} task={item} />;
+      })} 
     </div>
   );
 };

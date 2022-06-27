@@ -10,4 +10,8 @@ export const store = configureStore({
     categoriesSlice: categoriesSlice,
     tasksSlice: tasksSlice,
   },
+  // middleware: (getDefaultMiddleware) =>
+  //   getDefaultMiddleware({
+  //     serializableCheck: false,
+  //   }),
 });

@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/images/pony.png";
+import { GiSwapBag } from "react-icons/gi";
 
 import styles from "./Header.module.css";
+import { fetchOneUser } from "../../../features/authSlice";
 
 const Header = () => {
+  const token = useSelector((state) => state.auth.token);
+  const authUserId = useSelector((state) => state.auth.id);
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchOneUser(authUserId));
+  }, [dispatch, authUserId]);
+
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
@@ -26,12 +38,27 @@ const Header = () => {
           </li>
         </ul>
         <div className={styles.profile}>
-          <span>
-            <Link to="/signin">
-              <strong>Авторизируйтесь, </strong>
-            </Link>
-            и перед вами будет еще больше возможностей!
-          </span>
+          {!token ? (
+            <span>
+              <Link to="/signin">
+                <strong>Авторизируйтесь, </strong>
+              </Link>
+              и перед вами будет еще больше возможностей!
+            </span>
+          ) : (
+            <div className={styles.profileBar}>
+              <div className={styles.wallet}>
+                <GiSwapBag size="3rem" fill="#4D220E" />
+                <span>{user.wallet} ₽</span>
+              </div>
+              <Link className={styles.avatar} to={`/profile/${authUserId}`}>
+                <img
+                  src={`http://localhost:3042/${user.avatar}`}
+                  alt="avatar"
+                />
+              </Link>
+            </div>
+          )}
         </div>
       </nav>
     </header>
