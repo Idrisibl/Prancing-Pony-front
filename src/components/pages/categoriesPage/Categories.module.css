@@ -1,0 +1,38 @@
+.content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content ul {
+  padding-top: 100px;
+  list-style: none;
+  background: url("../../../assets/images/pergament.png") center top / contain
+    no-repeat;
+  width: 25%;
+  min-height: 700px;
+  text-align: center;
+  font-size: 20px;
+}
+
+.content ul h2,
+li {
+  margin-bottom: 15px;
+}
+
+.link {
+  transition: all 0.3s ease;
+}
+
+.link:hover {
+  color: #a86d00;
+}
+
+.active {
+  color: #a86d00;
+}
+
+.tasks {
+  width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+}

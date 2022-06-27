@@ -4,13 +4,12 @@ import React from "react";
 const TasksItems = ({ task }) => {
   return (
     <>
-      <div>
-          <h4>{task.title}</h4>
-          <div>{task.text}</div>
-          <div>{task.price}$</div>
-          <div>{task.completed}</div>
+      <div className={styles.task}>
+        <h4>{task.title}</h4>
+        <div className={styles.desk}>{task.text}</div>
+        <div>{task.price}$</div>
+        <div>{task.completed}</div>
       </div>
-        
     </>
   );
 };

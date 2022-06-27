@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { login } from "../../../features/authSlice";
 import styles from "./Signin.module.css";
 
@@ -9,6 +10,7 @@ const Signin = () => {
   const [visible, setVisible] = useState(false);
   const error = useSelector((state) => state.auth.error);
   const signinUp = useSelector((state) => state.auth.signinUp);
+  const navigate = useNavigate();
 
   const [emailDirty, setEmailDirty] = useState(false);
   const [passwordDirty, setPasswordDirty] = useState(false);
@@ -52,7 +54,9 @@ const Signin = () => {
   const handleSignin = (e) => {
     e.preventDefault();
     if (email.trim() && password.trim()) {
-      dispatch(login({ email, password }));
+      dispatch(login({ email, password }))
+        .unwrap()
+        .then(() => navigate("/"));
 
       setEmail("");
       setPassword("");

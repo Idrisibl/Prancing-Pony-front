@@ -14,25 +14,27 @@ const CategoriesPage = () => {
     dispatch(fetchGetCategories());
   }, [dispatch]);
 
-  
   return (
     <div className={styles.main}>
-     
       <div className={styles.content}>
         <ul>
-          <NavLink to={'/categories'}><h2>Категории</h2></NavLink>
+          <NavLink to={"/categories"}>
+            <h2>Категории</h2>
+          </NavLink>
           {categories.map((item) => (
             <li key={item._id}>
               <NavLink
                 className={({ isActive }) =>
                   isActive ? `${styles.link} ${styles.active}` : styles.link
                 }
-                to={`/categories/${item._id}`}>
+                to={`/categories/${item._id}`}
+              >
                 {item.name}
               </NavLink>
             </li>
           ))}
         </ul>
+
         <Outlet />
       </div>
     </div>

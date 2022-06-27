@@ -3,6 +3,7 @@
   margin-top: 30px;
   display: flex;
   align-items: center;
+  margin-bottom: 100px;
 }
 
 .logo {
@@ -86,4 +87,30 @@
 .profile strong {
   color: rgb(133, 33, 33);
   cursor: pointer;
+}
+
+.profileBar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.avatar {
+  width: 20%;
+}
+
+.avatar img {
+  width: 100%;
+}
+
+.wallet {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wallet span {
+  margin-left: 25px;
+  font-size: 25px;
 }

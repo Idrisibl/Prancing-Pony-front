@@ -50,10 +50,61 @@ export const login = createAsyncThunk(
   }
 );
 
+export const fetchOneUser = createAsyncThunk(
+  "auth/fetchOneUser",
+  async (id, thunkAPI) => {
+    try {
+      const res = await fetch(`http://localhost:3042/users/${id}`);
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const editAvatar = createAsyncThunk(
+  "auth/editAvatar",
+  async ({ file }, thunkAPI) => {
+    try {
+      const formData = new FormData();
+      formData.append("avatar", file);
+
+      const state = thunkAPI.getState();
+
+      const res = await fetch(`http://localhost:3042/users/avatar`, {
+        method: "PATCH",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   signupIn: false,
   signinUp: false,
+  loading: false,
   error: null,
+  user: {},
   id: localStorage.getItem("id"),
   token: localStorage.getItem("token"),
 };
@@ -84,6 +135,28 @@ const authSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.signinUp = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchOneUser.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(fetchOneUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(fetchOneUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(editAvatar.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(editAvatar.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(editAvatar.rejected, (state, action) => {
+        state.loading = false;
         state.error = action.payload;
       });
   },
