@@ -1,14 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./Categories.module.css";
 import { NavLink } from "react-router-dom";
 import { fetchGetCategories } from "../../../features/categoriesSlice";
 import { Outlet } from "react-router-dom";
+import AddTaskModal from "../../AddTaskModal";
 // import BreadCrumbs from "../../BreadСrumbs";
 
 const CategoriesPage = () => {
   const dispatch = useDispatch();
+
   const categories = useSelector((state) => state.categoriesSlice.categories);
+
+  const [opened, setOpened] = useState(false);
 
   useEffect(() => {
     dispatch(fetchGetCategories());
@@ -16,6 +20,8 @@ const CategoriesPage = () => {
 
   return (
     <div className={styles.main}>
+      <div className={styles.openBtn} onClick={() => setOpened(true)}>Выложить задание</div>
+      {opened && <AddTaskModal setOpened={setOpened} />}
       <div className={styles.content}>
         <ul>
           <NavLink to={"/categories"}>

@@ -58,7 +58,7 @@ body {
 }
 
 .mainContainer {
-  height: 100%;
+  min-height: 100vh;
   background: url("../assets/images/board-bg.jpg");
   border: 10px outset #f8b700;
   padding: 50px 0;
