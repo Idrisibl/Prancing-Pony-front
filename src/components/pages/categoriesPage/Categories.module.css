@@ -3,6 +3,10 @@
   justify-content: space-between;
 }
 
+.openBtnWrapper {
+  text-align: right;
+}
+
 .openBtn {
   transition: all 0.3s ease;
   transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1) 0s;
@@ -23,9 +27,8 @@
   line-height: 1.5em;
   font-size: 2rem;
   cursor: pointer;
-  display: block;
-  text-align: right;
   padding-right: 40px;
+  width: 350px;
 }
 
 .openBtn:hover {

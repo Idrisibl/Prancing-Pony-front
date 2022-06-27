@@ -1,15 +1,14 @@
 import React from "react";
-import styles from "./ProfilePage.module.css";
-import { GiSwapBag } from "react-icons/gi";
 import { FaMobileAlt, FaRegEdit } from "react-icons/fa";
+import { GiSwapBag } from "react-icons/gi";
 import { MdEmail } from "react-icons/md";
-import witcher from "../../../assets/images/witcher.png";
-import { useDispatch, useSelector } from "react-redux";
-import { editAvatar } from "../../../features/authSlice";
+import { useDispatch } from "react-redux";
+import { editAvatar } from "../../features/authSlice";
+import styles from "./PersonalData.module.css";
+import witcher from "../../assets/images/witcher.png";
 
 const PersonalData = ({ authUser }) => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
 
   const handleUpdateAvatar = (file) => {
     dispatch(editAvatar({ file }));
@@ -23,8 +22,8 @@ const PersonalData = ({ authUser }) => {
           <div className={styles.image}>
             <img
               src={
-                user.avatar
-                  ? `http://localhost:3042/${user.avatar}`
+                authUser.avatar
+                  ? `http://localhost:3042/${authUser.avatar}`
                   : authUser.avatar
               }
               alt="avatar"
@@ -80,6 +79,16 @@ const PersonalData = ({ authUser }) => {
               <button>-</button>
             </div>
           </div>
+        </div>
+      </div>
+      <div>
+        <h2>Информация:</h2>
+        <div>
+          <FaRegEdit size="1rem" />
+          <span>Редактировать</span>
+        </div>
+        <div className={styles.information}>
+          <p>{authUser.info}</p>
         </div>
       </div>
     </>

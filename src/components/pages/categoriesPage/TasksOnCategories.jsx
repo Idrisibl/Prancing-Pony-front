@@ -19,7 +19,7 @@ const TasksOnCategories = () => {
     <div className={styles.tasks}>
       {tasks.map((item) => {
         return <TasksItems key={item._id} task={item} />;
-      })}
+      })} 
     </div>
   );
 };

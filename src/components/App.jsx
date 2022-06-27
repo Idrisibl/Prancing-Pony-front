@@ -9,7 +9,7 @@ import AllTasks from "./pages/categoriesPage/AllTasks";
 import TasksOnCategories from "./pages/categoriesPage/TasksOnCategories";
 import CategoriesPage from "./pages/categoriesPage";
 import ProfilePage from "./pages/ProfilePage";
-import PersonalData from "./pages/ProfilePage/PersonalData";
+import PersonalData from "./Profile";
 
 const App = () => {
   const token = useSelector((state) => state.token);

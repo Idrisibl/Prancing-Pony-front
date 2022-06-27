@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import styles from "./ProfilePage.module.css";
+import styles from "./Sidebar.module.css";
 
 const Sidebar = () => {
   const id = useSelector((state) => state.auth.id);
@@ -15,7 +15,7 @@ const Sidebar = () => {
           }
           to={`/profile/${id}`}
         >
-          Личные данные
+          Профиль
         </NavLink>
       </li>
       <li>
@@ -45,22 +45,28 @@ const Sidebar = () => {
           }
           to="/profile/finished"
         >
-          Завершённые задачи
+          Завершённые
         </NavLink>
       </li>
-      <NavLink
-        className={({ isActive }) =>
-          isActive ? `${styles.link} ${styles.active}` : styles.link
-        }
-        to="/profile/"
-      ></NavLink>
       <li>
         <NavLink
           className={({ isActive }) =>
             isActive ? `${styles.link} ${styles.active}` : styles.link
           }
-          to="/profile/"
-        ></NavLink>
+          to="/profile/failed"
+        >
+          Проваленные
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? `${styles.link} ${styles.active}` : styles.link
+          }
+          to="/profile/failed"
+        >
+          Выйти
+        </NavLink>
       </li>
     </ul>
   );

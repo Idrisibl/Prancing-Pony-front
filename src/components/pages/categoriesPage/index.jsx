@@ -20,7 +20,11 @@ const CategoriesPage = () => {
 
   return (
     <div className={styles.main}>
-      <div className={styles.openBtn} onClick={() => setOpened(true)}>Выложить задание</div>
+      <div className={styles.openBtnWrapper}>
+        <span className={styles.openBtn} onClick={() => setOpened(true)}>
+          Выложить задание
+        </span>
+      </div>
       {opened && <AddTaskModal setOpened={setOpened} />}
       <div className={styles.content}>
         <ul>
