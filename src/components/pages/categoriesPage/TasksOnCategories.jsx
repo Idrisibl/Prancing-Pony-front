@@ -3,12 +3,14 @@ import { useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCategoriesTasks } from "../../../features/tasksSlice";
 import TasksItems from "../../TasksItems";
-import styles from './Categories.module.css'
+import styles from "./Categories.module.css";
+import LoadPreloader from "../../LoadPreloader";
 
 const TasksOnCategories = () => {
   const { id } = useParams();
 
   const tasks = useSelector((state) => state.tasksSlice.tasks);
+  const loading = useSelector((state) => state.tasksSlice.loading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -16,11 +18,14 @@ const TasksOnCategories = () => {
   }, [dispatch, id]);
 
   return (
-    <div className={styles.tasks}>
-      {tasks.map((item) => {
-        return <TasksItems key={item._id} task={item} />;
-      })} 
-    </div>
+    <>
+      {loading && <LoadPreloader />}
+      <div className={styles.tasks}>
+        {tasks.map((item) => {
+          return <TasksItems key={item._id} task={item} />;
+        })}
+      </div>
+    </>
   );
 };
 

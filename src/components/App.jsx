@@ -8,8 +8,8 @@ import Layout from "./Layout";
 import AllTasks from "./pages/categoriesPage/AllTasks";
 import TasksOnCategories from "./pages/categoriesPage/TasksOnCategories";
 import CategoriesPage from "./pages/categoriesPage";
-import ProfilePage from "./pages/ProfilePage";
 import PersonalData from "./Profile";
+import PersonalArea from "./pages/ProfilePage";
 
 const App = () => {
   const token = useSelector((state) => state.token);
@@ -27,7 +27,7 @@ const App = () => {
             <Route index element={<AllTasks />} />
             <Route path="/categories/:id" element={<TasksOnCategories />} />
           </Route>
-          <Route path="/profile/:id" element={<ProfilePage />}>
+          <Route path="/profile/:id" element={<PersonalArea />}>
             <Route index element={<PersonalData />} />
           </Route>
         </Route>
