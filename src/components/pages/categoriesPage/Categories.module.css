@@ -45,6 +45,8 @@
   min-height: 700px;
   text-align: center;
   font-size: 20px;
+  position: sticky;
+  position: -webkit-sticky;
 }
 
 .content ul h2,

@@ -1,10 +1,20 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 
 const Sidebar = () => {
   const id = useSelector((state) => state.auth.id);
+  const navigate = useNavigate();
+
+  const exitFromAccaunt = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("avatar");
+    window.location.reload().then(() => {
+      navigate("/categorires");
+    });
+  };
 
   return (
     <ul className={styles.sidebar}>
@@ -58,12 +68,12 @@ const Sidebar = () => {
           Проваленные
         </NavLink>
       </li>
-      <li>
+      <li onClick={exitFromAccaunt}>
         <NavLink
           className={({ isActive }) =>
             isActive ? `${styles.link} ${styles.active}` : styles.link
           }
-          to="/profile/failed"
+          to="/categories"
         >
           Выйти
         </NavLink>

@@ -1,0 +1,51 @@
+.preloader {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.preloader img {
+  width: 500px;
+}
+
+.loadText {
+  color: #f8b700;
+  transition: all 0.3s ease;
+  transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1) 0s;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: -webkit-linear-gradient(
+    top,
+    #efd100,
+    #e2a233 19%,
+    #f0c328 30%,
+    #fff1a3 43%,
+    #ffe13e 50%,
+    #fff 51%,
+    #fff
+  );
+  background-size: 1em 2.5em;
+  display: inline-block;
+  line-height: 1.5em;
+  font-size: 40px;
+}
+
+.loadText {
+  clip-path: inset(0 3ch 0 0);
+  animation: l 1s steps(4) infinite;
+}
+
+@keyframes l {
+  to {
+    clip-path: inset(0 -1ch 0 0);
+  }
+}
