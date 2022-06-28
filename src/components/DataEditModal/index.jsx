@@ -1,27 +1,28 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styles from "../AddTaskModal/Modal.module.css";
 import { GiCheckMark } from "react-icons/gi";
 import InputMask from "react-input-mask";
 import { editUser } from "../../features/authSlice";
 
-const DataEditModal = ({ setOpened }) => {
-  const [tel, setTel] = useState("");
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [lastname, setLastname] = useState("");
-
+const DataEditModal = ({ setOpened, authUser }) => {
+  const [formData, setFormData] = React.useState({
+    name: authUser.name,
+    lastname: authUser.lastname,
+    tel: authUser.tel,
+    email: authUser.email,
+  });
   const [emailError, setEmailError] = useState("");
 
   const dispatch = useDispatch();
 
   const handleEditData = () => {
-    dispatch(editUser({ name, lastname, tel, email }));
+    dispatch(editUser({ formData }));
     setOpened(false);
   };
 
   const handleChangeEmail = (e) => {
-    setEmail(e.target.value);
+    setFormData({ ...formData, email: e.target.value });
     const re =
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     if (!re.test(String(e.target.value).toLowerCase())) {
@@ -31,7 +32,11 @@ const DataEditModal = ({ setOpened }) => {
     }
   };
 
-  const disabled = name && lastname && tel && email;
+  const disabled =
+    formData.name ||
+    formData.lastname ||
+    formData.tel.length < 15 ||
+    formData.email;
 
   return (
     <div className={styles.wrapper}>
@@ -43,8 +48,10 @@ const DataEditModal = ({ setOpened }) => {
           <div>
             <input
               type="text"
-              onChange={(e) => setName(e.target.value)}
-              value={name}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
+              value={formData.name}
               placeholder="Имя"
               maxLength="12"
             />
@@ -52,8 +59,10 @@ const DataEditModal = ({ setOpened }) => {
           <div>
             <input
               type="text"
-              onChange={(e) => setLastname(e.target.value)}
-              value={lastname}
+              onChange={(e) =>
+                setFormData({ ...formData, lastname: e.target.value })
+              }
+              value={formData.lastname}
               placeholder="Фамилия"
               maxLength="12"
             />
@@ -61,10 +70,12 @@ const DataEditModal = ({ setOpened }) => {
           <div>
             <InputMask
               mask="+7 (999) 999 9999"
-              value={tel}
+              value={formData.tel}
               type="tel"
               placeholder="Телефон"
-              onChange={(e) => setTel(e.target.value)}
+              onChange={(e) =>
+                setFormData({ ...formData, tel: e.target.value })
+              }
             ></InputMask>
           </div>
           <div>
@@ -72,7 +83,7 @@ const DataEditModal = ({ setOpened }) => {
             <input
               type="email"
               onChange={(e) => handleChangeEmail(e)}
-              value={email}
+              value={formData.email}
               placeholder="Почта@"
             />
           </div>

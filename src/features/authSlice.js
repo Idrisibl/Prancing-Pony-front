@@ -129,8 +129,9 @@ export const editInfo = createAsyncThunk(
 
 export const editUser = createAsyncThunk(
   "auth/editUser",
-  async ({name, lastname, tel, email}, thunkAPI) => {
+  async ({ formData }, thunkAPI) => {
     try {
+      console.log(formData.email);
       const state = thunkAPI.getState();
 
       const res = await fetch(`http://localhost:3042/users/editUser`, {
@@ -139,7 +140,12 @@ export const editUser = createAsyncThunk(
           Authorization: `Bearer ${state.auth.token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, lastname, tel, email }),
+        body: JSON.stringify({
+          name: formData.name,
+          lastname: formData.lastname,
+          tel: formData.tel,
+          email: formData.email,
+        }),
       });
 
       const data = await res.json();

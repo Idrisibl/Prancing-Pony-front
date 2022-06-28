@@ -20,7 +20,7 @@ const PersonalData = ({ authUser, id }) => {
 
   return (
     <>
-      {opened && <DataEditModal setOpened={setOpened} />}
+      {opened && <DataEditModal setOpened={setOpened} authUser={authUser} />}
       <div className={styles.personal}>
         <div className={styles.personalLeft}>
           <div className={styles.image}>

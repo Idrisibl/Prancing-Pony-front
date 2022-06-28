@@ -130,7 +130,7 @@ export const communitySlice = createSlice({
         state.loading = true;
       })
       .addCase(getAllCommunities.fulfilled, (state, action) => {
-        state.loading = action.payload;
+        state.communities = action.payload;
         state.loading = false
       })
       .addCase(getAllCommunities.pending, (state, action) => {

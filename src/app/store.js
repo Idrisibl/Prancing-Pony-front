@@ -2,16 +2,16 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import categoriesSlice from "../features/categoriesSlice";
 import tasksSlice from "../features/tasksSlice";
-import authReducer from "../features/authSlice";
+import auth from "../features/authSlice";
+import communityReducer from "../features/communitySlice";
+import newsReducer from "../features/newsSlice";
 
 export const store = configureStore({
   reducer: {
-    auth: authReducer,
-    categoriesSlice: categoriesSlice,
-    tasksSlice: tasksSlice,
+    auth,
+    categoriesSlice,
+    tasksSlice,
+    communityReducer,
+    newsReducer,
   },
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware({
-  //     serializableCheck: false,
-  //   }),
 });
