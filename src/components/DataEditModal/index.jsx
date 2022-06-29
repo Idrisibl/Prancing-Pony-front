@@ -33,10 +33,7 @@ const DataEditModal = ({ setOpened, authUser }) => {
   };
 
   const disabled =
-    formData.name ||
-    formData.lastname ||
-    formData.tel.length < 15 ||
-    formData.email;
+    formData.name || formData.lastname || formData.tel || formData.email;
 
   return (
     <div className={styles.wrapper}>

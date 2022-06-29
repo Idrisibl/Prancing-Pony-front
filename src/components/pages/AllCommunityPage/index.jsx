@@ -2,30 +2,38 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { getAllCommunities } from "../../../features/communitySlice";
+import styles from "./AllCommunity.module.css";
 
 const AllCommunities = () => {
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(getAllCommunities());
   }, [dispatch]);
-  const communities = useSelector((state) => state.communityReducer.communities);
-  console.log(communities);
+
+  const communities = useSelector(
+    (state) => state.communityReducer.communities
+  );
+
   return (
-    <div className="AllCommunities">
+    <div className={styles.communities}>
       {communities.map((elem) => {
         return (
-          <div className="container">
-            <div className="header">
-                <div>{elem.name}</div>
-            </div>
-            <div className="description">
+          <div className={styles.community}>
+            <div className={styles.emblem}>
               <img src={`http://localhost:3042/${elem.emblem}`} alt="" />
-               <div>Количество участников: { elem.members.length}</div>
-                <Link to={`/communities/${elem._id}`}>
-               <div>Перейти</div>
-                </Link>
-               <div>Вступить</div>
+            </div>
+            <div className={styles.name}>{elem.name}</div>
+            <div className={styles.members}>
+              Участников: {elem.members.length}
+            </div>
+            <div className={styles.btn}>
+              <div>
+                <Link to={`/communities/${elem._id}`}>Перейти</Link>
+              </div>
+              <div>
+                <Link to={`/communities/${elem._id}`}>Вступить</Link>
+              </div>
             </div>
           </div>
         );
@@ -34,4 +42,4 @@ const AllCommunities = () => {
   );
 };
 
-export default AllCommunities
+export default AllCommunities;
