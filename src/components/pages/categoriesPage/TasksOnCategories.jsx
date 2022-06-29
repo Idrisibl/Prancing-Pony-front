@@ -15,6 +15,7 @@ const TasksOnCategories = () => {
     dispatch(fetchCategoriesTasks(id));
   }, [dispatch, id]);
 
+  
   return (
     <div className={styles.tasks}>
       {tasks.map((item) => {

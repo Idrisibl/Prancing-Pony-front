@@ -12,6 +12,11 @@ const AllTasks = () => {
     dispatch(fetchTasks());
   }, [dispatch]);
 
+  if (!tasks.length) {
+    return <div>Нет больше тасков</div>;
+  }
+
+
   return (
     <div className={styles.tasks}>
       {tasks.map((item) => {
