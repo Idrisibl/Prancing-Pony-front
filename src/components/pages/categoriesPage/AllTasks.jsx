@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTasks } from "../../../features/tasksSlice";
+import LoadPreloader from "../../LoadPreloader";
 import TasksItems from "../../TasksItems";
 import styles from "./Categories.module.css";
 import { useState } from "react";
@@ -16,12 +17,15 @@ const AllTasks = () => {
 
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasksSlice.tasks);
+  const loading = useSelector((state) => state.tasksSlice.loading);
 
   useEffect(() => {
     dispatch(fetchTasks());
   }, [dispatch]);
 
   return (
+   <>
+    {loading && <LoadPreloader />}
     <div className={styles.tasks}>
       {tasks.slice(0, visible).map((item) => (
         <TasksItems key={item._id} task={item} />
@@ -34,6 +38,7 @@ const AllTasks = () => {
         Показать еще
       </button>
     </div>
+   </>
   );
 };
 

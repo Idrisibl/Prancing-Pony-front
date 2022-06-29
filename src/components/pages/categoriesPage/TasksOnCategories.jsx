@@ -5,6 +5,7 @@ import { fetchCategoriesTasks } from "../../../features/tasksSlice";
 import TasksItems from "../../TasksItems";
 import styles from "./Categories.module.css";
 import { useState } from "react";
+import LoadPreloader from "../../LoadPreloader";
 
 const TasksOnCategories = () => {
   const { id } = useParams();
@@ -17,6 +18,7 @@ const TasksOnCategories = () => {
   };
 
   const tasks = useSelector((state) => state.tasksSlice.tasks);
+  const loading = useSelector((state) => state.tasksSlice.loading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -24,6 +26,8 @@ const TasksOnCategories = () => {
   }, [dispatch, id]);
 
   return (
+    <>
+    {loading && <LoadPreloader />}
     <div className={styles.tasks}>
       {tasks.slice(0, visible).map((item) => (
         <TasksItems key={item._id} task={item} />
@@ -36,6 +40,7 @@ const TasksOnCategories = () => {
         Показать еще
       </button>
     </div>
+    </>
   );
 };
 
