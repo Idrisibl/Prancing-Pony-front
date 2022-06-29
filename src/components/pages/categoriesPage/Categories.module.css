@@ -69,3 +69,8 @@ li {
   display: flex;
   flex-wrap: wrap;
 }
+
+.btnShowMore {
+  display: block;
+  height: 30px;
+}
