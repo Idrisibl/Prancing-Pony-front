@@ -14,6 +14,7 @@ import AllCommunities from "./pages/AllCommunityPage";
 import CommunityById from "./pages/CommunityPage";
 import AllUsersPage from "./pages/AllUsersPage";
 import UserProfilePage from "./pages/UserProfilePage";
+import Task from "./pages/TaskPage";
 
 const App = () => {
   const token = useSelector((state) => state.token);
@@ -38,6 +39,7 @@ const App = () => {
           <Route path="/users/:id" element={<UserProfilePage />} />
           <Route path="/communities" element={<AllCommunities />} />
           <Route path="/communities/:id" element={<CommunityById />} />
+          <Route path="/tasks/:id" element={<Task />} />
         </Route>
       </Routes>
     </div>
