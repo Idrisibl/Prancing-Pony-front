@@ -23,6 +23,11 @@ const AllTasks = () => {
     dispatch(fetchTasks());
   }, [dispatch]);
 
+  if (!tasks.length) {
+    return <div>Нет больше тасков</div>;
+  }
+
+
   return (
    <>
     {loading && <LoadPreloader />}

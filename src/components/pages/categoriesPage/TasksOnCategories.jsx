@@ -25,6 +25,7 @@ const TasksOnCategories = () => {
     dispatch(fetchCategoriesTasks(id));
   }, [dispatch, id]);
 
+  
   return (
     <>
     {loading && <LoadPreloader />}
