@@ -27,23 +27,25 @@ const CategoriesPage = () => {
       </div>
       {opened && <AddTaskModal setOpened={setOpened} />}
       <div className={styles.content}>
-        <ul>
-          <NavLink to={"/categories"}>
-            <h2>Категории</h2>
-          </NavLink>
-          {categories.map((item) => (
-            <li key={item._id}>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? `${styles.link} ${styles.active}` : styles.link
-                }
-                to={`/categories/${item._id}`}
-              >
-                {item.name}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+        <div className={styles.sidebar}>
+          <ul>
+            <NavLink to={"/categories"}>
+              <h2>Категории</h2>
+            </NavLink>
+            {categories.map((item) => (
+              <li key={item._id}>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive ? `${styles.link} ${styles.active}` : styles.link
+                  }
+                  to={`/categories/${item._id}`}
+                >
+                  {item.name}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         <Outlet />
       </div>

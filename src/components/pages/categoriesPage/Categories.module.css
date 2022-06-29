@@ -36,20 +36,23 @@
   background-position: center 100%;
 }
 
-.content ul {
+.sidebar {
+  width: 25%;
+}
+
+.sidebar ul {
   padding-top: 100px;
   list-style: none;
   background: url("../../../assets/images/pergament.png") center top / contain
     no-repeat;
-  width: 25%;
   min-height: 700px;
   text-align: center;
   font-size: 20px;
   position: sticky;
-  position: -webkit-sticky;
+  top: 0;
 }
 
-.content ul h2,
+.sidebar ul h2,
 li {
   margin-bottom: 15px;
 }

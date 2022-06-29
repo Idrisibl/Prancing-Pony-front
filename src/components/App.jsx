@@ -10,6 +10,9 @@ import TasksOnCategories from "./pages/categoriesPage/TasksOnCategories";
 import CategoriesPage from "./pages/categoriesPage";
 import PersonalData from "./Profile";
 import PersonalArea from "./pages/ProfilePage";
+import AllCommunities from "./pages/AllCommunityPage";
+import CommunityById from "./pages/CommunityPage";
+import AllUsersPage from "./pages/AllUsersPage";
 
 const App = () => {
   const token = useSelector((state) => state.token);
@@ -30,6 +33,10 @@ const App = () => {
           <Route path="/profile/:id" element={<PersonalArea />}>
             <Route index element={<PersonalData />} />
           </Route>
+          <Route path="/users" element={<AllUsersPage />} />
+          <Route path="/users/:id" element={<PersonalData />} />
+          <Route path="/communities" element={<AllCommunities />} />
+          <Route path="/communities/:id" element={<CommunityById />} />
         </Route>
       </Routes>
     </div>

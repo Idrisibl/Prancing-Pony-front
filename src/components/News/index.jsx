@@ -1,12 +1,8 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getCommunityById } from "../../features/communitySlice";
+import styles from "./News.module.css";
 
 const News = ({ news }) => {
-  
   return (
-    <div className="news">
+    <div className={styles.news}>
       <div>{news.title}</div>
       <div>{news.text}</div>
       <div> Лайки: {news.likes.length}</div>

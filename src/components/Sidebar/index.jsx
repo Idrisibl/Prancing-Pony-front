@@ -5,15 +5,13 @@ import styles from "./Sidebar.module.css";
 
 const Sidebar = () => {
   const id = useSelector((state) => state.auth.id);
-  const navigate = useNavigate();
 
   const exitFromAccaunt = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.removeItem("id");
     localStorage.removeItem("avatar");
-    window.location.reload().then(() => {
-      navigate("/categorires");
-    });
+    window.scrollTo(0, 0);
+    window.location.reload();
   };
 
   return (

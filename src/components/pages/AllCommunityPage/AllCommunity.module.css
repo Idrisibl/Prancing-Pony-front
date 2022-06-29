@@ -1,0 +1,55 @@
+.community {
+  display: flex;
+  background: url("../../../assets/images/svitok1.png") center center / contain
+    no-repeat;
+  padding: 40px 18%;
+  justify-content: space-between;
+  height: 300px;
+  margin-bottom: 70px;
+  transition: all 0.5s ease-in-out;
+  font-size: 30px;
+  align-items: center;
+}
+
+.emblem {
+  border-radius: 50%;
+  overflow: hidden;
+  width: 150px;
+  height: 150px;
+  margin-right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.emblem img {
+  width: 70%;
+  height: 70%;
+}
+
+.name {
+  flex: 1;
+}
+
+.members {
+  width: 33%;
+  text-align: center;
+}
+
+.btn {
+  display: flex;
+}
+
+.btn a {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #000;
+}
+
+.btn a:hover {
+  color: rgb(255, 174, 0);
+}
+
+.btn div:first-child {
+  margin-right: 20px;
+}

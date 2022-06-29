@@ -69,6 +69,25 @@ export const fetchOneUser = createAsyncThunk(
   }
 );
 
+export const fetchAllUsers = createAsyncThunk(
+  "auth/fetchAllUsers",
+  async (_, thunkAPI) => {
+    try {
+      const res = await fetch(`http://localhost:3042/users`);
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const editAvatar = createAsyncThunk(
   "auth/editAvatar",
   async ({ file }, thunkAPI) => {
@@ -129,8 +148,9 @@ export const editInfo = createAsyncThunk(
 
 export const editUser = createAsyncThunk(
   "auth/editUser",
-  async ({name, lastname, tel, email}, thunkAPI) => {
+  async ({ formData }, thunkAPI) => {
     try {
+      console.log(formData.email);
       const state = thunkAPI.getState();
 
       const res = await fetch(`http://localhost:3042/users/editUser`, {
@@ -139,7 +159,12 @@ export const editUser = createAsyncThunk(
           Authorization: `Bearer ${state.auth.token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, lastname, tel, email }),
+        body: JSON.stringify({
+          name: formData.name,
+          lastname: formData.lastname,
+          tel: formData.tel,
+          email: formData.email,
+        }),
       });
 
       const data = await res.json();
@@ -161,6 +186,7 @@ const initialState = {
   loading: false,
   error: null,
   user: {},
+  users: [],
   id: localStorage.getItem("id"),
   token: localStorage.getItem("token"),
 };
@@ -201,6 +227,17 @@ const authSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(fetchOneUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchAllUsers.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(fetchAllUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = action.payload;
+      })
+      .addCase(fetchAllUsers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

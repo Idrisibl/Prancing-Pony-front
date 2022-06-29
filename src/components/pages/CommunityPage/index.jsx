@@ -5,6 +5,7 @@ import { getAllNews } from "../../../features/newsSlice";
 import { getCommunityById } from "../../../features/communitySlice";
 import News from "../../News";
 import Members from "../../Members/Members";
+import styles from "./Community.module.css";
 
 const CommunityById = () => {
   const dispatch = useDispatch();
@@ -32,35 +33,40 @@ const CommunityById = () => {
     dispatch(getCommunityById(id));
   }, [dispatch, id]);
 
-  console.log(communityNews, "ddd");
-
   if (!community || !news) {
     return "no com";
   }
+
   return (
-    <div className="community">
-      <div className="pic">
-        <img src={`http://localhost:3042/${community.emblem}`} alt="" />
-        <div className="info">
+    <div className={styles.community}>
+      <div className={styles.header}>
+        <div className={styles.pic}>
+          <img src={`http://localhost:3042/${community.emblem}`} alt="" />
+        </div>
+        <div className={styles.info}>
           <div>Название: {community.name}</div>
           <div>Учасники: {community.members.length}</div>
           <div>Рейтинг: {community.rating}</div>
           <div>Описание: {community.description}</div>
+          <div className="founder">
+            <img
+              className={styles.image}
+              src={`http://localhost:3042/${community.founder.avatar}`}
+              alt=""
+            />
+            <div>Основатель: {community.founder.name}</div>
+          </div>
         </div>
       </div>
-      <div className="founder">
-        <img src={`http://localhost:3042/${community.founder.avatar}`} alt="" />
-        <div>Основатель: {community.founder.name}</div>
-      </div>
-      <div>
-          <div onClick={clickHandler}>Новости</div>
+      <div className={styles.routes}>
+        <div onClick={clickHandler}>Новости</div>
         <div onClick={clickHandler2}>Участники</div>
       </div>
       <div>
         {!isClicked
-          ? community.members.map((elem)=> {
-            return <Members members={elem}/>
-          })
+          ? community.members.map((elem) => {
+              return <Members members={elem} />;
+            })
           : news.map((news) => {
               return <News news={news} />;
             })}
@@ -69,7 +75,4 @@ const CommunityById = () => {
   );
 };
 
-
-
 export default CommunityById;
-
