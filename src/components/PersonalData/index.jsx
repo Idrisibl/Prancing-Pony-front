@@ -8,6 +8,7 @@ import styles from "./PersonalData.module.css";
 import witcher from "../../assets/images/witcher.png";
 import UserInfo from "./UserInfo";
 import DataEditModal from "../DataEditModal";
+import Reviews from "../Reviews";
 
 const PersonalData = ({ authUser, id }) => {
   const dispatch = useDispatch();
@@ -32,20 +33,22 @@ const PersonalData = ({ authUser, id }) => {
               }
               alt="avatar"
             />
-            <div className={styles.editor}>
-              <input
-                type="file"
-                id="upload"
-                hidden
-                accept="image/*"
-                onChange={(e) => {
-                  handleUpdateAvatar(e.target.files[0]);
-                }}
-              />
-              <label htmlFor="upload">
-                <FaRegEdit size="3rem" />
-              </label>
-            </div>
+            {id && (
+              <div className={styles.editor}>
+                <input
+                  type="file"
+                  id="upload"
+                  hidden
+                  accept="image/*"
+                  onChange={(e) => {
+                    handleUpdateAvatar(e.target.files[0]);
+                  }}
+                />
+                <label htmlFor="upload">
+                  <FaRegEdit size="3rem" />
+                </label>
+              </div>
+            )}
           </div>
           <div className={styles.rank}>
             <div>
@@ -62,12 +65,14 @@ const PersonalData = ({ authUser, id }) => {
           <div className={styles.name}>
             <span>{authUser.name} </span>
             <span>{authUser.lastname}</span>
-            <FaRegEdit
-              onClick={() => setOpened(true)}
-              cursor="pointer"
-              size="2.5rem"
-              fill="rgba(0, 0, 0, 0.5)"
-            />
+            {id && (
+              <FaRegEdit
+                onClick={() => setOpened(true)}
+                cursor="pointer"
+                size="2.5rem"
+                fill="rgba(0, 0, 0, 0.5)"
+              />
+            )}
           </div>
           <div className={styles.email}>
             <MdEmail fontSize="2.5rem" fill="#4D220E" />
@@ -79,24 +84,36 @@ const PersonalData = ({ authUser, id }) => {
             <strong>Телефон: </strong>
             <span>{authUser.tel}</span>
           </div>
-          <div className={styles.wallet}>
-            <GiSwapBag size="3rem" fill="#4D220E" />
-            <strong>Баланс:</strong>
-            <span> {authUser.wallet} ₽</span>
-          </div>
-          <div className={styles.payments}>
-            <div>
-              <span>Пополнить баланс</span>
-              <button>+</button>
-            </div>
-            <div>
-              <span>Снять</span>
-              <button>-</button>
-            </div>
-          </div>
+          {id && (
+            <>
+              <div className={styles.wallet}>
+                <GiSwapBag size="3rem" fill="#4D220E" />
+                <strong>Баланс:</strong>
+                <span> {authUser.wallet} ₽</span>
+              </div>
+              <div className={styles.payments}>
+                <div>
+                  <span>Пополнить баланс</span>
+                  <button>+</button>
+                </div>
+                <div>
+                  <span>Снять</span>
+                  <button>-</button>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
-      <UserInfo authUser={authUser} id={id} />
+      <h2>О себе:</h2>
+      {id ? (
+        <UserInfo authUser={authUser} id={id} />
+      ) : authUser.info ? (
+        <div>{authUser.info}</div>
+      ) : (
+        <div className={styles.notEmpty}>Пусто</div>
+      )}
+      <Reviews userId={authUser._id} />
     </>
   );
 };

@@ -15,7 +15,7 @@ const Profile = () => {
 
   return (
     <>
-      <PersonalData authUser={authUser} />
+      <PersonalData authUser={authUser} id={id} />
     </>
   );
 };
