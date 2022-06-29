@@ -9,7 +9,6 @@ const UserInfo = ({ authUser }) => {
   return (
     <>
       <div className={styles.userInfo}>
-        <h2>О себе:</h2>
         <div className={styles.edit} onClick={() => setOpened(!opened)}>
           <FaRegEdit size="1.5rem" fill="rgba(0, 0, 0, 0.5)" />
           <span>Редактировать</span>

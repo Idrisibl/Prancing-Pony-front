@@ -31,6 +31,16 @@ const Sidebar = () => {
           className={({ isActive }) =>
             isActive ? `${styles.link} ${styles.active}` : styles.link
           }
+          to="/profile/finished"
+        >
+          Задания
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? `${styles.link} ${styles.active}` : styles.link
+          }
           to="/profile/friends"
         >
           Друзья
@@ -44,26 +54,6 @@ const Sidebar = () => {
           to="/profile/blacklist"
         >
           Черный список
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          className={({ isActive }) =>
-            isActive ? `${styles.link} ${styles.active}` : styles.link
-          }
-          to="/profile/finished"
-        >
-          Завершённые
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          className={({ isActive }) =>
-            isActive ? `${styles.link} ${styles.active}` : styles.link
-          }
-          to="/profile/failed"
-        >
-          Проваленные
         </NavLink>
       </li>
       <li onClick={exitFromAccaunt}>
