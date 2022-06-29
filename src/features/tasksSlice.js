@@ -2,25 +2,28 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   tasks: [],
+  currentTask: {},
   loading: false,
 };
 
-export const patchTask = createAsyncThunk(
+export const patchTasks = createAsyncThunk(
   "tasks/patch",
-  async (task, thunkAPI) => {
+  async ({ formData, id }, thunkAPI) => {
     try {
-      const res = await fetch(`http://localhost:3042/tasks/${task._id}`, {
+      const res = await fetch(`http://localhost:3042/tasks/${id}`, {
         method: "PATCH",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
         body: JSON.stringify({
-          title: task.title,
-          text: task.text,
-          price: task.price,
+          title: formData.title,
+          text: formData.text,
+          price: formData.price,
         }),
       });
-      return res.json();
+      const task = await res.json();
+      console.log(task);
+      return task;
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
     }
@@ -100,6 +103,19 @@ export const removeTask = createAsyncThunk(
   }
 );
 
+export const getTaskById = createAsyncThunk(
+  "tasks/getTasks",
+  async (id, thunkAPI) => {
+    try {
+      const res = await fetch(`http://localhost:3042/tasks/${id}`);
+      const task = await res.json();
+      return task;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
 export const tasksSlice = createSlice({
   name: "tasks",
   initialState,
@@ -128,15 +144,23 @@ export const tasksSlice = createSlice({
         state.tasks.unshift(action.payload);
       })
       .addCase(removeTask.fulfilled, (state, action) => {
-        state.tasks = state.tasks.filter((task) => task._id !== action.payload);
+        // state.tasks = state.tasks.filter((task) => task._id !== action.payload);
+        state.currentTask = {};
       })
-      .addCase(patchTask.fulfilled, (state, action) => {
-        state.tasks = state.tasks.map((task) => {
-          if (task._id === action.payload._id) {
-            return action.payload;
-          }
-          return task;
-        });
+      .addCase(patchTasks.fulfilled, (state, action) => {
+        state.currentTask = action.payload;
+        // state.currentTask = state.currentTask.map((task) => {
+        //   if (task._id === action.payload._id) {
+        //     return action.payload;
+        //   }
+        //   return task;
+        // });
+      })
+      .addCase(getTaskById.fulfilled, (state, action) => {
+        state.currentTask = action.payload;
+      })
+      .addCase(getTaskById.pending, (state, action) => {
+        state.loading = true;
       });
   },
 });
