@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGetCategories } from "../../features/categoriesSlice";
 import { addTasks, fetchTasks } from "../../features/tasksSlice";
-import styles from "./AddTaskModal.module.css";
+import styles from "./Modal.module.css";
 import { GiCheckMark } from "react-icons/gi";
 
 const AddTaskModal = ({ setOpened }) => {

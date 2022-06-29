@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaMobileAlt, FaRegEdit } from "react-icons/fa";
 import { GiSwapBag } from "react-icons/gi";
 import { MdEmail } from "react-icons/md";
@@ -6,9 +6,12 @@ import { useDispatch } from "react-redux";
 import { editAvatar } from "../../features/authSlice";
 import styles from "./PersonalData.module.css";
 import witcher from "../../assets/images/witcher.png";
+import UserInfo from "./UserInfo";
+import DataEditModal from "../DataEditModal";
 
-const PersonalData = ({ authUser }) => {
+const PersonalData = ({ authUser, id }) => {
   const dispatch = useDispatch();
+  const [opened, setOpened] = useState();
 
   const handleUpdateAvatar = (file) => {
     dispatch(editAvatar({ file }));
@@ -17,8 +20,9 @@ const PersonalData = ({ authUser }) => {
 
   return (
     <>
+      {opened && <DataEditModal setOpened={setOpened} authUser={authUser} />}
       <div className={styles.personal}>
-        <div>
+        <div className={styles.personalLeft}>
           <div className={styles.image}>
             <img
               src={
@@ -43,16 +47,27 @@ const PersonalData = ({ authUser }) => {
               </label>
             </div>
           </div>
-          <div className={styles.rating}>
-            <strong>Рейтинг:</strong>
-            <span> 150</span>
-            <img src={witcher} alt="witcher" />
+          <div className={styles.rank}>
+            <div>
+              <strong>Ранг:</strong>
+              <img src={witcher} alt="witcher" />
+            </div>
+            <div>
+              <strong>Очки:</strong>
+              <span>{authUser.rating}</span>
+            </div>
           </div>
         </div>
         <div className={styles.info}>
           <div className={styles.name}>
             <span>{authUser.name} </span>
             <span>{authUser.lastname}</span>
+            <FaRegEdit
+              onClick={() => setOpened(true)}
+              cursor="pointer"
+              size="2.5rem"
+              fill="rgba(0, 0, 0, 0.5)"
+            />
           </div>
           <div className={styles.email}>
             <MdEmail fontSize="2.5rem" fill="#4D220E" />
@@ -81,16 +96,7 @@ const PersonalData = ({ authUser }) => {
           </div>
         </div>
       </div>
-      <div>
-        <h2>Информация:</h2>
-        <div>
-          <FaRegEdit size="1rem" />
-          <span>Редактировать</span>
-        </div>
-        <div className={styles.information}>
-          <p>{authUser.info}</p>
-        </div>
-      </div>
+      <UserInfo authUser={authUser} id={id} />
     </>
   );
 };

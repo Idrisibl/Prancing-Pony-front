@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const initialState = {
   tasks: [],
   currentTask: {},
+  loading: false,
 };
 
 export const patchTasks = createAsyncThunk(
@@ -123,6 +124,10 @@ export const tasksSlice = createSlice({
     builder
       .addCase(fetchTasks.fulfilled, (state, action) => {
         state.tasks = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchTasks.pending, (state, action) => {
+        state.loading = true;
       })
       .addCase(fetchCategoriesTasks.fulfilled, (state, action) => {
         state.tasks = action.payload;
