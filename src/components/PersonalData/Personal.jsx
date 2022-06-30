@@ -1,18 +1,29 @@
+import { Rating } from "@mui/material";
 import React from "react";
 import { FaMobileAlt, FaRegEdit } from "react-icons/fa";
 import { GiSwapBag } from "react-icons/gi";
 import { MdEmail } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { editAvatar } from "../../features/authSlice";
 import styles from "./PersonalData.module.css";
 
 const Personal = ({ user, userId, setOpened }) => {
   const dispatch = useDispatch();
+  const reviews = useSelector((state) => state.reviewsReducer.reviews);
 
   const handleUpdateAvatar = (file) => {
     dispatch(editAvatar({ file }));
     localStorage.setItem("avatar", user.avatar);
   };
+
+  const reviewsFind = reviews.filter(
+    (review) => review.replyUser._id === user._id
+  );
+  const rating = Math.floor(
+    reviewsFind.reduce((sum, item) => {
+      return sum + item.grade;
+    }, 0) / reviewsFind.length
+  );
 
   return (
     <div className={styles.personal}>
@@ -51,6 +62,7 @@ const Personal = ({ user, userId, setOpened }) => {
             <span>{user.rating}</span>
           </div>
         </div>
+        <Rating size="large" name="read-only" value={rating} readOnly />
       </div>
       <div className={styles.info}>
         <div className={styles.name}>
