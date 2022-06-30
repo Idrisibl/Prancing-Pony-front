@@ -5,6 +5,7 @@
   padding-bottom: 20px;
   border-bottom: 1px solid #000;
   margin-bottom: 30px;
+  padding-top: 5%;
 }
 
 .personal span {
@@ -141,11 +142,8 @@
   margin-bottom: 100px;
 }
 
-.userInfo h2 {
-  margin-bottom: 20px;
-}
-
 .edit {
+  margin-top: 20px;
   cursor: pointer;
 }
 

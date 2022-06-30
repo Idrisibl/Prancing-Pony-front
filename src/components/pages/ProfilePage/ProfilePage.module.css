@@ -4,11 +4,11 @@
 }
 
 .content {
-  width: 70%;
+  width: 80%;
   min-height: 1000px;
   background: url("../../../assets/images/paper_sheet_PNG7231.png") center
     center no-repeat;
   background-size: 90% 100%;
-  padding: 0 10%;
+  padding: 10% 10%;
   padding-top: 30px;
 }
