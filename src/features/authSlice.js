@@ -220,7 +220,20 @@ const initialState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    alfMaxSort(state) {
+      state.users = state.users.sort((a, b) => (a.name > b.name ? 1 : -1));
+    },
+    alfMinSort(state) {
+      state.users = state.users.sort((a, b) => (a.name < b.name ? 1 : -1));
+    },
+    ratingMaxSort(state) {
+      state.users = state.users.sort((a, b) => (a.rating < b.rating ? 1 : -1));
+    },
+    ratingMinSort(state) {
+      state.users = state.users.sort((a, b) => (a.rating > b.rating ? 1 : -1));
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state, action) => {
@@ -313,5 +326,7 @@ const authSlice = createSlice({
       });
   },
 });
+
+export const { alfMaxSort, alfMinSort, ratingMaxSort, ratingMinSort } = authSlice.actions;
 
 export default authSlice.reducer;

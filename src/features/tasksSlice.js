@@ -129,7 +129,7 @@ export const tasksSlice = createSlice({
       state.tasks = state.tasks.sort((a, b) =>
           a.price > b.price ? 1 : -1
         )
-      }
+      },
   },
   extraReducers: (builder) => {
     builder

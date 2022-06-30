@@ -15,6 +15,7 @@ const Task = () => {
   const navigate = useNavigate();
 
   const task = useSelector((state) => state.tasksSlice.currentTask);
+  const authUser = useSelector((state) => state.auth.authUser);
 
   const [opened, setOpened] = useState(false);
   const [formData, setFormData] = useState({
@@ -65,8 +66,12 @@ const Task = () => {
             <div>{task.user.name}</div>
             <div>{task.user.lastname}</div>
             <div>{task.categories.name}</div>
-            <button onClick={() => handleRemove(task._id)}>Удалить</button>
-            <button onClick={() => setOpened(true)}>Изменить</button>
+            {authUser._id === task.user._id && (
+              <>
+                <button onClick={() => handleRemove(task._id)}>Удалить</button>
+                <button onClick={() => setOpened(true)}>Изменить</button>
+              </>
+            )}
             {opened && (
               <div>
                 <div>
