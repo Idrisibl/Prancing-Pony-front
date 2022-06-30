@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAllNews } from "../../../features/newsSlice";
-import { getCommunityById } from "../../../features/communitySlice";
+import { deleteCommunity, getCommunityById } from "../../../features/communitySlice";
 import News from "../../News";
 import Members from "../../Members/Members";
 import styles from "./Community.module.css";
 
 const CommunityById = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const news = useSelector((state) => state.newsReducer.news);
-
   const { id } = useParams();
-
+  
   const communityNews = news.filter((elem) => elem.community === id);
 
   const community = useSelector(
@@ -33,20 +33,27 @@ const CommunityById = () => {
     dispatch(getCommunityById(id));
   }, [dispatch, id]);
 
+  const deleteCommunityHandler = (id) => {
+   dispatch(deleteCommunity(id)).then(() => {
+    navigate('/communities')
+   })
+  }
+
   if (!community || !news) {
     return "no com";
   }
 
   return (
     <div className={styles.community}>
+      {community.founder._id ===  <button onClick={()=>deleteCommunityHandler(community._id)}>x</button>}
       <div className={styles.header}>
         <div className={styles.pic}>
-          <img src={`http://localhost:3042/${community.emblem}`} alt="" />
+          <img src={`http://localhost:3042/public/${community.emblem}`} alt="" />
         </div>
         <div className={styles.info}>
           <div>Название: {community.name}</div>
           <div>Учасники: {community.members.length}</div>
-          <div>Рейтинг: {community.rating}</div>
+          <div>Рейтинг: {community.rating.length}</div>
           <div>Описание: {community.description}</div>
           <div className="founder">
             <img
@@ -67,7 +74,7 @@ const CommunityById = () => {
           ? community.members.map((elem) => {
               return <Members members={elem} />;
             })
-          : news.map((news) => {
+          : communityNews.map((news) => {
               return <News news={news} />;
             })}
       </div>

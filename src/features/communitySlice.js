@@ -23,20 +23,21 @@ export const addCommunity = createAsyncThunk(
   "communities/addCommunity",
   async (data, thunkAPI) => {
     try {
+      const formData = new FormData();
+
+      formData.append("name", data.name);
+      formData.append("description", data.description);
+      formData.append("emblem", data.emblem);
+
       const state = thunkAPI.getState();
       const res = await fetch("http://localhost:3042/communities", {
         method: "POST",
-        body: JSON.stringify({
-          name: data.text,
-          emblem: data.optionsValue,
-          description: data.bookId,
-          founder: data.userId,
-        }),
+        body: formData,
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${state.auth.token}`,
         },
       });
+      console.log(res);
       data.callback();
       return await res.json();
     } catch (e) {
@@ -66,7 +67,7 @@ export const addMember = createAsyncThunk(
       const state = thunkAPI.getState();
 
       const res = await fetch(
-        `http://localhost:3001/books/communities/members/${id}`,
+        `http://localhost:3001/communities/members/${id}`,
         {
           method: "PATCH",
           headers: {
@@ -80,6 +81,36 @@ export const addMember = createAsyncThunk(
       return await res.json();
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+export const editEmblem = createAsyncThunk(
+  "auth/editEmblem",
+  async ({ file }, thunkAPI) => {
+    try {
+      const formData = new FormData();
+      formData.append("avatar", file);
+      formData.append("name");
+
+      const state = thunkAPI.getState();
+
+      const res = await fetch(`http://localhost:3042/communities/avatar`, {
+        method: "PATCH",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -108,6 +139,19 @@ export const addRating = createAsyncThunk(
     }
   }
 );
+export const deleteCommunity = createAsyncThunk(
+  "community/deleteCommunity",
+  async (id, thunkAPI) => {
+    try {
+      const res = await fetch(`http://localhost:3042/communities/${id}`, {
+        method: "DELETE",
+      });
+      return id;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
 
 export const communitySlice = createSlice({
   name: "communities",
@@ -131,10 +175,10 @@ export const communitySlice = createSlice({
       })
       .addCase(getAllCommunities.fulfilled, (state, action) => {
         state.communities = action.payload;
-        state.loading = false
+        state.loading = false;
       })
       .addCase(getAllCommunities.pending, (state, action) => {
-        state.loading = true
+        state.loading = true;
       });
   },
 });
