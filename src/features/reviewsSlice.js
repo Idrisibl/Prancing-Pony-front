@@ -8,7 +8,7 @@ const initialState = {
 
 export const fetchReviews = createAsyncThunk(
   "reviews/fetchReviews",
-  async ({ userId }, thunkAPI) => {
+  async (userId, thunkAPI) => {
     try {
       const res = await fetch(`http://localhost:3042/reviews/users/${userId}`);
       const data = await res.json();

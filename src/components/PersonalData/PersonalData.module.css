@@ -137,6 +137,10 @@
   transform: scale(0.94);
 }
 
+.userInfo {
+  margin-bottom: 100px;
+}
+
 .userInfo h2 {
   margin-bottom: 20px;
 }
@@ -159,6 +163,7 @@
   font-weight: bold;
   font-size: 25px;
   color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 100px;
 }
 
 .desk {

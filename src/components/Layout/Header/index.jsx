@@ -3,19 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/images/pony.png";
 import { GiSwapBag } from "react-icons/gi";
-
 import styles from "./Header.module.css";
-import { fetchOneUser } from "../../../features/authSlice";
+import { fetchAuthUser } from "../../../features/authSlice";
 
 const Header = () => {
   const token = useSelector((state) => state.auth.token);
-  const authUserId = useSelector((state) => state.auth.id);
-  const user = useSelector((state) => state.auth.user);
+  const userId = useSelector((state) => state.auth.id);
+  const user = useSelector((state) => state.auth.authUser);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchOneUser(authUserId));
-  }, [dispatch, authUserId]);
+    dispatch(fetchAuthUser());
+  }, [dispatch]);
 
   return (
     <header className={styles.header}>
@@ -51,7 +50,7 @@ const Header = () => {
                 <GiSwapBag size="3rem" fill="#4D220E" />
                 <span>{user.wallet} ₽</span>
               </div>
-              <Link className={styles.avatar} to={`/profile/${authUserId}`}>
+              <Link className={styles.avatar} to={`/profile/${userId}`}>
                 <img
                   src={`http://localhost:3042/${user.avatar}`}
                   alt="avatar"

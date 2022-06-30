@@ -5,12 +5,12 @@ import { GiCheckMark } from "react-icons/gi";
 import InputMask from "react-input-mask";
 import { editUser } from "../../features/authSlice";
 
-const DataEditModal = ({ setOpened, authUser }) => {
+const DataEditModal = ({ setOpened, user }) => {
   const [formData, setFormData] = React.useState({
-    name: authUser.name,
-    lastname: authUser.lastname,
-    tel: authUser.tel,
-    email: authUser.email,
+    name: user.name,
+    lastname: user.lastname,
+    tel: user.tel,
+    email: user.email,
   });
   const [emailError, setEmailError] = useState("");
 
