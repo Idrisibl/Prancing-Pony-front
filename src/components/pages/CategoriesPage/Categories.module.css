@@ -79,3 +79,7 @@ li {
   display: block;
   height: 30px;
 }
+
+.btnShowMoreOff {
+  display: none;
+}

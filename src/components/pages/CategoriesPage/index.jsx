@@ -30,6 +30,7 @@ const CategoriesPage = () => {
   return (
     <div className={styles.main}>
       <div className={styles.openBtnWrapper}>
+        
         <span className={styles.openBtn} onClick={() => setOpened(true)}>
           Выложить задание
         </span>
