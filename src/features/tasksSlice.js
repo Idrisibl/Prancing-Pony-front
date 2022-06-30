@@ -119,7 +119,18 @@ export const getTaskById = createAsyncThunk(
 export const tasksSlice = createSlice({
   name: "tasks",
   initialState,
-  reducers: {},
+  reducers: {
+    maxSort(state) {
+    state.tasks = state.tasks.sort((a, b) =>
+        a.price < b.price ? 1 : -1
+      )
+    },
+    minSort(state) {
+      state.tasks = state.tasks.sort((a, b) =>
+          a.price > b.price ? 1 : -1
+        )
+      }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchTasks.fulfilled, (state, action) => {
@@ -164,5 +175,7 @@ export const tasksSlice = createSlice({
       });
   },
 });
+
+export const {maxSort, minSort} = tasksSlice.actions
 
 export default tasksSlice.reducer;
