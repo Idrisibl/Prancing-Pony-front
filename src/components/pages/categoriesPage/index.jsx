@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import { fetchGetCategories } from "../../../features/categoriesSlice";
 import { Outlet } from "react-router-dom";
 import AddTaskModal from "../../AddTaskModal";
+import { maxSort, minSort } from "../../../features/tasksSlice";
 // import BreadCrumbs from "../../BreadСrumbs";
 
 const CategoriesPage = () => {
@@ -13,6 +14,14 @@ const CategoriesPage = () => {
   const categories = useSelector((state) => state.categoriesSlice.categories);
 
   const [opened, setOpened] = useState(false);
+
+  const sortMax = () => {
+    dispatch(maxSort());
+  };
+
+  const sortMin = () => {
+    dispatch(minSort());
+  };
 
   useEffect(() => {
     dispatch(fetchGetCategories());
@@ -24,6 +33,15 @@ const CategoriesPage = () => {
         <span className={styles.openBtn} onClick={() => setOpened(true)}>
           Выложить задание
         </span>
+        <div>
+          Упорядочить по цене
+          <button class="material-symbols-outlined" onClick={sortMax}>
+            +
+          </button>
+          <button class="material-symbols-outlined" onClick={sortMin}>
+            -
+          </button>
+        </div>
       </div>
       {opened && <AddTaskModal setOpened={setOpened} />}
       <div className={styles.content}>
