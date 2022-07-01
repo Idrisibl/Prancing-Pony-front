@@ -2,10 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchOneUser } from "../../features/authSlice";
-import PersonalData from "../PersonalData";
-import Reviews from "../Reviews";
 
-const Profile = () => {
+const UserTasks = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -13,13 +11,8 @@ const Profile = () => {
   useEffect(() => {
     dispatch(fetchOneUser(id));
   }, [dispatch, id]);
-  
 
-  return (
-    <>
-      <PersonalData user={user} id={id} />
-    </>
-  );
+  return <div>a</div>;
 };
 
-export default Profile;
+export default UserTasks;

@@ -8,16 +8,18 @@ import Layout from "./Layout";
 import AllTasks from "./pages/CategoriesPage/AllTasks";
 import TasksOnCategories from "./pages/CategoriesPage/TasksOnCategories";
 import CategoriesPage from "./pages/CategoriesPage";
-import PersonalData from "./Profile";
 import PersonalArea from "./pages/ProfilePage";
 import AllCommunities from "./pages/AllCommunityPage";
 import CommunityById from "./pages/CommunityPage";
 import AllUsersPage from "./pages/AllUsersPage";
-import UserProfilePage from "./pages/UserProfilePage";
 import Task from "./pages/TaskPage";
+import Friends from "./Friends";
+import UserTasks from "./UserTasks";
+import Blacklist from "./Blacklist";
+import Profile from "./Profile";
 
 const App = () => {
-  const token = useSelector((state) => state.token);
+  const token = useSelector((state) => state.auth.token);
 
   return (
     <div className="container">
@@ -33,10 +35,12 @@ const App = () => {
             <Route path="/categories/:id" element={<TasksOnCategories />} />
           </Route>
           <Route path="/profile/:id" element={<PersonalArea />}>
-            <Route index element={<PersonalData />} />
+            <Route index element={<Profile />} />
+            <Route path="/profile/:id/tasks" element={<UserTasks />} />
+            <Route path="/profile/:id/friends" element={<Friends />} />
+            <Route path="/profile/:id/blacklist" element={<Blacklist />} />
           </Route>
           <Route path="/users" element={<AllUsersPage />} />
-          <Route path="/users/:id" element={<UserProfilePage />} />
           <Route path="/communities" element={<AllCommunities />} />
           <Route path="/communities/:id" element={<CommunityById />} />
           <Route path="/tasks/:id" element={<Task />} />

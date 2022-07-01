@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { editAvatar } from "../../features/authSlice";
 import styles from "./PersonalData.module.css";
 
-const Personal = ({ user, userId, setOpened }) => {
+const Personal = ({ candidate, user, setOpened }) => {
   const dispatch = useDispatch();
   const reviews = useSelector((state) => state.reviewsReducer.reviews);
 
@@ -35,7 +35,7 @@ const Personal = ({ user, userId, setOpened }) => {
             }
             alt="avatar"
           />
-          {userId && (
+          {candidate && (
             <div className={styles.editor}>
               <input
                 type="file"
@@ -62,13 +62,19 @@ const Personal = ({ user, userId, setOpened }) => {
             <span>{user.rating}</span>
           </div>
         </div>
-        <Rating size="large" name="read-only" value={rating} readOnly />
+        <Rating
+          className={styles.rating}
+          size="large"
+          name="read-only"
+          value={rating}
+          readOnly
+        />
       </div>
       <div className={styles.info}>
         <div className={styles.name}>
           <span>{user.name} </span>
           <span>{user.lastname}</span>
-          {userId && (
+          {candidate && (
             <FaRegEdit
               onClick={() => setOpened(true)}
               cursor="pointer"
@@ -87,7 +93,7 @@ const Personal = ({ user, userId, setOpened }) => {
           <strong>Телефон: </strong>
           <span>{user.tel}</span>
         </div>
-        {userId && (
+        {candidate && (
           <>
             <div className={styles.wallet}>
               <GiSwapBag size="3rem" fill="#4D220E" />
