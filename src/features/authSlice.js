@@ -305,7 +305,7 @@ const authSlice = createSlice({
       })
       .addCase(editUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.authUser = action.payload;
+        state.user = action.payload;
       })
       .addCase(editUser.rejected, (state, action) => {
         state.loading = false;
