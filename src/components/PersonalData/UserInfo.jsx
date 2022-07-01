@@ -21,7 +21,7 @@ const UserInfo = ({ user }) => {
             Вы не заполнили информацию о себе
           </div>
         ) : (
-          <div className={styles.desk}>
+          <div className={styles.desc}>
             <p>{user.info}</p>
           </div>
         )}

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const UserCard = ({ user }) => {
   return (
-    <Link to={`/users/${user._id}`}>
+    <Link to={`/profile/${user._id}`}>
       <div className={styles.userCard}>
         <div className={styles.image}>
           <img src={`http://localhost:3042/${user.avatar}`} alt="" />

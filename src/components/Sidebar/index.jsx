@@ -1,10 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 
 const Sidebar = () => {
-  const id = useSelector((state) => state.auth.id);
+  const id = useSelector((state) => state.auth.user._id);
 
   const exitFromAccaunt = () => {
     localStorage.removeItem("token");
@@ -31,7 +31,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             isActive ? `${styles.link} ${styles.active}` : styles.link
           }
-          to="/profile/finished"
+          to={`/profile/${id}/tasks`}
         >
           Задания
         </NavLink>
@@ -41,7 +41,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             isActive ? `${styles.link} ${styles.active}` : styles.link
           }
-          to="/profile/friends"
+          to={`/profile/${id}/friends`}
         >
           Друзья
         </NavLink>
@@ -51,7 +51,7 @@ const Sidebar = () => {
           className={({ isActive }) =>
             isActive ? `${styles.link} ${styles.active}` : styles.link
           }
-          to="/profile/blacklist"
+          to={`/profile/${id}/blacklist`}
         >
           Черный список
         </NavLink>

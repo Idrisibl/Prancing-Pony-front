@@ -8,10 +8,6 @@
   padding-top: 5%;
 }
 
-.personal span {
-  margin-left: 10px;
-}
-
 .personalLeft {
   width: 35%;
 }
@@ -27,6 +23,14 @@
 
 .image img {
   width: 100%;
+}
+
+.rank {
+  margin-bottom: 20px;
+}
+
+.rating span {
+  margin-right: 5px;
 }
 
 .editor {
@@ -81,6 +85,10 @@
 
 .info {
   width: 55%;
+}
+
+.info span {
+  margin-left: 10px;
 }
 
 .name {
@@ -164,8 +172,8 @@
   margin-bottom: 100px;
 }
 
-.desk {
-  margin-top: 20px;
+.desc {
+  margin-top: 30px;
   width: 100%;
   font-size: 25px;
   word-break: break-all;
