@@ -29,7 +29,6 @@ const AllTasks = () => {
   if (!tasks.length) {
     return <div>Нет больше тасков</div>;
   }
-  console.log(filteredTasks);
 
   return (
     <>
