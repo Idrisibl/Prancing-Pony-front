@@ -12,21 +12,25 @@ const TasksOnCategories = () => {
 
   const [visible, setVisible] = useState(9);
   const [value, setValue] = useState("");
+
   const showMoreItems = () => {
     setVisible((prevValue) => prevValue + 9);
   };
 
+  const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasksSlice.tasks);
   const loading = useSelector((state) => state.tasksSlice.loading);
-  const dispatch = useDispatch();
 
-  const filteredTasks = tasks.slice(0, visible).filter((task) => {
+  let filteredTasks = tasks.filter((task) => {
     return task.title.toLowerCase().includes(value.toLowerCase());
   });
 
   useEffect(() => {
     dispatch(fetchCategoriesTasks(id));
   }, [dispatch, id]);
+  if (!tasks.length) {
+    return <div>Нет больше тасков</div>;
+  }
 
   return (
     <>
@@ -34,23 +38,41 @@ const TasksOnCategories = () => {
       <div>
         <input type="text" onChange={(event) => setValue(event.target.value)} />
       </div>
-      <div className={styles.tasks}>
-        {filteredTasks.map((item) => (
-          <TasksItems key={item._id} task={item} />
-        ))}{" "}
-        <button
-          // className={styles.btnShowMore}
-          className={
-            tasks.length === tasks.slice(0, visible).length ||
-            value.length !== 0
-              ? styles.btnShowMoreOff
-              : styles.btnShowMore
-          }
-          onClick={showMoreItems}
-        >
-          Показать еще
-        </button>
-      </div>
+      {value ? (
+        <div className={styles.tasks}>
+          {filteredTasks.map((item) => (
+            <TasksItems key={item._id} task={item} />
+          ))}{" "}
+          <button
+            className={
+              tasks.length === tasks.slice(0, visible).length ||
+              value.length !== 0
+                ? styles.btnShowMoreOff
+                : styles.btnShowMore
+            }
+            onClick={showMoreItems}
+          >
+            Показать еще
+          </button>
+        </div>
+      ) : (
+        <div className={styles.tasks}>
+          {tasks.slice(0, visible).map((item) => (
+            <TasksItems key={item._id} task={item} />
+          ))}{" "}
+          <button
+            className={
+              tasks.length === tasks.slice(0, visible).length ||
+              value.length !== 0
+                ? styles.btnShowMoreOff
+                : styles.btnShowMore
+            }
+            onClick={showMoreItems}
+          >
+            Показать еще
+          </button>
+        </div>
+      )}
     </>
   );
 };
