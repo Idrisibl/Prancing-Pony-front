@@ -175,7 +175,6 @@ export const editUser = createAsyncThunk(
   "auth/editUser",
   async ({ formData }, thunkAPI) => {
     try {
-      console.log(formData.email);
       const state = thunkAPI.getState();
 
       const res = await fetch(`http://localhost:3042/users/editUser`, {
@@ -190,6 +189,62 @@ export const editUser = createAsyncThunk(
           tel: formData.tel,
           email: formData.email,
         }),
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const deductFromWallet = createAsyncThunk(
+  "auth/deductFromWallet",
+  async ({ price }, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(`http://localhost:3042/users/wallet/deduct`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ wallet: price }),
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const sendResponse = createAsyncThunk(
+  "auth/sendResponse",
+  async ({ id, text }, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(`http://localhost:3042/users/responses/${id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text }),
       });
 
       const data = await res.json();
@@ -307,7 +362,7 @@ const authSlice = createSlice({
       })
       .addCase(editInfo.fulfilled, (state, action) => {
         state.loading = false;
-        state.authUser = action.payload;
+        state.user = action.payload;
       })
       .addCase(editInfo.rejected, (state, action) => {
         state.loading = false;
@@ -323,10 +378,34 @@ const authSlice = createSlice({
       .addCase(editUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(deductFromWallet.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(deductFromWallet.fulfilled, (state, action) => {
+        state.loading = false;
+        console.log(action.payload);
+        state.authUser = action.payload;
+      })
+      .addCase(deductFromWallet.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(sendResponse.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(sendResponse.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(sendResponse.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
 
-export const { alfMaxSort, alfMinSort, ratingMaxSort, ratingMinSort } = authSlice.actions;
+export const { alfMaxSort, alfMinSort, ratingMaxSort, ratingMinSort } =
+  authSlice.actions;
 
 export default authSlice.reducer;

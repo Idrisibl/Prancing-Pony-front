@@ -22,7 +22,6 @@ export const patchTasks = createAsyncThunk(
         }),
       });
       const task = await res.json();
-      console.log(task);
       return task;
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -92,8 +91,13 @@ export const removeTask = createAsyncThunk(
   "task/remove",
   async (id, thunkAPI) => {
     try {
+      const state = thunkAPI.getState();
+
       await fetch(`http://localhost:3042/tasks/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+        },
       });
 
       return id;
@@ -121,15 +125,11 @@ export const tasksSlice = createSlice({
   initialState,
   reducers: {
     maxSort(state) {
-    state.tasks = state.tasks.sort((a, b) =>
-        a.price < b.price ? 1 : -1
-      )
+      state.tasks = state.tasks.sort((a, b) => (a.price < b.price ? 1 : -1));
     },
     minSort(state) {
-      state.tasks = state.tasks.sort((a, b) =>
-          a.price > b.price ? 1 : -1
-        )
-      },
+      state.tasks = state.tasks.sort((a, b) => (a.price > b.price ? 1 : -1));
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -155,17 +155,10 @@ export const tasksSlice = createSlice({
         state.tasks.unshift(action.payload);
       })
       .addCase(removeTask.fulfilled, (state, action) => {
-        // state.tasks = state.tasks.filter((task) => task._id !== action.payload);
         state.currentTask = {};
       })
       .addCase(patchTasks.fulfilled, (state, action) => {
         state.currentTask = action.payload;
-        // state.currentTask = state.currentTask.map((task) => {
-        //   if (task._id === action.payload._id) {
-        //     return action.payload;
-        //   }
-        //   return task;
-        // });
       })
       .addCase(getTaskById.fulfilled, (state, action) => {
         state.currentTask = action.payload;
@@ -176,6 +169,6 @@ export const tasksSlice = createSlice({
   },
 });
 
-export const {maxSort, minSort} = tasksSlice.actions
+export const { maxSort, minSort } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

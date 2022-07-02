@@ -4,6 +4,7 @@ import { fetchGetCategories } from "../../features/categoriesSlice";
 import { addTasks, fetchTasks } from "../../features/tasksSlice";
 import styles from "./Modal.module.css";
 import { GiCheckMark } from "react-icons/gi";
+import { deductFromWallet } from "../../features/authSlice";
 
 const AddTaskModal = ({ setOpened }) => {
   const [title, setTitle] = useState("");
@@ -19,6 +20,7 @@ const AddTaskModal = ({ setOpened }) => {
 
   const addTask = () => {
     dispatch(addTasks({ title, text, price, categories }));
+    dispatch(deductFromWallet({price}));
     setCategory("");
     setTitle("");
     setText("");

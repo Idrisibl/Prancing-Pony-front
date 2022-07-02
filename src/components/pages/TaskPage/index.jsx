@@ -1,13 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getTaskById,
-  patchTasks,
-  removeTask,
-} from "../../../features/tasksSlice";
+import { getTaskById, removeTask } from "../../../features/tasksSlice";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./Task.module.css";
+import Response from "../../Response";
+import TaskUpdateModal from "../../TaskUpdateModal";
 
 const Task = () => {
   const dispatch = useDispatch();
@@ -18,37 +16,16 @@ const Task = () => {
   const authUser = useSelector((state) => state.auth.authUser);
 
   const [opened, setOpened] = useState(false);
-  const [formData, setFormData] = useState({
-    title: "",
-    text: "",
-    price: "",
-  });
 
-  const disabled = formData.title || formData.text || formData.price;
+  useEffect(() => {
+    dispatch(getTaskById(id));
+  }, [dispatch, id]);
 
   const handleRemove = (id) => {
     dispatch(removeTask(id)).then(() => {
       navigate("/categories");
     });
   };
-
-  const patchTask = () => {
-    dispatch(patchTasks({ formData, id }));
-    dispatch(getTaskById(id));
-    setOpened(false);
-  };
-
-  useEffect(() => {
-    dispatch(getTaskById(id));
-  }, [dispatch, id]);
-
-  useEffect(() => {
-    setFormData({
-      title: task.title,
-      text: task.text,
-      price: task.price,
-    });
-  }, [task.price, task.text, task.title]);
 
   if (!task.categories) {
     return "loading...";
@@ -72,47 +49,10 @@ const Task = () => {
                 <button onClick={() => setOpened(true)}>Изменить</button>
               </>
             )}
-            {opened && (
-              <div>
-                <div>
-                  <input
-                    type="text"
-                    onChange={(e) =>
-                      setFormData({ ...formData, title: e.target.value })
-                    }
-                    value={formData.title}
-                    placeholder="Изменить заголовок..."
-                  />
-                </div>
-                <div>
-                  <textarea className={styles.inputText}
-                    type="text"
-                    onChange={(e) =>
-                      setFormData({ ...formData, text: e.target.value })
-                    }
-                    value={formData.text}
-                    placeholder="Изменить текст..."
-                  />
-                </div>
-                <div>
-                  <input
-                    type="number"
-                    onChange={(e) =>
-                      setFormData({ ...formData, price: e.target.value })
-                    }
-                    value={formData.price}
-                    placeholder="Изменить вознаграждение..."
-                  />
-                </div>
-                <div>
-                  <button disabled={!disabled} onClick={patchTask}>
-                    Добавить изменения
-                  </button>
-                </div>
-              </div>
-            )}
+            {opened && <TaskUpdateModal task={task} setOpened={setOpened} id={id} />}
           </>
         }
+        <Response task={task} />
       </div>
     </>
   );

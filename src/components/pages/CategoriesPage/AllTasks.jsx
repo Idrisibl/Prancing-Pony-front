@@ -5,6 +5,7 @@ import LoadPreloader from "../../LoadPreloader";
 import TasksItems from "../../TasksItems";
 import styles from "./Categories.module.css";
 import { useState } from "react";
+import { deductFromWallet } from "../../../features/authSlice";
 
 const AllTasks = () => {
   const [visible, setVisible] = useState(9);
