@@ -15,7 +15,6 @@ import button from "../CategoriesPage/Categories.module.css";
 const AllUsersPage = () => {
   const users = useSelector((state) => state.auth.users);
   const dispatch = useDispatch();
-  const tasks = useSelector((state) => state.tasksSlice.tasks);
   const loading = useSelector((state) => state.tasksSlice.loading);
 
   const nameSortMax = () => {
@@ -41,8 +40,9 @@ const AllUsersPage = () => {
   const [visible, setVisible] = useState(7);
   const [value, setValue] = useState("");
 
-  const filteredUsers = users.slice(0, visible).filter((user) => {
-    return user.name.toLowerCase().includes(value.toLowerCase());
+  const filteredUsers = users.filter((user) => {
+    const fio = `${user.name.toLowerCase()} ${user.lastname.toLowerCase()}`;
+    return fio.includes(value.toLowerCase());
   });
 
   const showMoreItems = () => {
@@ -74,20 +74,43 @@ const AllUsersPage = () => {
           Сначала по низким
         </button>
       </div>
-      {filteredUsers.map((user) => (
-        <UserCard key={user._id} user={user} />
-      ))}{" "}
-      <button
-        // className={styles.btnShowMore}
-        className={
-          users.length === users.slice(0, visible).length || value.length !== 0
-            ? button.btnShowMoreOff
-            : button.btnShowMore
-        }
-        onClick={showMoreItems}
-      >
-        Показать еще
-      </button>
+
+      {value ? (
+        <div>
+          {" "}
+          {filteredUsers.map((user) => (
+            <UserCard key={user._id} user={user} />
+          ))}{" "}
+          <button
+            className={
+              users.length === users.slice(0, visible).length ||
+              value.length !== 0
+                ? button.btnShowMoreOff
+                : button.btnShowMore
+            }
+            onClick={showMoreItems}
+          >
+            Показать еще
+          </button>
+        </div>
+      ) : (
+        <div>
+          {users.slice(0, visible).map((user) => (
+            <UserCard key={user._id} user={user} />
+          ))}{" "}
+          <button
+            className={
+              users.length === users.slice(0, visible).length ||
+              value.length !== 0
+                ? button.btnShowMoreOff
+                : button.btnShowMore
+            }
+            onClick={showMoreItems}
+          >
+            Показать еще
+          </button>
+        </div>
+      )}
     </>
   );
 };
