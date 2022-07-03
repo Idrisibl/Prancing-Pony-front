@@ -1,0 +1,14 @@
+.links {
+  display: flex;
+  margin-bottom: 50px;
+  color: #fff;
+}
+
+.links div {
+  margin-right: 15px;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+}

@@ -12,7 +12,7 @@ const PersonalData = ({ user, id }) => {
   const candidate = user._id === authId;
 
   return (
-    <>
+    <div className={styles.wrapper}>
       {opened && <DataEditModal setOpened={setOpened} user={user} />}
       <Personal
         candidate={candidate}
@@ -29,7 +29,7 @@ const PersonalData = ({ user, id }) => {
         <div className={styles.notEmpty}>Пусто</div>
       )}
       <Reviews userId={user._id} id={id} />
-    </>
+    </div>
   );
 };
 

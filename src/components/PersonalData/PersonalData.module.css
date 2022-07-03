@@ -1,3 +1,12 @@
+.wrapper {
+  min-height: 1000px;
+  background: url("../../assets/images/paper_sheet_PNG7231.png") center
+    center no-repeat;
+  background-size: 90% 100%;
+  padding: 10% 10%;
+  padding-top: 30px;
+}
+
 .personal {
   display: flex;
   align-items: flex-start;
