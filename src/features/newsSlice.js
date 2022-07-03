@@ -38,16 +38,18 @@ export const addNews = createAsyncThunk(
   "news/addNews",
   async (data, thunkAPI) => {
     try {
+      const formData = new FormData();
+
+      formData.append("community", data.community);
+      formData.append("title", data.title);
+      formData.append("image", data.image)
+      formData.append("text", data.text);
+
       const state = thunkAPI.getState();
-      const res = await fetch("http://localhost:3042/community", {
+      const res = await fetch("http://localhost:3042/news", {
         method: "POST",
-        body: JSON.stringify({
-          community: data.text,
-          title: data.optionsValue,
-          text: data.bookId,
-        }),
+        body: formData,
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${state.auth.token}`,
         },
       });
@@ -61,20 +63,17 @@ export const addNews = createAsyncThunk(
 
 export const addLikes = createAsyncThunk(
   "news/addLikes",
-  async ({ userId, reviewId, callback }, thunkAPI) => {
+  async ({ userId, news, callback }, thunkAPI) => {
     try {
       const state = thunkAPI.getState();
-      const res = await fetch(
-        `http://localhost:3001/reviews/likes/${reviewId._id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${state.auth.token}`,
-          },
-          body: JSON.stringify({ likes: userId }),
-        }
-      );
+      const res = await fetch(`http://localhost:3042/news/likes/${news._id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${state.auth.token}`,
+        },
+        body: JSON.stringify({ likes: userId }),
+      });
       callback();
       return await res.json();
     } catch (e) {
@@ -85,22 +84,42 @@ export const addLikes = createAsyncThunk(
 
 export const deleteLikes = createAsyncThunk(
   "news/deleteLikes",
-  async ({ userId, reviewId, callback }, thunkAPI) => {
+  async ({ userId, news, callback }, thunkAPI) => {
     try {
       const state = thunkAPI.getState();
       const res = await fetch(
-        `http://localhost:3001/reviews/likes/remove/${reviewId._id}`,
+        `http://localhost:3042/news/likes/remove/${news._id}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${state.auth.token}`,
           },
-          body: JSON.stringify({ likes: userId }),
+          body: JSON.stringify({ likes: userId._id }),
         }
       );
       callback();
-      return await res.json();
+
+      const allNews = await res.json();
+
+      if (allNews.error) {
+        return thunkAPI.rejectWithValue(news.error);
+      }
+      return allNews;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+export const deleteNews = createAsyncThunk(
+  "news/deleteNews",
+  async ({id, callback }, thunkAPI) => {
+    try {
+      const res = await fetch(`http://localhost:3042/news/${id}`, {
+        method: "DELETE",
+      });
+      callback()
+      return id;
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
     }
@@ -122,18 +141,17 @@ export const newsSlice = createSlice({
       })
       .addCase(getAllNews.fulfilled, (state, action) => {
         state.news = action.payload;
-        state.adding = false
+        state.adding = false;
       })
       .addCase(getAllNews.pending, (state, action) => {
-        state.adding = true
+        state.adding = true;
       })
       .addCase(addLikes.fulfilled, (state, action) => {
-        state.adding = true
-        state.news.push(action.payload);
+        state.adding = true;
       })
       .addCase(addLikes.pending, (state, action) => {
-        state.adding = false
-      })
+        state.adding = false;
+      });
   },
 });
 
