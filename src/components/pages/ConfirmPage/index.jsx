@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Failed = ({failed}) => {
+const ConfirmPage = () => {
     return (
         <div>
-            b
+            
         </div>
     );
 };
 
-export default Failed;
+export default ConfirmPage;

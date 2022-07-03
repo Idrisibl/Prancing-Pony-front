@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Failed = ({failed}) => {
+const FavoritePage = () => {
     return (
         <div>
-            b
+            
         </div>
     );
 };
 
-export default Failed;
+export default FavoritePage;

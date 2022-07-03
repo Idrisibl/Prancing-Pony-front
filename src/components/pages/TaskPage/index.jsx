@@ -6,6 +6,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./Task.module.css";
 import Response from "../../Response";
 import TaskUpdateModal from "../../TaskUpdateModal";
+import LoadPreloader from "../../LoadPreloader";
 
 const Task = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const Task = () => {
   const navigate = useNavigate();
 
   const task = useSelector((state) => state.tasksSlice.currentTask);
+  const loading = useSelector((state) => state.tasksSlice.loading);
   const authUser = useSelector((state) => state.auth.authUser);
 
   const [opened, setOpened] = useState(false);
@@ -20,6 +22,8 @@ const Task = () => {
   useEffect(() => {
     dispatch(getTaskById(id));
   }, [dispatch, id]);
+
+  console.log(task)
 
   const handleRemove = (id) => {
     dispatch(removeTask(id)).then(() => {
@@ -33,6 +37,7 @@ const Task = () => {
 
   return (
     <>
+      {loading && <LoadPreloader />}
       <div className={styles.content}>
         <NavLink to="/categories">Перейти ко всем заданиям</NavLink>
         {
@@ -49,7 +54,9 @@ const Task = () => {
                 <button onClick={() => setOpened(true)}>Изменить</button>
               </>
             )}
-            {opened && <TaskUpdateModal task={task} setOpened={setOpened} id={id} />}
+            {opened && (
+              <TaskUpdateModal task={task} setOpened={setOpened} id={id} />
+            )}
           </>
         }
         <Response task={task} />

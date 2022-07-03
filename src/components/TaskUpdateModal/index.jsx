@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { deductFromWallet } from "../../features/authSlice";
+import { addWallet, deductFromWallet } from "../../features/authSlice";
 import { getTaskById, patchTasks } from "../../features/tasksSlice";
 import styles from "../AddTaskModal/Modal.module.css";
 
@@ -13,9 +13,10 @@ const TaskUpdateModal = ({ task, setOpened, id }) => {
   const dispatch = useDispatch();
 
   const patchTask = () => {
+    dispatch(addWallet({ price: task.price + formData.value }));
     dispatch(patchTasks({ formData, id }));
     dispatch(getTaskById(id));
-    dispatch(deductFromWallet({ price: formData.price }));
+    dispatch(deductFromWallet({ price: formData.price - task.price }));
     setOpened(false);
   };
 

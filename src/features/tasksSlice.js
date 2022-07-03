@@ -120,6 +120,41 @@ export const getTaskById = createAsyncThunk(
   }
 );
 
+export const getTasksForUser = createAsyncThunk(
+  "tasks/getTasksForUser",
+  async (id, thunkAPI) => {
+    try {
+      console.log(id);
+      const res = await fetch(`http://localhost:3042/tasks/user/${id}`);
+      const task = await res.json();
+      return task;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const changeAviability = createAsyncThunk(
+  "tasks/changeAviability",
+  async ({ taskId }, thunkAPI) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3042/tasks/${taskId}/availability`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }
+      );
+      const task = await res.json();
+      return task;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
 export const tasksSlice = createSlice({
   name: "tasks",
   initialState,
@@ -161,9 +196,24 @@ export const tasksSlice = createSlice({
         state.currentTask = action.payload;
       })
       .addCase(getTaskById.fulfilled, (state, action) => {
+        state.loading = false;
         state.currentTask = action.payload;
       })
       .addCase(getTaskById.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(changeAviability.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentTask = action.payload;
+      })
+      .addCase(changeAviability.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(getTasksForUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.tasks = action.payload;
+      })
+      .addCase(getTasksForUser.pending, (state, action) => {
         state.loading = true;
       });
   },

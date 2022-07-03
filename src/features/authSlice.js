@@ -232,19 +232,47 @@ export const deductFromWallet = createAsyncThunk(
   }
 );
 
-export const sendResponse = createAsyncThunk(
-  "auth/sendResponse",
-  async ({ id, text }, thunkAPI) => {
+export const addWallet = createAsyncThunk(
+  "auth/addWallet",
+  async ({ price }, thunkAPI) => {
     try {
       const state = thunkAPI.getState();
 
-      const res = await fetch(`http://localhost:3042/users/responses/${id}`, {
+      const res = await fetch(`http://localhost:3042/users/addWallet`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${state.auth.token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ wallet: price }),
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const confirm = createAsyncThunk(
+  "auth/confirm",
+  async ({ id, taskId }, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(`http://localhost:3042/users/bag/${id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ bag: taskId }),
       });
 
       const data = await res.json();
@@ -351,7 +379,7 @@ const authSlice = createSlice({
       })
       .addCase(editAvatar.fulfilled, (state, action) => {
         state.loading = false;
-        state.authUser = action.payload;
+        state.user = action.payload;
       })
       .addCase(editAvatar.rejected, (state, action) => {
         state.loading = false;
@@ -391,14 +419,25 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(sendResponse.pending, (state, action) => {
+      .addCase(addWallet.pending, (state, action) => {
         state.loading = true;
       })
-      .addCase(sendResponse.fulfilled, (state, action) => {
+      .addCase(addWallet.fulfilled, (state, action) => {
+        state.loading = false;
+        state.authUser = action.payload;
+      })
+      .addCase(addWallet.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(confirm.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(confirm.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
       })
-      .addCase(sendResponse.rejected, (state, action) => {
+      .addCase(confirm.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

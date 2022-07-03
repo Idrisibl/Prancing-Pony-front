@@ -1,11 +1,7 @@
-import React from 'react';
+import React from "react";
 
-const Finished = ({finished}) => {
-    return (
-        <div>
-            
-        </div>
-    );
+const Finished = ({ finished }) => {
+  return <div>c</div>;
 };
 
 export default Finished;
