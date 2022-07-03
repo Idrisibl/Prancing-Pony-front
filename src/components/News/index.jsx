@@ -1,17 +1,13 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addLikes, deleteLikes, getAllNews } from "../../features/newsSlice";
+import { useDispatch } from "react-redux";
+import { addLikes, deleteLikes, deleteNews } from "../../features/newsSlice";
 import styles from "./News.module.css";
-const News = ({ news }) => {
-  const userId = useSelector((state) => state.auth.user);
+const News = ({ news, idNews, userId, communityFounderId, getNews }) => {
   const dispatch = useDispatch()
-  const getNews = () => {
-    dispatch(getAllNews())
+  
+  const deleteNewsHandler = (id) => {
+    dispatch(deleteNews({id, callback: getNews}))
   }
-  useEffect(() => {
-    getNews();
-  }, [dispatch]);
-
   const likesHandler = (arr) =>{
     arr.find((elem) => elem === userId._id)
     ? dispatch(
@@ -23,11 +19,14 @@ const News = ({ news }) => {
   }
   
   return (
+
     <div className={styles.news}>
+      {communityFounderId === userId._id ? <button onClick={()=>deleteNewsHandler(idNews)}>xNews</button> : ""}
       <div>{news.title}</div>
       <div>{news.text}</div>
       <button onClick={()=>likesHandler(news.likes)}> Лайки: </button>
       {news.likes.length}
+      <img src={`http://localhost:3042/public/${news.image}`} alt="" />
     </div>
   );
 };

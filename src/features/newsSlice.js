@@ -38,16 +38,18 @@ export const addNews = createAsyncThunk(
   "news/addNews",
   async (data, thunkAPI) => {
     try {
+      const formData = new FormData();
+
+      formData.append("community", data.community);
+      formData.append("title", data.title);
+      formData.append("image", data.image)
+      formData.append("text", data.text);
+
       const state = thunkAPI.getState();
-      const res = await fetch("http://localhost:3042/community", {
+      const res = await fetch("http://localhost:3042/news", {
         method: "POST",
-        body: JSON.stringify({
-          community: data.text,
-          title: data.optionsValue,
-          text: data.bookId,
-        }),
+        body: formData,
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${state.auth.token}`,
         },
       });
@@ -109,6 +111,20 @@ export const deleteLikes = createAsyncThunk(
     }
   }
 );
+export const deleteNews = createAsyncThunk(
+  "news/deleteNews",
+  async ({id, callback }, thunkAPI) => {
+    try {
+      const res = await fetch(`http://localhost:3042/news/${id}`, {
+        method: "DELETE",
+      });
+      callback()
+      return id;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
 
 export const newsSlice = createSlice({
   name: "news",
@@ -132,7 +148,6 @@ export const newsSlice = createSlice({
       })
       .addCase(addLikes.fulfilled, (state, action) => {
         state.adding = true;
-        state.news.push(action.payload);
       })
       .addCase(addLikes.pending, (state, action) => {
         state.adding = false;

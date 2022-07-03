@@ -5,14 +5,16 @@ import SigninPage from "./pages/SigninPage";
 import SignupPage from "./pages/SignupPage";
 import { useSelector } from "react-redux";
 import Layout from "./Layout";
-import AllTasks from "./pages/categoriesPage/AllTasks";
-import TasksOnCategories from "./pages/categoriesPage/TasksOnCategories";
-import CategoriesPage from "./pages/categoriesPage";
+import AllTasks from "./pages/CategoriesPage/AllTasks";
+import TasksOnCategories from "./pages/CategoriesPage/TasksOnCategories";
+import CategoriesPage from "./pages/CategoriesPage";
 import PersonalData from "./Profile";
 import PersonalArea from "./pages/ProfilePage";
 import AllCommunities from "./pages/AllCommunityPage";
 import CommunityById from "./pages/CommunityPage";
 import AllUsersPage from "./pages/AllUsersPage";
+import UserProfilePage from "./pages/UserProfilePage";
+import Task from "./pages/TaskPage";
 
 const App = () => {
   const token = useSelector((state) => state.token);
@@ -34,9 +36,10 @@ const App = () => {
             <Route index element={<PersonalData />} />
           </Route>
           <Route path="/users" element={<AllUsersPage />} />
-          <Route path="/users/:id" element={<PersonalData />} />
+          <Route path="/users/:id" element={<UserProfilePage />} />
           <Route path="/communities" element={<AllCommunities />} />
           <Route path="/communities/:id" element={<CommunityById />} />
+          <Route path="/tasks/:id" element={<Task />} />
         </Route>
       </Routes>
     </div>

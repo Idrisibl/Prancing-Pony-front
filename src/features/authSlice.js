@@ -69,6 +69,31 @@ export const fetchOneUser = createAsyncThunk(
   }
 );
 
+export const fetchAuthUser = createAsyncThunk(
+  "auth/fetchAuthUser",
+  async (_, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(`http://localhost:3042/users/authUser/id`, {
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const fetchAllUsers = createAsyncThunk(
   "auth/fetchAllUsers",
   async (_, thunkAPI) => {
@@ -187,6 +212,7 @@ const initialState = {
   error: null,
   user: {},
   users: [],
+  authUser: {},
   id: localStorage.getItem("id"),
   token: localStorage.getItem("token"),
 };
@@ -219,6 +245,17 @@ const authSlice = createSlice({
         state.signinUp = false;
         state.error = action.payload;
       })
+      .addCase(fetchAuthUser.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(fetchAuthUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.authUser = action.payload;
+      })
+      .addCase(fetchAuthUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       .addCase(fetchOneUser.pending, (state, action) => {
         state.loading = true;
       })
@@ -246,7 +283,7 @@ const authSlice = createSlice({
       })
       .addCase(editAvatar.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.authUser = action.payload;
       })
       .addCase(editAvatar.rejected, (state, action) => {
         state.loading = false;
@@ -256,9 +293,8 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(editInfo.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.loading = false;
-        state.user = action.payload;
+        state.authUser = action.payload;
       })
       .addCase(editInfo.rejected, (state, action) => {
         state.loading = false;
@@ -269,7 +305,7 @@ const authSlice = createSlice({
       })
       .addCase(editUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.authUser = action.payload;
       })
       .addCase(editUser.rejected, (state, action) => {
         state.loading = false;
