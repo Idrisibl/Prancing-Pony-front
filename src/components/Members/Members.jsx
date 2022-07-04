@@ -1,5 +1,12 @@
-const Members = ({members}) => {
-    console.log(members, 31231);
+// import { useDispatch } from "react-redux"
+// import { deleteUser } from "../../features/communitySlice"
+
+const Members = ({members, founder, community}) => {
+    // const dispatch = useDispatch()
+    // const deleteHander = () => {
+    //     dispatch(deleteUser({members, community }))
+    // }
+    
     return (<div className="container">
         <img  src={`http://localhost:3042/${members.avatar}`} alt="" />
      <div>
@@ -16,3 +23,8 @@ const Members = ({members}) => {
     </div>)
 }
 export default Members 
+// {members._id !== founder._id ? (
+// <button onClick={()=>deleteHander()}>Удалить</button>
+// ) : (
+//   ""
+//   )}
