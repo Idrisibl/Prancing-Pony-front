@@ -100,7 +100,10 @@ const AllCommunities = () => {
               return (
                 <div key={elem._id} className={styles.community}>
                   <div className={styles.emblem}>
-                    <img src={`http://localhost:3042/${elem.emblem}`} alt="" />
+                    <img
+                      src={`http://localhost:3042/public/${elem.emblem}`}
+                      alt=""
+                    />
                   </div>
                   <div className={styles.name}>{elem.name}</div>
                   <div className={styles.members}>
@@ -133,7 +136,7 @@ const AllCommunities = () => {
               return (
                 <div key={elem._id} className={styles.community}>
                   <div className={styles.emblem}>
-                    <img src={`http://localhost:3042/${elem.emblem}`} alt="" />
+                    <img src={`http://localhost:3042/public/${elem.emblem}`} alt="" />
                   </div>
                   <div className={styles.name}>{elem.name}</div>
                   <div className={styles.members}>
