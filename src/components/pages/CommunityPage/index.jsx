@@ -76,11 +76,11 @@ const CommunityById = () => {
   if (!community || !news) {
     return "no com";
   }
-
+  
   
   return (
     <div className={styles.community}>
-      {communityLoading && <LoadPreloader/>}
+      {communityLoading &&<LoadPreloader/>}
       {community.founder._id === userId._id ? (
         <button onClick={() => setCreateNews(true)}>Добавить новости</button>
         ) : (
@@ -102,7 +102,7 @@ const CommunityById = () => {
       <div className={styles.header}>
         <div className={styles.pic}>
           <img
-            src={`http://localhost:3042/${community.emblem} `}
+            src={`http://localhost:3042/public/${community.emblem} `}
             alt=""
             />
           {community.founder._id === userId._id  && (
@@ -128,7 +128,7 @@ const CommunityById = () => {
           <div className="founder">
             <img
               className={styles.image}
-              src={`http://localhost:3042/${community.founder.avatar}`}
+              src={`http://localhost:3042/public/${community.founder.avatar}`}
               alt=""
               />
             <div>Основатель: {community.founder.name}</div>
