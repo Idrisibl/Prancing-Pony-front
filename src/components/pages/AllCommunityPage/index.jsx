@@ -7,6 +7,7 @@ import {
 } from "../../../features/communitySlice";
 import CreateCommunity from "../CreateCommunity";
 import styles from "./AllCommunity.module.css";
+import { nameMaxSort, nameMinSort, membersMaxSort, membersMinSort } from "../../../features/communitySlice";
 
 const AllCommunities = () => {
   const dispatch = useDispatch();
@@ -34,7 +35,42 @@ const AllCommunities = () => {
     console.log(userId);
   };
 
+  const nameSortMax = () => {
+    dispatch(nameMaxSort());
+  };
+
+  const nameSortMin = () => {
+    dispatch(nameMinSort());
+  };
+  const membersSortMax = () => {
+    dispatch(membersMaxSort());
+  };
+
+  const membersSortMin = () => {
+    dispatch(membersMinSort());
+  };
+
   return (
+    <>
+<div>
+        Упорядочить по алфавиту
+        <button onClick={nameSortMax}>
+          А-Я
+        </button>
+        <button onClick={nameSortMin}>
+          Я-А
+        </button>
+      </div>
+      <div>
+        Упорядочить по количеству участников
+        <button onClick={membersSortMax}>
+          Больше
+        </button>
+        <button onClick={membersSortMin}>
+          Меньше
+        </button>
+      </div>
+
     <div className={styles.communities}>
       <button onClick={() => setIsCreated(true)}>Добавить</button>
 
@@ -73,6 +109,7 @@ const AllCommunities = () => {
         );
       })}
     </div>
+    </>
   );
 };
 
