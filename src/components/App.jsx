@@ -48,7 +48,7 @@ const App = () => {
           <Route path="/communities" element={<AllCommunities />} />
           <Route path="/communities/:id" element={<CommunityById />} />
           <Route path="/tasks/:id" element={<Task />} />
-          <Route path="/confirms/:id" element={<ConfirmPage />} />
+          <Route path="/confirmations/:id" element={<ConfirmPage />} />
           <Route path="/favorites/:id" element={<FavoritePage />} />
         </Route>
       </Routes>

@@ -44,17 +44,12 @@ const AllCommunities = () => {
 
   /////////////////////////
   const userId = useSelector((state) => state.auth.authUser);
-  console.log(communities, "com");
-  console.log(userId, "user");
 
-  const findRequest = communities.filter((com) =>
-    com.requests.find((requst) => requst._id === userId._id)
-  );
+  const findRequest = communities.filter((com)=> com.requests.find(requst => requst._id === userId._id))
+  
 
-  console.log(findRequest, 767);
   const requestsHandler = (id) => {
     dispatch(leaveRequest({ id, userId, callback: getAll }));
-    console.log(userId);
   };
 
   const nameSortMax = () => {
