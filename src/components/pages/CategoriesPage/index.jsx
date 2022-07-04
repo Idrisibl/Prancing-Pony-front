@@ -5,8 +5,8 @@ import { NavLink } from "react-router-dom";
 import { fetchGetCategories } from "../../../features/categoriesSlice";
 import { Outlet } from "react-router-dom";
 import AddTaskModal from "../../AddTaskModal";
-import { maxSort, minSort } from "../../../features/tasksSlice";
-// import BreadCrumbs from "../../BreadСrumbs";
+import { fetchTasks, maxSort, minSort } from "../../../features/tasksSlice";
+import { fetchAuthUser } from "../../../features/authSlice";
 
 const CategoriesPage = () => {
   const dispatch = useDispatch();
@@ -25,11 +25,13 @@ const CategoriesPage = () => {
 
   useEffect(() => {
     dispatch(fetchGetCategories());
+    dispatch(fetchAuthUser())
   }, [dispatch]);
 
   return (
     <div className={styles.main}>
       <div className={styles.openBtnWrapper}>
+        
         <span className={styles.openBtn} onClick={() => setOpened(true)}>
           Выложить задание
         </span>

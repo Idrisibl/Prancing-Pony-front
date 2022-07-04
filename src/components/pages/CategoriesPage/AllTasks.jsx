@@ -5,21 +5,25 @@ import LoadPreloader from "../../LoadPreloader";
 import TasksItems from "../../TasksItems";
 import styles from "./Categories.module.css";
 import { useState } from "react";
-
+import { deductFromWallet } from "../../../features/authSlice";
 
 const AllTasks = () => {
-  const [counter, setCounter] = useState(0);
   const [visible, setVisible] = useState(9);
-
+  const [value, setValue] = useState("");
 
   const showMoreItems = () => {
     setVisible((prevValue) => prevValue + 9);
-    setCounter(counter + 1);
   };
 
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasksSlice.tasks);
   const loading = useSelector((state) => state.tasksSlice.loading);
+
+  
+  let filteredTasks = tasks.filter((task) => {
+    return task.title.toLowerCase().includes(value.toLowerCase());
+  });
+
 
   useEffect(() => {
     dispatch(fetchTasks());
@@ -32,20 +36,41 @@ const AllTasks = () => {
   return (
     <>
       {loading && <LoadPreloader />}
-      <div className={styles.tasks}>
-        {tasks.slice(0, visible).map((item) => (
+      <div>
+        <input type="text" onChange={(event) => setValue(event.target.value)} />
+      </div>
+      {value ? <div className={styles.tasks}>
+        {filteredTasks.map((item) => (
           <TasksItems key={item._id} task={item} />
         ))}{" "}
         <button
-          className={styles.btnShowMore}
-          disabled={
-            tasks.length === tasks.slice(0, visible).length ? true : null
+          className={
+            tasks.length === tasks.slice(0, visible).length ||
+            value.length !== 0
+              ? styles.btnShowMoreOff
+              : styles.btnShowMore
           }
           onClick={showMoreItems}
         >
           Показать еще
         </button>
-      </div>
+      </div>: <div className={styles.tasks}>
+        {tasks.slice(0, visible).map((item) => (
+          <TasksItems key={item._id} task={item} />
+        ))}{" "}
+        <button
+          className={
+            tasks.length === tasks.slice(0, visible).length ||
+            value.length !== 0
+              ? styles.btnShowMoreOff
+              : styles.btnShowMore
+          }
+          onClick={showMoreItems}
+        >
+          Показать еще
+        </button>
+      </div>}
+
     </>
   );
 };

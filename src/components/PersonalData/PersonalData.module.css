@@ -1,3 +1,12 @@
+.wrapper {
+  min-height: 1000px;
+  background: url("../../assets/images/paper_sheet_PNG7231.png") center
+    center no-repeat;
+  background-size: 90% 100%;
+  padding: 10% 10%;
+  padding-top: 30px;
+}
+
 .personal {
   display: flex;
   align-items: flex-start;
@@ -6,10 +15,6 @@
   border-bottom: 1px solid #000;
   margin-bottom: 30px;
   padding-top: 5%;
-}
-
-.personal span {
-  margin-left: 10px;
 }
 
 .personalLeft {
@@ -27,6 +32,14 @@
 
 .image img {
   width: 100%;
+}
+
+.rank {
+  margin-bottom: 20px;
+}
+
+.rating span {
+  margin-right: 5px;
 }
 
 .editor {
@@ -81,6 +94,10 @@
 
 .info {
   width: 55%;
+}
+
+.info span {
+  margin-left: 10px;
 }
 
 .name {
@@ -164,8 +181,8 @@
   margin-bottom: 100px;
 }
 
-.desk {
-  margin-top: 20px;
+.desc {
+  margin-top: 30px;
   width: 100%;
   font-size: 25px;
   word-break: break-all;

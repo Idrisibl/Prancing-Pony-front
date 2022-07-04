@@ -1,13 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getTaskById,
-  patchTasks,
-  removeTask,
-} from "../../../features/tasksSlice";
+import { getTaskById, removeTask } from "../../../features/tasksSlice";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./Task.module.css";
+import Response from "../../Response";
+import TaskUpdateModal from "../../TaskUpdateModal";
+import LoadPreloader from "../../LoadPreloader";
 
 const Task = () => {
   const dispatch = useDispatch();
@@ -15,15 +14,16 @@ const Task = () => {
   const navigate = useNavigate();
 
   const task = useSelector((state) => state.tasksSlice.currentTask);
+  const loading = useSelector((state) => state.tasksSlice.loading);
+  const authUser = useSelector((state) => state.auth.authUser);
 
   const [opened, setOpened] = useState(false);
-  const [formData, setFormData] = useState({
-    title: "",
-    text: "",
-    price: "",
-  });
 
-  const disabled = formData.title || formData.text || formData.price;
+  useEffect(() => {
+    dispatch(getTaskById(id));
+  }, [dispatch, id]);
+
+  console.log(task)
 
   const handleRemove = (id) => {
     dispatch(removeTask(id)).then(() => {
@@ -31,30 +31,13 @@ const Task = () => {
     });
   };
 
-  const patchTask = () => {
-    dispatch(patchTasks({ formData, id }));
-    dispatch(getTaskById(id));
-    setOpened(false);
-  };
-
-  useEffect(() => {
-    dispatch(getTaskById(id));
-  }, [dispatch, id]);
-
-  useEffect(() => {
-    setFormData({
-      title: task.title,
-      text: task.text,
-      price: task.price,
-    });
-  }, [task.price, task.text, task.title]);
-
   if (!task.categories) {
     return "loading...";
   }
 
   return (
     <>
+      {loading && <LoadPreloader />}
       <div className={styles.content}>
         <NavLink to="/categories">Перейти ко всем заданиям</NavLink>
         {
@@ -65,49 +48,18 @@ const Task = () => {
             <div>{task.user.name}</div>
             <div>{task.user.lastname}</div>
             <div>{task.categories.name}</div>
-            <button onClick={() => handleRemove(task._id)}>Удалить</button>
-            <button onClick={() => setOpened(true)}>Изменить</button>
+            {authUser._id === task.user._id && (
+              <>
+                <button onClick={() => handleRemove(task._id)}>Удалить</button>
+                <button onClick={() => setOpened(true)}>Изменить</button>
+              </>
+            )}
             {opened && (
-              <div>
-                <div>
-                  <input
-                    type="text"
-                    onChange={(e) =>
-                      setFormData({ ...formData, title: e.target.value })
-                    }
-                    value={formData.title}
-                    placeholder="Изменить заголовок..."
-                  />
-                </div>
-                <div>
-                  <textarea className={styles.inputText}
-                    type="text"
-                    onChange={(e) =>
-                      setFormData({ ...formData, text: e.target.value })
-                    }
-                    value={formData.text}
-                    placeholder="Изменить текст..."
-                  />
-                </div>
-                <div>
-                  <input
-                    type="number"
-                    onChange={(e) =>
-                      setFormData({ ...formData, price: e.target.value })
-                    }
-                    value={formData.price}
-                    placeholder="Изменить вознаграждение..."
-                  />
-                </div>
-                <div>
-                  <button disabled={!disabled} onClick={patchTask}>
-                    Добавить изменения
-                  </button>
-                </div>
-              </div>
+              <TaskUpdateModal task={task} setOpened={setOpened} id={id} />
             )}
           </>
         }
+        <Response task={task} />
       </div>
     </>
   );

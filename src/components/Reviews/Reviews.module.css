@@ -1,6 +1,19 @@
+.title {
+    margin-top: 40px;
+  margin-bottom: 20px;
+}
+
 .review {
   margin-top: 50px;
   font-size: 25px;
+}
+
+.scroll {
+  overflow-y: auto;
+  height: 900px;
+}
+
+.scroll::-webkit-scrollbar {
 }
 
 .header {
@@ -10,7 +23,7 @@
 }
 
 .name {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 .avatar {
@@ -31,6 +44,6 @@
   margin-bottom: 10px;
 }
 
-.title {
+.subtitle {
   margin-right: 20px;
 }

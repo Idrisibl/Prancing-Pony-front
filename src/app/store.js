@@ -6,6 +6,7 @@ import auth from "../features/authSlice";
 import communityReducer from "../features/communitySlice";
 import newsReducer from "../features/newsSlice";
 import reviewsReducer from "../features/reviewsSlice";
+import responseReducer from "../features/responseSlice";
 
 export const store = configureStore({
   reducer: {
@@ -15,5 +16,6 @@ export const store = configureStore({
     communityReducer,
     newsReducer,
     reviewsReducer,
+    responseReducer,
   },
 });

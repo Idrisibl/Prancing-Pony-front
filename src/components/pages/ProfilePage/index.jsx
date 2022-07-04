@@ -4,24 +4,22 @@ import Profile from "../../Profile";
 import LoadPreloader from "../../LoadPreloader";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { fetchAuthUser } from "../../../features/authSlice";
+import { fetchAuthUser, fetchOneUser } from "../../../features/authSlice";
+import { Outlet, useParams } from "react-router-dom";
 
 const PersonalArea = () => {
   const loading = useSelector((state) => state.auth.loading);
-  const dispatch = useDispatch();
-  const authUser = useSelector((state) => state.auth.authUser);
-
-  useEffect(() => {
-    dispatch(fetchAuthUser());
-  }, [dispatch]);
+  const user = useSelector((state) => state.auth.authUser);
+  const { id } = useParams();
+  const candidate = id === user._id;
 
   return (
     <>
       {loading && <LoadPreloader />}
       <div className={styles.wrapper}>
-        <Sidebar />
+        {candidate && <Sidebar />}
         <div className={styles.content}>
-          <Profile user={authUser} />
+          <Outlet />
         </div>
       </div>
     </>

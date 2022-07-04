@@ -25,7 +25,6 @@ const CommunityById = () => {
 
   const communityNews = news.filter((elem) => elem.community === id);
 
-  console.log(communityNews, "comnews");
 
   const community = useSelector(
     (state) => state.communityReducer.comunnityById
@@ -76,8 +75,15 @@ const CommunityById = () => {
   if (!community || !news) {
     return "no com";
   }
+
+  // console.log(community.members);
   
-  
+  // const rating = Math.floor(
+  //   community.reduce((sum, item) => {
+  //     return sum + item.members.rating;
+  //   }, 0)
+  // );
+
   return (
     <div className={styles.community}>
       {communityLoading &&<LoadPreloader/>}
@@ -123,7 +129,7 @@ const CommunityById = () => {
         <div className={styles.info}>
           <div>Название: {community.name}</div>
           <div>Учасники: {community.members.length}</div>
-          <div>Рейтинг: {community.rating.length}</div>
+          <div>Рейтинг: {community.rating}</div>
           <div>Описание: {community.description}</div>
           <div className="founder">
             <img

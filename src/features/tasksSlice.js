@@ -22,7 +22,6 @@ export const patchTasks = createAsyncThunk(
         }),
       });
       const task = await res.json();
-      console.log(task);
       return task;
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -92,8 +91,13 @@ export const removeTask = createAsyncThunk(
   "task/remove",
   async (id, thunkAPI) => {
     try {
+      const state = thunkAPI.getState();
+
       await fetch(`http://localhost:3042/tasks/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+        },
       });
 
       return id;
@@ -116,20 +120,51 @@ export const getTaskById = createAsyncThunk(
   }
 );
 
+export const getTasksForUser = createAsyncThunk(
+  "tasks/getTasksForUser",
+  async (id, thunkAPI) => {
+    try {
+      console.log(id);
+      const res = await fetch(`http://localhost:3042/tasks/user/${id}`);
+      const task = await res.json();
+      return task;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const changeAviability = createAsyncThunk(
+  "tasks/changeAviability",
+  async ({ taskId }, thunkAPI) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3042/tasks/${taskId}/availability`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }
+      );
+      const task = await res.json();
+      return task;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
 export const tasksSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
     maxSort(state) {
-    state.tasks = state.tasks.sort((a, b) =>
-        a.price < b.price ? 1 : -1
-      )
+      state.tasks = state.tasks.sort((a, b) => (a.price < b.price ? 1 : -1));
     },
     minSort(state) {
-      state.tasks = state.tasks.sort((a, b) =>
-          a.price > b.price ? 1 : -1
-        )
-      }
+      state.tasks = state.tasks.sort((a, b) => (a.price > b.price ? 1 : -1));
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -155,27 +190,35 @@ export const tasksSlice = createSlice({
         state.tasks.unshift(action.payload);
       })
       .addCase(removeTask.fulfilled, (state, action) => {
-        // state.tasks = state.tasks.filter((task) => task._id !== action.payload);
         state.currentTask = {};
       })
       .addCase(patchTasks.fulfilled, (state, action) => {
         state.currentTask = action.payload;
-        // state.currentTask = state.currentTask.map((task) => {
-        //   if (task._id === action.payload._id) {
-        //     return action.payload;
-        //   }
-        //   return task;
-        // });
       })
       .addCase(getTaskById.fulfilled, (state, action) => {
+        state.loading = false;
         state.currentTask = action.payload;
       })
       .addCase(getTaskById.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(changeAviability.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentTask = action.payload;
+      })
+      .addCase(changeAviability.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(getTasksForUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.tasks = action.payload;
+      })
+      .addCase(getTasksForUser.pending, (state, action) => {
         state.loading = true;
       });
   },
 });
 
-export const {maxSort, minSort} = tasksSlice.actions
+export const { maxSort, minSort } = tasksSlice.actions;
 
 export default tasksSlice.reducer;
