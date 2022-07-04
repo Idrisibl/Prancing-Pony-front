@@ -52,6 +52,16 @@
     border-radius: 10%;
     cursor: pointer;
 } */
+.ava{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    
+}
+.header{
+    display: flex;
+    border-bottom: 1px solid white;
+}
 .name{
     color: white;
     width: 150px;
@@ -64,18 +74,21 @@
 .chat{
     border: 1px solid white;
     width: 500px;
-    height: 500px;
+    height: 650px;
     padding: 10px;
     color: white;
+    position: relative;
 }
 .nameUser{
     color: white;
     width: 150px;
-    cursor: pointer;
-    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 15px;
 }
 .chatSender{
     display: flex;
+    position: bottom;
+    margin-top: 10px;
 }
 .messageOwn{
     background-color: blue;
@@ -88,4 +101,11 @@
     margin-top: 20px;
     margin-right: 0;
     width: 200px;
+}
+.chatBody{
+    overflow: scroll;
+    max-height: 500px;
+}
+.data{
+    text-align: center;
 }

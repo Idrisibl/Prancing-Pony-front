@@ -4,7 +4,15 @@ import { NavLink } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 
 const Sidebar = () => {
-  const id = useSelector((state) => state.auth.id);
+  const id = useSelector((state) => state.auth.user._id);
+
+  const exitFromAccaunt = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("id");
+    localStorage.removeItem("avatar");
+    window.scrollTo(0, 0);
+    window.location.reload();
+  };
 
   return (
     <ul className={styles.sidebar}>
@@ -23,7 +31,17 @@ const Sidebar = () => {
           className={({ isActive }) =>
             isActive ? `${styles.link} ${styles.active}` : styles.link
           }
-          to="/profile/friends"
+          to={`/profile/${id}/tasks`}
+        >
+          Задания
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? `${styles.link} ${styles.active}` : styles.link
+          }
+          to={`/profile/${id}/friends`}
         >
           Друзья
         </NavLink>
@@ -33,37 +51,17 @@ const Sidebar = () => {
           className={({ isActive }) =>
             isActive ? `${styles.link} ${styles.active}` : styles.link
           }
-          to="/profile/blacklist"
+          to={`/profile/${id}/blacklist`}
         >
           Черный список
         </NavLink>
       </li>
-      <li>
+      <li onClick={exitFromAccaunt}>
         <NavLink
           className={({ isActive }) =>
             isActive ? `${styles.link} ${styles.active}` : styles.link
           }
-          to="/profile/finished"
-        >
-          Завершённые
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          className={({ isActive }) =>
-            isActive ? `${styles.link} ${styles.active}` : styles.link
-          }
-          to="/profile/failed"
-        >
-          Проваленные
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          className={({ isActive }) =>
-            isActive ? `${styles.link} ${styles.active}` : styles.link
-          }
-          to="/profile/failed"
+          to="/categories"
         >
           Выйти
         </NavLink>

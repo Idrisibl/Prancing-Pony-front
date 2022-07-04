@@ -1,3 +1,12 @@
+.wrapper {
+  min-height: 1000px;
+  background: url("../../assets/images/paper_sheet_PNG7231.png") center
+    center no-repeat;
+  background-size: 90% 100%;
+  padding: 10% 10%;
+  padding-top: 30px;
+}
+
 .personal {
   display: flex;
   align-items: flex-start;
@@ -5,15 +14,12 @@
   padding-bottom: 20px;
   border-bottom: 1px solid #000;
   margin-bottom: 30px;
+  padding-top: 5%;
 }
 
-.personal span {
-  margin-left: 10px;
+.personalLeft {
+  width: 35%;
 }
-
-/* .personal div:first-child {
-    width: 30%;
-  } */
 
 .image {
   position: relative;
@@ -21,11 +27,19 @@
   overflow: hidden;
   width: 200px;
   height: 200px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .image img {
   width: 100%;
+}
+
+.rank {
+  margin-bottom: 20px;
+}
+
+.rating span {
+  margin-right: 5px;
 }
 
 .editor {
@@ -58,25 +72,41 @@
   cursor: pointer;
 }
 
-.rating {
+.rank {
+  display: flex;
+}
+
+.rank div {
   font-size: 25px;
   display: flex;
   align-items: center;
 }
 
-.rating img {
+.rank div:first-child {
+  margin-right: 20px;
+}
+
+.rank img {
   width: 45px;
   height: 45px;
   margin-left: 7px;
 }
 
 .info {
-  width: 65%;
+  width: 55%;
+}
+
+.info span {
+  margin-left: 10px;
 }
 
 .name {
   font-size: 3rem;
   font-weight: bold;
+}
+
+.name span:nth-child(2) {
+  margin-right: 20px;
 }
 
 .name,
@@ -125,8 +155,35 @@
   transform: scale(0.94);
 }
 
-.information {
+.userInfo {
+  margin-bottom: 100px;
+}
+
+.edit {
   margin-top: 20px;
+  cursor: pointer;
+}
+
+.edit span {
+  font-weight: bold;
+  font-size: 20px;
+  margin-left: 10px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.notEmpty {
+  text-align: center;
+  padding-top: 50px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 25px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 100px;
+}
+
+.desc {
+  margin-top: 30px;
   width: 100%;
   font-size: 25px;
+  word-break: break-all;
 }

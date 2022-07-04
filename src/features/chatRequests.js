@@ -9,3 +9,5 @@ export const getUser = (userId) => API.get(`users/${userId}`)
 export const getMessages = (id) => API.get(`messages/${id}`)
 
 export const addMessage = (data) => API.post('/messages', data)
+
+export const addChat = (data) => API.post('/chat', data)

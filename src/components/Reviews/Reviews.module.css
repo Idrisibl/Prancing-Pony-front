@@ -1,0 +1,49 @@
+.title {
+    margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.review {
+  margin-top: 50px;
+  font-size: 25px;
+}
+
+.scroll {
+  overflow-y: auto;
+  height: 900px;
+}
+
+.scroll::-webkit-scrollbar {
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.name {
+  margin-left: 20px;
+}
+
+.avatar {
+  border-radius: 50%;
+  overflow: hidden;
+  width: 70px;
+  height: 70px;
+}
+
+.avatar img {
+  width: 100%;
+}
+
+.rating {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  margin-right: 20px;
+}

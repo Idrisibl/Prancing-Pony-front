@@ -3,19 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchOneUser } from "../../features/authSlice";
 import PersonalData from "../PersonalData";
+import Reviews from "../Reviews";
 
 const Profile = () => {
-  const dispatch = useDispatch();
   const { id } = useParams();
-  const authUser = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     dispatch(fetchOneUser(id));
   }, [dispatch, id]);
+  
 
   return (
     <>
-      <PersonalData authUser={authUser} />
+      <PersonalData user={user} id={id} />
     </>
   );
 };

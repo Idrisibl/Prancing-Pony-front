@@ -2,24 +2,27 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   tasks: [],
+  currentTask: {},
+  loading: false,
 };
 
-export const patchTask = createAsyncThunk(
+export const patchTasks = createAsyncThunk(
   "tasks/patch",
-  async (task, thunkAPI) => {
+  async ({ formData, id }, thunkAPI) => {
     try {
-      const res = await fetch(`http://localhost:3042/tasks/${task._id}`, {
+      const res = await fetch(`http://localhost:3042/tasks/${id}`, {
         method: "PATCH",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
         body: JSON.stringify({
-          title: task.title,
-          text: task.text,
-          price: task.price,
+          title: formData.title,
+          text: formData.text,
+          price: formData.price,
         }),
       });
-      return res.json();
+      const task = await res.json();
+      return task;
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
     }
@@ -42,7 +45,7 @@ export const addTasks = createAsyncThunk(
           title,
           text,
           price,
-          categories
+          categories,
         }),
       });
       return res.json();
@@ -88,8 +91,13 @@ export const removeTask = createAsyncThunk(
   "task/remove",
   async (id, thunkAPI) => {
     try {
+      const state = thunkAPI.getState();
+
       await fetch(`http://localhost:3042/tasks/${id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+        },
       });
 
       return id;
@@ -99,14 +107,73 @@ export const removeTask = createAsyncThunk(
   }
 );
 
+export const getTaskById = createAsyncThunk(
+  "tasks/getTasks",
+  async (id, thunkAPI) => {
+    try {
+      const res = await fetch(`http://localhost:3042/tasks/${id}`);
+      const task = await res.json();
+      return task;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const getTasksForUser = createAsyncThunk(
+  "tasks/getTasksForUser",
+  async (id, thunkAPI) => {
+    try {
+      console.log(id);
+      const res = await fetch(`http://localhost:3042/tasks/user/${id}`);
+      const task = await res.json();
+      return task;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const changeAviability = createAsyncThunk(
+  "tasks/changeAviability",
+  async ({ taskId }, thunkAPI) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3042/tasks/${taskId}/availability`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }
+      );
+      const task = await res.json();
+      return task;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
 export const tasksSlice = createSlice({
   name: "tasks",
   initialState,
-  reducers: {},
+  reducers: {
+    maxSort(state) {
+      state.tasks = state.tasks.sort((a, b) => (a.price < b.price ? 1 : -1));
+    },
+    minSort(state) {
+      state.tasks = state.tasks.sort((a, b) => (a.price > b.price ? 1 : -1));
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchTasks.fulfilled, (state, action) => {
         state.tasks = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchTasks.pending, (state, action) => {
+        state.loading = true;
       })
       .addCase(fetchCategoriesTasks.fulfilled, (state, action) => {
         state.tasks = action.payload;
@@ -123,17 +190,35 @@ export const tasksSlice = createSlice({
         state.tasks.unshift(action.payload);
       })
       .addCase(removeTask.fulfilled, (state, action) => {
-        state.tasks = state.tasks.filter((task) => task._id !== action.payload);
+        state.currentTask = {};
       })
-      .addCase(patchTask.fulfilled, (state, action) => {
-        state.tasks = state.tasks.map((task) => {
-          if (task._id === action.payload._id) {
-            return action.payload;
-          }
-          return task;
-        });
+      .addCase(patchTasks.fulfilled, (state, action) => {
+        state.currentTask = action.payload;
+      })
+      .addCase(getTaskById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentTask = action.payload;
+      })
+      .addCase(getTaskById.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(changeAviability.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentTask = action.payload;
+      })
+      .addCase(changeAviability.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(getTasksForUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.tasks = action.payload;
+      })
+      .addCase(getTasksForUser.pending, (state, action) => {
+        state.loading = true;
       });
   },
 });
+
+export const { maxSort, minSort } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

@@ -69,6 +69,50 @@ export const fetchOneUser = createAsyncThunk(
   }
 );
 
+export const fetchAuthUser = createAsyncThunk(
+  "auth/fetchAuthUser",
+  async (_, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(`http://localhost:3042/users/authUser/id`, {
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchAllUsers = createAsyncThunk(
+  "auth/fetchAllUsers",
+  async (_, thunkAPI) => {
+    try {
+      const res = await fetch(`http://localhost:3042/users`);
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const editAvatar = createAsyncThunk(
   "auth/editAvatar",
   async ({ file }, thunkAPI) => {
@@ -99,12 +143,159 @@ export const editAvatar = createAsyncThunk(
   }
 );
 
+export const editInfo = createAsyncThunk(
+  "auth/editInfo",
+  async (info, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(`http://localhost:3042/users/editInfo`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ info }),
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const editUser = createAsyncThunk(
+  "auth/editUser",
+  async ({ formData }, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(`http://localhost:3042/users/editUser`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          lastname: formData.lastname,
+          tel: formData.tel,
+          email: formData.email,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const deductFromWallet = createAsyncThunk(
+  "auth/deductFromWallet",
+  async ({ price }, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(`http://localhost:3042/users/wallet/deduct`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ wallet: price }),
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const addWallet = createAsyncThunk(
+  "auth/addWallet",
+  async ({ price }, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(`http://localhost:3042/users/addWallet`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ wallet: price }),
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const confirm = createAsyncThunk(
+  "auth/confirm",
+  async ({ id, taskId }, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(`http://localhost:3042/users/bag/${id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ bag: taskId }),
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 const initialState = {
   signupIn: false,
   signinUp: false,
   loading: false,
   error: null,
   user: {},
+  users: [],
+  authUser: {},
   id: localStorage.getItem("id"),
   token: localStorage.getItem("token"),
 };
@@ -112,7 +303,20 @@ const initialState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    alfMaxSort(state) {
+      state.users = state.users.sort((a, b) => (a.name > b.name ? 1 : -1));
+    },
+    alfMinSort(state) {
+      state.users = state.users.sort((a, b) => (a.name < b.name ? 1 : -1));
+    },
+    ratingMaxSort(state) {
+      state.users = state.users.sort((a, b) => (a.rating < b.rating ? 1 : -1));
+    },
+    ratingMinSort(state) {
+      state.users = state.users.sort((a, b) => (a.rating > b.rating ? 1 : -1));
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state, action) => {
@@ -137,6 +341,17 @@ const authSlice = createSlice({
         state.signinUp = false;
         state.error = action.payload;
       })
+      .addCase(fetchAuthUser.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(fetchAuthUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.authUser = action.payload;
+      })
+      .addCase(fetchAuthUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       .addCase(fetchOneUser.pending, (state, action) => {
         state.loading = true;
       })
@@ -145,6 +360,17 @@ const authSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(fetchOneUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchAllUsers.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(fetchAllUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = action.payload;
+      })
+      .addCase(fetchAllUsers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
@@ -158,8 +384,67 @@ const authSlice = createSlice({
       .addCase(editAvatar.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(editInfo.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(editInfo.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(editInfo.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(editUser.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(editUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(editUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(deductFromWallet.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(deductFromWallet.fulfilled, (state, action) => {
+        state.loading = false;
+        console.log(action.payload);
+        state.authUser = action.payload;
+      })
+      .addCase(deductFromWallet.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(addWallet.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(addWallet.fulfilled, (state, action) => {
+        state.loading = false;
+        state.authUser = action.payload;
+      })
+      .addCase(addWallet.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(confirm.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(confirm.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(confirm.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
+
+export const { alfMaxSort, alfMinSort, ratingMaxSort, ratingMinSort } =
+  authSlice.actions;
 
 export default authSlice.reducer;

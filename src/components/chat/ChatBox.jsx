@@ -1,10 +1,10 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import { addMessage, getMessages, getUser } from '../../features/chatRequests'
 import styles from "./style.module.css"
 import { format } from 'timeago.js'
 import InputEmoji from 'react-input-emoji'
 
-const ChatBox = ({chat, currentUser, setSendMessage, receiveMessage}) => {
+const ChatBox = ({chat, currentUser, setSendMessage, receiveMessage, opened}) => {
 
     const [userData, setUserData] = useState(null)
     const [messages, setMessages] = useState([])
@@ -73,14 +73,18 @@ const ChatBox = ({chat, currentUser, setSendMessage, receiveMessage}) => {
         setSendMessage({...messages, receiverId})
 
     }
-
+    
   return (
     <>
         <div className={styles.chat}>
-            {chat? (<>
+            {opened? (<>
+            <div className={styles.header}>
+                <div><img className={styles.ava} src={`http://localhost:3042/${userData?.avatar}`} alt="" /></div>
+                {console.log(userData?.avatar)}
             <div className={styles.nameUser}>{userData?.name} {userData?.lastname}
-            <hr />
-    </div>
+            </div>
+            </div>
+            
             
         
         <div className={styles.chatBody}>
@@ -95,12 +99,13 @@ const ChatBox = ({chat, currentUser, setSendMessage, receiveMessage}) => {
                     </>
                 )
             })}
+            </div>
             <div className={styles.chatSender}>
-                        <div>+</div>
                         <InputEmoji value = {newMessages} onChange = {handleChange} />
-                        <button onClick={(e) =>hendlSend(e)}>Send</button>
-                    </div>
-        </div> </>) : (<div>Нажмите чтобы открыть чат</div>)}
+                        {newMessages && <button onClick={(e) =>hendlSend(e)}>Send</button>}
+                    </div>{" "} 
+                    </>) 
+        : (<div>Нажмите чтобы открыть чат</div>)}
             
         </div>
     </>

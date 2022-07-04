@@ -41,7 +41,6 @@
 }
 
 html {
-  min-height: 100%;
   position: relative;
 }
 
@@ -49,7 +48,8 @@ body {
   font-family: "PlayfairDisplay", sans-serif;
   font-size: 18px;
   background: url("../assets/images/J-Line-digital-1829037-wallhere.com.jpg")
-    center center / cover no-repeat;
+    center center fixed no-repeat;
+  background-size: cover;
 }
 
 .container {

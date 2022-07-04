@@ -3,6 +3,7 @@ import { getUser } from '../../features/chatRequests'
 import styles from "./style.module.css"
 
 const Convaersation = ({data, currentUser}) => {
+    
     const [userData, setUserData] = useState(null)
     useEffect(() => {
 
