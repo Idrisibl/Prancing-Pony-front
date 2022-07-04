@@ -25,7 +25,6 @@ const CommunityById = () => {
 
   const communityNews = news.filter((elem) => elem.community === id);
 
-  console.log(communityNews, "comnews");
 
   const community = useSelector(
     (state) => state.communityReducer.comunnityById

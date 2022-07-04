@@ -1,5 +1,4 @@
 const Members = ({members}) => {
-    console.log(members, 31231);
     return (<div className="container">
         <img  src={`http://localhost:3042/${members.avatar}`} alt="" />
      <div>

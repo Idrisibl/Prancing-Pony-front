@@ -51,7 +51,7 @@ const Header = () => {
                 <GiSwapBag size="3rem" fill="#4D220E" />
                 <span>{user.wallet} ₽</span>
               </div>
-              <Link to={`/confirms/${user._id}`}>
+              <Link to={`/confirmations/${user._id}`}>
                 <MdDomainVerification size="3rem" fill="#4D220E" />
               </Link>
               <Link to={`/favorites/${user._id}`}>

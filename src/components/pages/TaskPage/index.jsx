@@ -23,7 +23,6 @@ const Task = () => {
     dispatch(getTaskById(id));
   }, [dispatch, id]);
 
-  console.log(task)
 
   const handleRemove = (id) => {
     dispatch(removeTask(id)).then(() => {
