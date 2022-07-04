@@ -2,9 +2,26 @@ import React from "react";
 import { FaUserFriends } from "react-icons/fa";
 import { BiMessageDots } from "react-icons/bi";
 import styles from "./UserCard.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { addChat } from "../../features/chatRequests";
 
 const UserCard = ({ user }) => {
+
+  const senderId = useSelector((state) => state.auth.id);
+  const navigate = useNavigate()
+
+  const handleAddChat = async (receiverId) => {
+    const data = {receiverId, senderId}
+    try {
+        const res = await addChat(data)
+        console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+    navigate("/chat")
+  }
+
   return (
     <Link to={`/profile/${user._id}`}>
       <div className={styles.userCard}>
@@ -24,7 +41,7 @@ const UserCard = ({ user }) => {
             <FaUserFriends size="3rem" />
           </span>
           <span>
-            <BiMessageDots size="3rem" />
+            <BiMessageDots onClick={() =>handleAddChat(user._id)} size="3rem" />
           </span>
         </div>
       </div>

@@ -225,7 +225,20 @@ export const deleteCommunity = createAsyncThunk(
 export const communitySlice = createSlice({
   name: "communities",
   initialState,
-  reducers: {},
+  reducers: {
+    nameMaxSort(state) {
+      state.communities = state.communities.sort((a, b) => (a.name > b.name ? 1 : -1));
+    },
+    nameMinSort(state) {
+      state.communities = state.communities.sort((a, b) => (a.name < b.name ? 1 : -1));
+    },
+    membersMaxSort(state) {
+      state.communities = state.communities.sort((a, b) => (a.members < b.members ? 1 : -1));
+    },
+    membersMinSort(state) {
+      state.communities = state.communities.sort((a, b) => (a.members > b.members ? 1 : -1));
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getCommunityById.fulfilled, (state, action) => {
@@ -262,4 +275,6 @@ export const communitySlice = createSlice({
   },
 });
 
+
+export const { nameMaxSort, nameMinSort, membersMaxSort, membersMinSort } = communitySlice.actions;
 export default communitySlice.reducer;
