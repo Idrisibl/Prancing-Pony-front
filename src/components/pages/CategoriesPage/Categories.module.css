@@ -3,10 +3,6 @@
   justify-content: space-between;
 }
 
-.openBtnWrapper {
-  text-align: right;
-}
-
 .openBtn {
   transition: all 0.3s ease;
   transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1) 0s;
@@ -27,7 +23,7 @@
   line-height: 1.5em;
   font-size: 2rem;
   cursor: pointer;
-  padding-right: 40px;
+  padding-left: 40px;
   width: 350px;
 }
 
@@ -69,8 +65,35 @@ li {
   color: #a86d00;
 }
 
-.tasks {
+.wrapper {
   width: 70%;
+}
+
+.search {
+  margin-bottom: 70px;
+  background: url("../../../assets/images/pngwing.png") center center / cover
+    no-repeat;
+  height: 100px;
+  width: 70%;
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  background-size: 120%;
+  box-shadow: 0 0 20px 10px #b57b29;
+}
+
+.search input {
+  outline: 0;
+  border: none;
+  width: 100%;
+  padding: 15px;
+}
+
+.search input::placeholder {
+  font-size: 25px;
+}
+
+.tasks {
   display: flex;
   flex-wrap: wrap;
 }
@@ -82,4 +105,9 @@ li {
 
 .btnShowMoreOff {
   display: none;
+}
+
+.btnWrapper {
+  display: flex;
+  justify-content: center;
 }

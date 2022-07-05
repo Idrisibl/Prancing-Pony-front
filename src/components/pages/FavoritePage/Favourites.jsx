@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAuthUser } from "../../../features/authSlice";
 import LoadPreloader from "../../LoadPreloader";
 import TasksItems from "../../TasksItems";
+import styles from "./Favourites.module.css";
 
 const Favourites = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const Favourites = () => {
   }
 
   return (
-    <div>
+    <div className={styles.favourites}>
       {loading ? (
         <LoadPreloader />
       ) : (

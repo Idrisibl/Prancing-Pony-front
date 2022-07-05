@@ -7,6 +7,14 @@ import {
   removeFromFavourites,
   sendConfirmation,
 } from "../../features/authSlice";
+import {
+  GiArrowScope,
+  GiBottomRight3DArrow,
+  GiBroadheadArrow,
+  GiWingedArrow,
+} from "react-icons/gi";
+import { BsFillBookmarkStarFill, BsFillBookmarkXFill } from "react-icons/bs";
+import { FaCoins } from "react-icons/fa";
 
 const TasksItems = ({ task, favourites }) => {
   const dispatch = useDispatch();
@@ -32,23 +40,44 @@ const TasksItems = ({ task, favourites }) => {
 
   return (
     <>
-      {!favourite ? (
-        <button onClick={handleAddFavourites}>добавить в избранное</button>
-      ) : (
-        <button onClick={handleRemoveFavourite}>удалить</button>
-      )}
       <div className={styles.task}>
+        <div className={styles.bookmark}>
+          {!favourite ? (
+            <BsFillBookmarkStarFill
+              onClick={handleAddFavourites}
+              size="3.5rem"
+              fill="darkRed"
+            />
+          ) : (
+            <BsFillBookmarkXFill
+              size="3.5rem"
+              fill="darkRed"
+              onClick={handleRemoveFavourite}
+            />
+          )}
+        </div>
         <h4>{task.title}</h4>
         <div className={styles.desk}>{task.text}</div>
-        <div>{task.price}$</div>
-        <div>{task.completed}</div>
-        <NavLink to={`/tasks/${task._id}`}>
-          <button>Перейти к заданию</button>
-        </NavLink>
+        <div>
+          <div className={styles.price}>
+            <span>{task.price}</span>
+            <FaCoins
+              style={{ marginLeft: "10px" }}
+              size="1.5rem"
+              fill="yellow"
+            />
+          </div>
+          <div>{task.completed}</div>
+          <div className={styles.transition}>
+            <NavLink className={styles.arrow} to={`/tasks/${task._id}`}>
+              <GiWingedArrow size="3.5rem" fill="darkRed" />
+            </NavLink>
+          </div>
 
-        {visible && (
-          <button onClick={handleChangeConfirmation}>Выполнено</button>
-        )}
+          {visible && (
+            <button onClick={handleChangeConfirmation}>Выполнено</button>
+          )}
+        </div>
       </div>
     </>
   );

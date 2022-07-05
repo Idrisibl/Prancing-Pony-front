@@ -5,10 +5,18 @@
   margin-bottom: 50px;
   background: url("../../assets/images/list-pregament.png") center center /
     contain no-repeat;
-  padding: 70px 45px;
+  padding: 40px 60px 40px 35px;
   cursor: pointer;
   transition: all 0.5s ease;
   font-size: 25px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.task:nth-child(4n) {
+  margin-right: 0;
 }
 
 .task:hover {
@@ -19,12 +27,44 @@
 .task h4 {
   font-size: 30px;
   margin-bottom: 20px;
+  overflow: hidden;
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.bookmark {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  transition: all 0.3s ease;
+}
+
+.bookmark:active {
+  transform: scale(0.94);
 }
 
 .desk {
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  word-break: break-all;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
+}
+
+.transition {
+  text-align: right;
+}
+
+.arrow {
+  margin-top: 15px;
+  display: block;
+  display: inline-block;
+  transition: all 0.5s ease;
+}
+
+.arrow:hover {
+  transform: scale(1.2);
 }

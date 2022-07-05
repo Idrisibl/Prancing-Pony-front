@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../../features/authSlice";
 import styles from "./Signup.module.css";
+import { AiFillEye } from "react-icons/ai";
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -117,81 +118,87 @@ const Signup = () => {
   const disabled = name && lastname && email && password && tel;
 
   return (
-    <div className={styles.signup}>
-      <h1>Регистрация</h1>
-      <form className={styles.form} onSubmit={(e) => addUser(e)}>
-        {error && (
-          <div className={styles.error}>Такой пользователь уже существует</div>
-        )}
-        <div>
-          <input
-            name="name"
-            value={name}
-            type="text"
-            placeholder="Введите ваше имя"
-            onBlur={(e) => handleBlur(e)}
-            onChange={(e) => handleChangeName(e)}
-          />
-          {nameDirty && nameError && (
-            <div className={styles.error}>{nameError}</div>
+    <div className={styles.wrapper}>
+      <div className={styles.signup}>
+        <h1>Регистрация</h1>
+        <form className={styles.form} onSubmit={(e) => addUser(e)}>
+          {error && (
+            <div className={styles.error}>
+              Такой пользователь уже существует
+            </div>
           )}
+          <div className={styles.input}>
+            <input
+              name="name"
+              value={name}
+              type="text"
+              placeholder="Введите ваше имя"
+              onBlur={(e) => handleBlur(e)}
+              onChange={(e) => handleChangeName(e)}
+            />
+            {nameDirty && nameError && (
+              <div className={styles.error}>{nameError}</div>
+            )}
+          </div>
+          <div className={styles.input}>
+            <input
+              name="Lastname"
+              type="text"
+              value={lastname}
+              placeholder="Введите вашу фамилию"
+              onBlur={(e) => handleBlur(e)}
+              onChange={(e) => handleChangeLastname(e)}
+            />
+            {LastnameDirty && LastnameError && (
+              <div className={styles.error}>{LastnameError}</div>
+            )}
+          </div>
+          <div className={styles.input}>
+            <InputMask
+              mask="+7 (999) 999 9999"
+              value={tel}
+              type="tel"
+              placeholder="Телефон"
+              onBlur={(e) => handleBlur(e)}
+              onChange={(e) => handleChangeTel(e)}
+            ></InputMask>
+          </div>
+          <div className={styles.input}>
+            <input
+              name="email"
+              value={email}
+              type="email"
+              placeholder="name@example.com"
+              onBlur={(e) => handleBlur(e)}
+              onChange={(e) => handleChangeEmail(e)}
+            />
+            {emailDirty && emailError && (
+              <div className={styles.error}>{emailError}</div>
+            )}
+          </div>
+          <div className={`${styles.input} ${styles.password}`}>
+            <input
+              name="password"
+              value={password}
+              type={visible ? "text" : "password"}
+              placeholder="Пароль"
+              onBlur={(e) => handleBlur(e)}
+              onChange={(e) => handleChangePassword(e)}
+            />
+            {passwordDirty && passwordError && (
+              <div className={styles.error}>{passwordError}</div>
+            )}
+            <span className={styles.eye} onClick={() => setVisible(!visible)}>
+              <AiFillEye />
+            </span>
+          </div>
+          <button disabled={!disabled}>Регистрация</button>
+        </form>
+        <div className={styles.signinLink}>
+          <span>
+            Уже есть аккаунт? <Link to="/signin">Войти</Link>
+          </span>
         </div>
-        <div>
-          <input
-            name="Lastname"
-            type="text"
-            value={lastname}
-            placeholder="Введите вашу фамилию"
-            onBlur={(e) => handleBlur(e)}
-            onChange={(e) => handleChangeLastname(e)}
-          />
-          {LastnameDirty && LastnameError && (
-            <div className={styles.error}>{LastnameError}</div>
-          )}
-        </div>
-        <div>
-          <InputMask
-            mask="+7 (999) 999 9999"
-            value={tel}
-            type="tel"
-            placeholder="Телефон"
-            onBlur={(e) => handleBlur(e)}
-            onChange={(e) => handleChangeTel(e)}
-          ></InputMask>
-        </div>
-        <div>
-          <input
-            name="email"
-            value={email}
-            type="email"
-            placeholder="name@example.com"
-            onBlur={(e) => handleBlur(e)}
-            onChange={(e) => handleChangeEmail(e)}
-          />
-          {emailDirty && emailError && (
-            <div className={styles.error}>{emailError}</div>
-          )}
-        </div>
-        <div className={styles.password}>
-          <input
-            name="password"
-            value={password}
-            type={visible ? "text" : "password"}
-            placeholder="Пароль"
-            onBlur={(e) => handleBlur(e)}
-            onChange={(e) => handleChangePassword(e)}
-          />
-          {passwordDirty && passwordError && (
-            <div className={styles.error}>{passwordError}</div>
-          )}
-          <span onClick={() => setVisible(!visible)}>👁</span>
-        </div>
-        <button disabled={!disabled}>Регистрация</button>
-      </form>
-      <div className={styles.signinLink}>
-        <span>
-          Уже есть аккаунт? <Link to="/signin">Войти</Link>
-        </span>
       </div>
     </div>
   );
