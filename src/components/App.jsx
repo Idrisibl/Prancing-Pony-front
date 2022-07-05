@@ -19,6 +19,7 @@ import Blacklist from "./Blacklist";
 import Profile from "./Profile";
 import ConfirmPage from "./pages/ConfirmPage";
 import FavoritePage from "./pages/FavoritePage";
+import Chat from "./chat/Chat";
 
 const App = () => {
   const token = useSelector((state) => state.auth.token);
@@ -42,11 +43,12 @@ const App = () => {
             <Route path="/profile/:id/friends" element={<Friends />} />
             <Route path="/profile/:id/blacklist" element={<Blacklist />} />
           </Route>
+          <Route path="/chat" element={<Chat />} />
           <Route path="/users" element={<AllUsersPage />} />
           <Route path="/communities" element={<AllCommunities />} />
           <Route path="/communities/:id" element={<CommunityById />} />
           <Route path="/tasks/:id" element={<Task />} />
-          <Route path="/confirms/:id" element={<ConfirmPage />} />
+          <Route path="/confirmations/:id" element={<ConfirmPage />} />
           <Route path="/favorites/:id" element={<FavoritePage />} />
         </Route>
       </Routes>

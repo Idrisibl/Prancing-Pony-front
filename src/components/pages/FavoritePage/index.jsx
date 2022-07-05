@@ -1,11 +1,13 @@
-import React from 'react';
+import React from "react";
+import Favourites from "./Favourites";
 
 const FavoritePage = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  return (
+    <>
+      <h1>Избранное</h1>
+      <Favourites />
+    </>
+  );
 };
 
 export default FavoritePage;

@@ -124,7 +124,6 @@ export const getTasksForUser = createAsyncThunk(
   "tasks/getTasksForUser",
   async (id, thunkAPI) => {
     try {
-      console.log(id);
       const res = await fetch(`http://localhost:3042/tasks/user/${id}`);
       const task = await res.json();
       return task;

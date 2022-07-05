@@ -6,7 +6,7 @@ const Members = ({members, founder, community}) => {
     // const deleteHander = () => {
     //     dispatch(deleteUser({members, community }))
     // }
-    
+
     return (<div className="container">
         <img  src={`http://localhost:3042/${members.avatar}`} alt="" />
      <div>

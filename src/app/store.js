@@ -7,6 +7,8 @@ import communityReducer from "../features/communitySlice";
 import newsReducer from "../features/newsSlice";
 import reviewsReducer from "../features/reviewsSlice";
 import responseReducer from "../features/responseSlice";
+import roomSlice from "../features/roomSlice";
+import  messageSlice  from "../features/messageSlice";
 
 export const store = configureStore({
   reducer: {
@@ -17,5 +19,7 @@ export const store = configureStore({
     newsReducer,
     reviewsReducer,
     responseReducer,
+    room: roomSlice,
+    message: messageSlice
   },
 });

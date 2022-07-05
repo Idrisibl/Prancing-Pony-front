@@ -31,7 +31,6 @@ export const addCommunity = createAsyncThunk(
       formData.append("name", data.name);
       formData.append("description", data.description);
       formData.append("emblem", data.emblem);
-      console.log(data.emblem);
       const state = thunkAPI.getState();
       const res = await fetch("http://localhost:3042/communities", {
         method: "POST",
@@ -41,7 +40,6 @@ export const addCommunity = createAsyncThunk(
         },
         // с бэка эмблема пустая, по дефолту стоит эмблема
       });
-      console.log(res);
       data.callback();
       return await res.json();
     } catch (e) {
@@ -69,7 +67,6 @@ export const leaveRequest = createAsyncThunk(
   async ({ id, userId, callback }, thunkAPI) => {
     try {
       const state = thunkAPI.getState();
-      console.log(userId);
       const res = await fetch(
         `http://localhost:3042/communities/request/${id}`,
         {
@@ -93,9 +90,7 @@ export const addMember = createAsyncThunk(
   "communities/addMember",
   async ({ communityId, requests, getCommunityById }, thunkAPI) => {
     try {
-      console.log(communityId);
       const state = thunkAPI.getState();
-      console.log(requests);
       const res = await fetch(
         `http://localhost:3042/communities/member/${communityId}`,
         {
@@ -119,8 +114,6 @@ export const deleteFromRequest = createAsyncThunk(
   "communities/deleteFromRequest",
   async ({ communityId, requests, getCommunityById }, thunkAPI) => {
     try {
-      const state = thunkAPI.getState();
-      console.log(requests, 777);
       const res = await fetch(
         `http://localhost:3042/communities/clean/request/${communityId}`,
         {
