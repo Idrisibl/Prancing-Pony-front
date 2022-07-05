@@ -34,3 +34,8 @@
 .search input::placeholder {
   font-size: 25px;
 }
+
+.btnWrapper {
+  display: flex;
+  justify-content: center;
+}

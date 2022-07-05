@@ -141,17 +141,19 @@ const AllCommunities = () => {
               );
             })}
       </div>
-      <button
-        className={
-          communities.length === communities.slice(0, visible).length ||
-          value.length !== 0
-            ? button.btnShowMoreOff
-            : button.btnShowMore
-        }
-        onClick={showMoreItems}
-      >
-        Показать еще
-      </button>
+      <div className={styles.btnWrapper}>
+        <button
+          className={
+            communities.length === communities.slice(0, visible).length ||
+            value.length !== 0
+              ? button.btnShowMoreOff
+              : button.btnShowMore
+          }
+          onClick={showMoreItems}
+        >
+          Показать еще
+        </button>
+      </div>
     </div>
   );
 };

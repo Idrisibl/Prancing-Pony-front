@@ -106,3 +106,8 @@ li {
 .btnShowMoreOff {
   display: none;
 }
+
+.btnWrapper {
+  display: flex;
+  justify-content: center;
+}

@@ -89,3 +89,8 @@
 .btn div:first-child {
   margin-right: 20px;
 }
+
+.btnWrapper {
+  display: flex;
+  justify-content: center;
+}

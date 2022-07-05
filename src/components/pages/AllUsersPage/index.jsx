@@ -65,17 +65,19 @@ const AllUsersPage = () => {
           {users.slice(0, visible).map((user) => (
             <UserCard key={user._id} user={user} friends={friends} />
           ))}{" "}
-          <button
-            className={
-              users.length === users.slice(0, visible).length ||
-              value.length !== 0
-                ? button.btnShowMoreOff
-                : button.btnShowMore
-            }
-            onClick={showMoreItems}
-          >
-            Показать еще
-          </button>
+          <div className={styles.btnWrapper}>
+            <button
+              className={
+                users.length === users.slice(0, visible).length ||
+                value.length !== 0
+                  ? button.btnShowMoreOff
+                  : button.btnShowMore
+              }
+              onClick={showMoreItems}
+            >
+              Показать еще
+            </button>
+          </div>
         </div>
       )}
     </div>
