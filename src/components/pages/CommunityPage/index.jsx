@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAllNews } from "../../../features/newsSlice";
 import {
+  addRating,
   deleteCommunity,
   editCommunity,
   editEmblem,
@@ -25,7 +26,6 @@ const CommunityById = () => {
 
   const communityNews = news.filter((elem) => elem.community === id);
 
-
   const community = useSelector(
     (state) => state.communityReducer.comunnityById
   );
@@ -36,8 +36,8 @@ const CommunityById = () => {
   const [isNews, setIsNews] = useState(true);
   const [isMember, setIsMember] = useState(false);
   const [requests, setRequests] = useState(false);
-  const [editProfile, setEditProfile] = useState(false)
-  
+  const [editProfile, setEditProfile] = useState(false);
+
   const newsHandler = () => {
     setIsNews(true);
     setIsMember(false);
@@ -57,6 +57,7 @@ const CommunityById = () => {
   useEffect(() => {
     getNews();
     dispatch(getCommunityById(id));
+    dispatch(addRating({ rating, id }));
   }, [dispatch, id]);
 
   const deleteCommunityHandler = (id) => {
@@ -71,61 +72,68 @@ const CommunityById = () => {
   const getNews = () => {
     dispatch(getAllNews());
   };
-  
+
   if (!community || !news) {
     return "no com";
   }
+  const membersRating = community.members.map((member) => member.rating);
 
-  // console.log(community.members);
-  
-  // const rating = Math.floor(
-  //   community.reduce((sum, item) => {
-  //     return sum + item.members.rating;
-  //   }, 0)
-  // );
+  const rating = Math.floor(
+    membersRating.reduce((sum, item) => {
+      return sum + item;
+    }, 0)
+  );
+  console.log(rating);
 
   return (
     <div className={styles.community}>
-      {communityLoading &&<LoadPreloader/>}
+      {communityLoading && <LoadPreloader />}
       {community.founder._id === userId._id ? (
         <button onClick={() => setCreateNews(true)}>Добавить новости</button>
-        ) : (
-          ""
-          )}
+      ) : (
+        ""
+      )}
 
       {createNews && (
         <CreateNews
-        setCreateNews={() => setCreateNews(false)}
-        communityId={community}
+          setCreateNews={() => setCreateNews(false)}
+          communityId={community}
         />
-        )}
+      )}
       {community.founder._id === userId._id ? (
         <button onClick={() => deleteCommunityHandler(community._id)}>x</button>
-        ) : (
-          ""
-          )}
+      ) : (
+        ""
+      )}
 
       <div className={styles.header}>
         <div className={styles.pic}>
           <img
             src={`http://localhost:3042/public/${community.emblem} `}
             alt=""
-            />
-          {community.founder._id === userId._id  && (
+          />
+          {community.founder._id === userId._id && (
             <input
-            type="file"
-            id="upload"
-            
-            accept="image/*"
-            onChange={(e) => {
-              handleUpdateAvatar(e.target.files[0]);
-            }}
+              type="file"
+              id="upload"
+              accept="image/*"
+              onChange={(e) => {
+                handleUpdateAvatar(e.target.files[0]);
+              }}
             />
-            )}
+          )}
         </div>
-        {community.founder._id === userId._id && <button onClick={() => setEditProfile(true)}>Изменить</button> }
-        {editProfile && <EditProfileCommunity community={community} setEditProfile={setEditProfile} getCommunityById={getCommunityById}/>}
-        
+        {community.founder._id === userId._id && (
+          <button onClick={() => setEditProfile(true)}>Изменить</button>
+        )}
+        {editProfile && (
+          <EditProfileCommunity
+            community={community}
+            setEditProfile={setEditProfile}
+            getCommunityById={getCommunityById}
+          />
+        )}
+
         <div className={styles.info}>
           <div>Название: {community.name}</div>
           <div>Учасники: {community.members.length}</div>
@@ -136,7 +144,7 @@ const CommunityById = () => {
               className={styles.image}
               src={`http://localhost:3042/public/${community.founder.avatar}`}
               alt=""
-              />
+            />
             <div>Основатель: {community.founder.name}</div>
           </div>
         </div>
@@ -149,14 +157,21 @@ const CommunityById = () => {
       <div>
         {isMember &&
           community.members.map((elem) => {
-            return <Members members={elem} key={elem._id}/>;
+            return (
+              <Members
+                members={elem}
+                key={elem._id}
+                founder={community.founder}
+                community={community}
+              />
+            );
           })}
 
         {isNews &&
           communityNews.map((news) => {
             return (
               <News
-              key={news._id}
+                key={news._id}
                 idNews={news._id}
                 news={news}
                 communityFounderId={community.founder._id}
@@ -169,7 +184,7 @@ const CommunityById = () => {
           community.requests.map((elem) => {
             return (
               <Requests
-               key={elem._id}
+                key={elem._id}
                 communityId={community._id}
                 requests={elem}
                 communityFounderId={community.founder._id}
