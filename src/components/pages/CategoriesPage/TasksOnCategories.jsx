@@ -33,10 +33,14 @@ const TasksOnCategories = () => {
   }
 
   return (
-    <>
+    <div className={styles.wrapper}>
       {loading && <LoadPreloader />}
-      <div>
-        <input type="text" onChange={(event) => setValue(event.target.value)} />
+      <div className={styles.search}>
+        <input
+          type="text"
+          placeholder="Поиск заданий"
+          onChange={(event) => setValue(event.target.value)}
+        />
       </div>
       {value ? (
         <div className={styles.tasks}>
@@ -60,20 +64,22 @@ const TasksOnCategories = () => {
           {tasks.slice(0, visible).map((item) => (
             <TasksItems key={item._id} task={item} />
           ))}{" "}
-          <button
-            className={
-              tasks.length === tasks.slice(0, visible).length ||
-              value.length !== 0
-                ? styles.btnShowMoreOff
-                : styles.btnShowMore
-            }
-            onClick={showMoreItems}
-          >
-            Показать еще
-          </button>
+          <div className={styles.btnWrapper}>
+            <button
+              className={
+                tasks.length === tasks.slice(0, visible).length ||
+                value.length !== 0
+                  ? styles.btnShowMoreOff
+                  : styles.btnShowMore
+              }
+              onClick={showMoreItems}
+            >
+              Показать еще
+            </button>
+          </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

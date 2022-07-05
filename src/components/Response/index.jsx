@@ -8,6 +8,7 @@ import {
   sendResponse,
 } from "../../features/responseSlice";
 import { changeAviability, getTaskById } from "../../features/tasksSlice";
+import { AiFillCheckSquare } from "react-icons/ai";
 import LoadPreloader from "../LoadPreloader";
 import styles from "./Response.module.css";
 
@@ -45,9 +46,9 @@ const Response = ({ task }) => {
     <>
       {task.user._id !== authUser._id && (
         <>
-          <h2>Отправить отклик:</h2>
-          <form onSubmit={(e) => handleTake(e)}>
-            <input
+          <h2 className={styles.title}>Отправить отклик:</h2>
+          <form className={styles.form} onSubmit={(e) => handleTake(e)}>
+            <textarea
               type="text"
               value={text}
               onChange={(e) => setText(e.target.value)}
@@ -56,12 +57,12 @@ const Response = ({ task }) => {
           </form>
         </>
       )}
-      <div>
+      <div className={styles.wrapper}>
         <h2>Отклики:</h2>
         {loading && <LoadPreloader />}
         {responses.map((response) => {
           return (
-            <div key={response._id}>
+            <div className={styles.responses} key={response._id}>
               <div className={styles.header}>
                 <div className={styles.image}>
                   <Link to={`/profile/${response.user._id}`}>
@@ -82,11 +83,18 @@ const Response = ({ task }) => {
                   </div>
                 </div>
               </div>
-              <div>{response.text}</div>
+              <div className={styles.text}>{response.text}</div>
               {!user && (
-                <button onClick={() => handleConfirm(response.user._id)}>
-                  Принять
-                </button>
+                <div className={styles.req}>
+                  <AiFillCheckSquare
+                  className={styles.check}
+                    onClick={() => handleConfirm(response.user._id)}
+                    size="3rem"
+                    fill="green"
+                    cursor="pointer"
+                  />
+                  <span>Принять заявку</span>
+                </div>
               )}
             </div>
           );

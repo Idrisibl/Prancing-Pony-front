@@ -41,63 +41,55 @@ const Confirmation = () => {
   }
 
   return (
-    <div>
+    <div className={styles.content}>
       <h1>Подтверждения</h1>
-      <div>
-        {loading ? (
-          <LoadPreloader />
-        ) : (
-          authUser.confirmation.map((confirmation) => (
-            <div className={styles.confirmation} key={confirmation._id}>
-              <div>
-                <Link to={`/profile/${confirmation.user._id}`}>
-                  <img
-                    src={`http://localhost:3042/${confirmation.user?.avatar}`}
-                    alt="avatar"
-                  />
-                </Link>
-              </div>
-              <div>
-                <div>
-                  <span>{confirmation.user.name} </span>
-                  <span>{confirmation.user.lastname}</span>
-                </div>
-                <div>
-                  <span>Очки: {confirmation.user.rating} </span>
-                  <span>Ранг: {confirmation.user.rating} </span>
-                </div>
-              </div>
-              <div>
-                <span>{confirmation.task.title}</span>
-              </div>
-              <div>
-                <button
-                  onClick={() =>
-                    handleAccept(
-                      confirmation.user._id,
-                      confirmation.task._id,
-                      confirmation._id
-                    )
-                  }
-                >
-                  Подтвердить
-                </button>
-                <button
-                  onClick={() =>
-                    handleReject(
-                      confirmation.user._id,
-                      confirmation.task._id,
-                      confirmation._id
-                    )
-                  }
-                >
-                  Отклонить
-                </button>
-              </div>
+      {loading ? (
+        <LoadPreloader />
+      ) : (
+        authUser.confirmation.map((confirmation) => (
+          <div className={styles.confirmation} key={confirmation._id}>
+            <div className={styles.image}>
+              <Link to={`/profile/${confirmation.user._id}`}>
+                <img
+                  src={`http://localhost:3042/${confirmation.user?.avatar}`}
+                  alt="avatar"
+                />
+              </Link>
             </div>
-          ))
-        )}
-      </div>
+            <div className={styles.name}>
+              <span>{confirmation.user.name} </span>
+              <span>{confirmation.user.lastname}</span>
+            </div>
+            <div>
+              <span>{confirmation.task.title}</span>
+            </div>
+            <div>
+              <button
+                onClick={() =>
+                  handleAccept(
+                    confirmation.user._id,
+                    confirmation.task._id,
+                    confirmation._id
+                  )
+                }
+              >
+                Подтвердить
+              </button>
+              <button
+                onClick={() =>
+                  handleReject(
+                    confirmation.user._id,
+                    confirmation.task._id,
+                    confirmation._id
+                  )
+                }
+              >
+                Отклонить
+              </button>
+            </div>
+          </div>
+        ))
+      )}
     </div>
   );
 };

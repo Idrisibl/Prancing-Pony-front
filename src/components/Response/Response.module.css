@@ -1,6 +1,44 @@
+.title {
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  margin-bottom: 30px;
+  align-items: flex-start;
+}
+
+.form textarea {
+  width: 500px;
+  outline: 0;
+  padding: 15px;
+  border: none;
+  margin-right: 20px;
+  font-size: 20px;
+}
+
+.form button {
+  border: none;
+  padding: 10px 20px;
+}
+
+.wrapper {
+  overflow-y: auto;
+  height: 800px;
+}
+
+.wrapper h2 {
+  margin-bottom: 30px;
+}
+
+.responses {
+  margin-bottom: 30px;
+}
+
 .header {
   display: flex;
   align-items: center;
+  margin-bottom: 30px;
 }
 
 .image {
@@ -14,4 +52,25 @@
 .image img {
   width: 100%;
   height: 100%;
+}
+
+.text {
+  margin-bottom: 20px;
+}
+
+.req {
+  display: flex;
+  align-items: center;
+}
+
+.req span {
+  margin-left: 10px;
+}
+
+.check {
+  transition: all 0.3s ease;
+}
+
+.check:hover {
+  transform: scale(1.2);
 }

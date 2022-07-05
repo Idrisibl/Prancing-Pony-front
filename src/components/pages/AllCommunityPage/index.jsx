@@ -1,19 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   getAllCommunities,
   leaveRequest,
 } from "../../../features/communitySlice";
 import CreateCommunity from "../CreateCommunity";
 import styles from "./AllCommunity.module.css";
-import {
-  nameMaxSort,
-  nameMinSort,
-  membersMaxSort,
-  membersMinSort,
-} from "../../../features/communitySlice";
 import button from "../CategoriesPage/Categories.module.css";
+import SortCommunities from "../../SortPrice/SortCommunities";
 
 const AllCommunities = () => {
   const dispatch = useDispatch();
@@ -45,44 +40,26 @@ const AllCommunities = () => {
   /////////////////////////
   const userId = useSelector((state) => state.auth.authUser);
 
-  const findRequest = communities.filter((com)=> com.requests.find(requst => requst._id === userId._id))
-  
+  const findRequest = communities.filter((com) =>
+    com.requests.find((requst) => requst._id === userId._id)
+  );
 
   const requestsHandler = (id) => {
     dispatch(leaveRequest({ id, userId, callback: getAll }));
   };
 
-  const nameSortMax = () => {
-    dispatch(nameMaxSort());
-  };
-
-  const nameSortMin = () => {
-    dispatch(nameMinSort());
-  };
-  const membersSortMax = () => {
-    dispatch(membersMaxSort());
-  };
-
-  const membersSortMin = () => {
-    dispatch(membersMinSort());
-  };
-
   return (
-    <>
-      <div>
-        Упорядочить по алфавиту
-        <button onClick={nameSortMax}>А-Я</button>
-        <button onClick={nameSortMin}>Я-А</button>
-      </div>
-      <div>
-        Упорядочить по количеству участников
-        <button onClick={membersSortMax}>Больше</button>
-        <button onClick={membersSortMin}>Меньше</button>
+    <div className={styles.content}>
+      <h1>Сообщества</h1>
+      <div className={styles.search}>
+        <input
+          placeholder="Поиск сообществ..."
+          type="text"
+          onChange={(event) => setValue(event.target.value)}
+        />
       </div>
 
-      <div>
-        <input type="text" onChange={(event) => setValue(event.target.value)} />
-      </div>
+      <SortCommunities />
 
       <div className={styles.communities}>
         <button onClick={() => setIsCreated(true)}>Добавить</button>
@@ -131,7 +108,10 @@ const AllCommunities = () => {
               return (
                 <div key={elem._id} className={styles.community}>
                   <div className={styles.emblem}>
-                    <img src={`http://localhost:3042/public/${elem.emblem}`} alt="" />
+                    <img
+                      src={`http://localhost:3042/public/${elem.emblem}`}
+                      alt=""
+                    />
                   </div>
                   <div className={styles.name}>{elem.name}</div>
                   <div className={styles.members}>
@@ -161,18 +141,20 @@ const AllCommunities = () => {
               );
             })}
       </div>
-      <button
-        className={
-          communities.length === communities.slice(0, visible).length ||
-          value.length !== 0
-            ? button.btnShowMoreOff
-            : button.btnShowMore
-        }
-        onClick={showMoreItems}
-      >
-        Показать еще
-      </button>
-    </>
+      <div className={styles.btnWrapper}>
+        <button
+          className={
+            communities.length === communities.slice(0, visible).length ||
+            value.length !== 0
+              ? button.btnShowMoreOff
+              : button.btnShowMore
+          }
+          onClick={showMoreItems}
+        >
+          Показать еще
+        </button>
+      </div>
+    </div>
   );
 };
 

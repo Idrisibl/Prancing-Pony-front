@@ -1,7 +1,50 @@
 .content {
-    color: white;
+  background: url("../../../assets/images/paper_sheet_PNG7231.png") top center /
+    cover no-repeat;
+  min-height: 1600px;
+  object-fit: cover;
+  width: 80%;
+  margin: auto;
+  padding: 100px;
+  font-size: 25px;
 }
-.inputText{
-    max-height: 200px;
-    
+
+.title {
+  margin-top: 20px;
+}
+
+.title,
+.category,
+.desc,
+.price,
+.name {
+  margin-bottom: 30px;
+}
+
+.desc p {
+  word-break: break-all;
+  padding: 20px;
+  width: 80%;
+  min-height: 200px;
+  border: 5px solid rgb(199, 152, 0);
+  border-radius: 15px;
+}
+
+.desc h2 {
+  margin-bottom: 20px;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  font-size: 30px;
+}
+
+.price span,
+strong {
+  margin-right: 10px;
+}
+
+.btn {
+  margin-bottom: 20px;
 }
