@@ -1,3 +1,43 @@
 .news {
   margin-bottom: 50px;
+  position: relative;
+  font-size: 30px;
+}
+
+.removeBtn {
+  position: absolute;
+  right: 0;
+}
+
+.removeBtn button {
+  background: transparent;
+  color: red;
+  font-weight: bold;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.title,
+.text {
+  margin-bottom: 20px;
+}
+
+.image img {
+  width: 100%;
+}
+
+.likes {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+  margin-left: 30px;
+}
+
+.likes span {
+  margin-left: 20px;
 }

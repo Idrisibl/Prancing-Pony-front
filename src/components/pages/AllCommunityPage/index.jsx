@@ -48,6 +48,10 @@ const AllCommunities = () => {
     dispatch(leaveRequest({ id, userId, callback: getAll }));
   };
 
+  const handleTransition = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <div className={styles.content}>
       <h1>Сообщества</h1>
@@ -58,12 +62,15 @@ const AllCommunities = () => {
           onChange={(event) => setValue(event.target.value)}
         />
       </div>
+      <div className={styles.btns}>
+        <button className={styles.addBtn} onClick={() => setIsCreated(true)}>
+          Создать
+        </button>
 
-      <SortCommunities />
+        <SortCommunities />
+      </div>
 
       <div className={styles.communities}>
-        <button onClick={() => setIsCreated(true)}>Добавить</button>
-
         {isCreated && (
           <CreateCommunity setIsCreated={() => setIsCreated(false)} />
         )}
@@ -119,7 +126,12 @@ const AllCommunities = () => {
                   </div>
                   <div className={styles.btn}>
                     <div>
-                      <Link to={`/communities/${elem._id}`}>Перейти</Link>
+                      <Link
+                        onClick={handleTransition}
+                        to={`/communities/${elem._id}`}
+                      >
+                        Перейти
+                      </Link>
                     </div>
                     <div>
                       {userId._id !== elem.founder._id ? (

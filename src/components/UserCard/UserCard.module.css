@@ -1,7 +1,6 @@
 .userCard {
   padding: 40px 20%;
   display: flex;
-  justify-content: space-between;
   height: 300px;
   background: url("../../assets/images/svitok1.png") center center / contain
     no-repeat;
@@ -9,7 +8,7 @@
   transition: all 0.5s ease-in-out;
   cursor: pointer;
   font-size: 30px;
-  align-items: center
+  align-items: center;
 }
 
 .userCard:hover {
@@ -29,22 +28,19 @@
   height: 100%;
 }
 
-.data {
-    flex: 1;
+.data,
+.rating {
+  margin-right: 30px;
 }
 
 .data span:first-child {
-    margin-right: 10px;
-}
-
-.rating {
-    width: 20%;
+  margin-right: 10px;
 }
 
 .rating span:first-child {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .btn span:first-child {
-    margin-right: 20px;
+  margin-right: 20px;
 }

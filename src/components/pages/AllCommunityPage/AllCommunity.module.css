@@ -94,3 +94,41 @@
   display: flex;
   justify-content: center;
 }
+
+.btns {
+  width: 80%;
+  margin: auto;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.addBtn {
+  color: #f8b700;
+  transition: all 0.3s ease;
+  transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1) 0s;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: -webkit-linear-gradient(
+    top,
+    #efd100,
+    #e2a233 19%,
+    #f0c328 30%,
+    #fff1a3 43%,
+    #ffe13e 50%,
+    #fff 51%,
+    #fff
+  );
+  background-size: 1em 2.5em;
+  display: inline-block;
+  line-height: 1.5em;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.addBtn:hover {
+  color: #fff;
+  background-position: center 100%;
+}
