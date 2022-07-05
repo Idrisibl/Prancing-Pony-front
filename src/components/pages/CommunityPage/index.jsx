@@ -16,6 +16,7 @@ import CreateNews from "../CreateNews";
 import Requests from "../../Request";
 import EditProfileCommunity from "../../EditProfileCommunity";
 import LoadPreloader from "../../LoadPreloader";
+import { FaRegEdit } from "react-icons/fa";
 
 const CommunityById = () => {
   const dispatch = useDispatch();
@@ -54,12 +55,6 @@ const CommunityById = () => {
     setIsMember(false);
   };
 
-  useEffect(() => {
-    getNews();
-    dispatch(getCommunityById(id));
-    dispatch(addRating({ rating, id }));
-  }, [dispatch, id]);
-
   const deleteCommunityHandler = (id) => {
     dispatch(deleteCommunity(id)).then(() => {
       navigate("/communities");
@@ -73,17 +68,14 @@ const CommunityById = () => {
     dispatch(getAllNews());
   };
 
+  useEffect(() => {
+    getNews();
+    dispatch(getCommunityById(id));
+  }, [dispatch, id]);
+
   if (!community || !news) {
     return "no com";
   }
-  const membersRating = community.members.map((member) => member.rating);
-
-  const rating = Math.floor(
-    membersRating.reduce((sum, item) => {
-      return sum + item;
-    }, 0)
-  );
-  console.log(rating);
 
   return (
     <div className={styles.community}>
@@ -113,19 +105,21 @@ const CommunityById = () => {
             alt=""
           />
           {community.founder._id === userId._id && (
-            <input
-              type="file"
-              id="upload"
-              accept="image/*"
-              onChange={(e) => {
-                handleUpdateAvatar(e.target.files[0]);
-              }}
-            />
+            <div className={styles.editor}>
+              <input
+                type="file"
+                id="upload"
+                accept="image/*"
+                onChange={(e) => {
+                  handleUpdateAvatar(e.target.files[0]);
+                }}
+              />
+              <label htmlFor="upload">
+                <FaRegEdit size="3rem" />
+              </label>
+            </div>
           )}
         </div>
-        {community.founder._id === userId._id && (
-          <button onClick={() => setEditProfile(true)}>Изменить</button>
-        )}
         {editProfile && (
           <EditProfileCommunity
             community={community}
@@ -135,17 +129,35 @@ const CommunityById = () => {
         )}
 
         <div className={styles.info}>
-          <div>Название: {community.name}</div>
-          <div>Учасники: {community.members.length}</div>
-          <div>Рейтинг: {community.rating}</div>
-          <div>Описание: {community.description}</div>
-          <div className="founder">
+          <div className={styles.title}>
+            <strong>Название:</strong>
+            <span>{community.name} </span>
+            {community.founder._id === userId._id && (
+              <FaRegEdit
+                onClick={() => setEditProfile(true)}
+                cursor="pointer"
+                size="2.5rem"
+                fill="rgba(0, 0, 0, 0.5)"
+              />
+            )}
+          </div>
+          <div className={styles.members}>
+            <strong>Участники: </strong>
+            <span>{community.members.length}</span>
+          </div>
+
+          <div className={styles.desc}>
+            <strong>Описание: </strong>
+            <span>{community.description}</span>
+          </div>
+          <div className={styles.founder}>
             <img
               className={styles.image}
-              src={`http://localhost:3042/public/${community.founder.avatar}`}
+              src={`http://localhost:3042/${community.founder.avatar}`}
               alt=""
             />
-            <div>Основатель: {community.founder.name}</div>
+            <span>{community.founder.name} </span>
+            <span>{community.founder.lastname}</span>
           </div>
         </div>
       </div>

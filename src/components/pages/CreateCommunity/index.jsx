@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { GiCheckMark } from "react-icons/gi";
 import { useDispatch } from "react-redux";
 import {
   addCommunity,
   editEmblem,
   getAllCommunities,
 } from "../../../features/communitySlice";
+import styles from "../../AddTaskModal/Modal.module.css";
 
 const CreateCommunity = ({ setIsCreated }) => {
   const dispatch = useDispatch();
@@ -49,32 +51,41 @@ const CreateCommunity = ({ setIsCreated }) => {
     dispatch(editEmblem({ file }));
   };
 
-
   return (
-    <div>
-      <button onClick={() => setIsCreated(false)}>x</button>
-      <form onSubmit={submitHandler}>
-        <input
-          type="file"
-          id="upload"
-          accept="image/*"
-          onChange={uploadHandler}
-        />
-        <input
-          type="text"
-          value={name}
-          onChange={textHandler}
-          placeholder="name"
-        />
-        <input
-          type="text"
-          value={description}
-          onChange={descriptionHandler}
-          placeholder="descr"
-        />
+    <div className={styles.wrapper}>
+      <div className={styles.modalWrapper}>
+        <div className={styles.modal}>
+          <div className={styles.close}>
+            <button onClick={() => setIsCreated(false)}>X</button>
+          </div>
+          <form onSubmit={submitHandler}>
+            <input
+              type="file"
+              id="upload"
+              accept="image/*"
+              onChange={uploadHandler}
+            />
+            <input
+              type="text"
+              value={name}
+              onChange={textHandler}
+              placeholder="Название"
+            />
+            <input
+              type="text"
+              value={description}
+              onChange={descriptionHandler}
+              placeholder="Описание..."
+            />
 
-        <button type="submit">submit</button>
-      </form>
+            <div className={styles.addBtn}>
+              <button type="submit">
+                <GiCheckMark size="3rem" fill="green" />
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
