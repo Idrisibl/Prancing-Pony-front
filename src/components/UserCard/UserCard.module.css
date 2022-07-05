@@ -44,3 +44,11 @@
 .btn span:first-child {
   margin-right: 20px;
 }
+
+.rangWrapper {
+  display: flex;
+}
+
+.rangsIconWrapper {
+  width: 40px;
+}

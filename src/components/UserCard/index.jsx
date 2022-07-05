@@ -12,6 +12,7 @@ import {
   removeFromFriends,
 } from "../../features/authSlice";
 import LoadPreloader from "../LoadPreloader";
+import Rangs from "../Rangs";
 
 const UserCard = ({ user, friends }) => {
   const senderId = useSelector((state) => state.auth.id);
@@ -60,8 +61,14 @@ const UserCard = ({ user, friends }) => {
           <span>{user.lastname}</span>
         </div>
         <div className={styles.rating}>
-          <span>{user.rating}</span>
-          <span>Ранг</span>
+          <span>Очки:{user.rating}</span>
+          {``}
+          <div className={styles.rangWrapper}>
+            <div>Ранг:</div>
+            <div className={styles.rangsIconWrapper}>
+              <Rangs user={user} />
+            </div>
+          </div>
         </div>
         <div className={styles.btn}>
           <span>

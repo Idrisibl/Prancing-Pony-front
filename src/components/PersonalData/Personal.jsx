@@ -5,6 +5,7 @@ import { GiSwapBag } from "react-icons/gi";
 import { MdEmail } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { editAvatar } from "../../features/authSlice";
+import Rangs from "../Rangs";
 import styles from "./PersonalData.module.css";
 
 const Personal = ({ candidate, user, setOpened }) => {
@@ -55,7 +56,7 @@ const Personal = ({ candidate, user, setOpened }) => {
         <div className={styles.rank}>
           <div>
             <strong>Ранг:</strong>
-            <img src="" alt="witcher" />
+            <Rangs user={user}/>
           </div>
           <div>
             <strong>Очки:</strong>

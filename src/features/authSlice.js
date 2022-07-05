@@ -781,6 +781,7 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(addToFriends.pending, (state, action) => {
+
         state.loading = true;
       })
       .addCase(addToFriends.fulfilled, (state, action) => {
