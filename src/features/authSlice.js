@@ -439,24 +439,21 @@ export const removeFromBag = createAsyncThunk(
 
 export const addToFavourites = createAsyncThunk(
   "auth/addToFavourites",
-  async ({taskId}, thunkAPI) => {
+  async ({ taskId }, thunkAPI) => {
     try {
-      const state = thunkAPI.getState()
+      const state = thunkAPI.getState();
 
-      const res = await fetch(
-        `http://localhost:3042/users/favourites`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${state.auth.token}`,
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({ favourites: taskId }),
-        }
-      );
+      const res = await fetch(`http://localhost:3042/users/favourites`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ favourites: taskId }),
+      });
 
       const data = await res.json();
-      console.log(data)
+      console.log(data);
 
       if (data.error) {
         return thunkAPI.rejectWithValue(data.error);
@@ -471,24 +468,21 @@ export const addToFavourites = createAsyncThunk(
 
 export const removeFromFavourites = createAsyncThunk(
   "auth/removeFromFavourites",
-  async ({taskId}, thunkAPI) => {
+  async ({ taskId }, thunkAPI) => {
     try {
-      const state = thunkAPI.getState()
+      const state = thunkAPI.getState();
 
-      const res = await fetch(
-        `http://localhost:3042/users/favourites/remove`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${state.auth.token}`,
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({ favourites: taskId }),
-        }
-      );
+      const res = await fetch(`http://localhost:3042/users/favourites/remove`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ favourites: taskId }),
+      });
 
       const data = await res.json();
-      console.log(data)
+      console.log(data);
 
       if (data.error) {
         return thunkAPI.rejectWithValue(data.error);
@@ -501,24 +495,20 @@ export const removeFromFavourites = createAsyncThunk(
   }
 );
 
-
 export const addToFriends = createAsyncThunk(
   "auth/addToFriends",
-  async ({user}, thunkAPI) => {
+  async ({ userId }, thunkAPI) => {
     try {
-      const state = thunkAPI.getState()
+      const state = thunkAPI.getState();
 
-      const res = await fetch(
-        `http://localhost:3042/users/friends`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${state.auth.token}`,
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({ friends: user }),
-        }
-      );
+      const res = await fetch(`http://localhost:3042/users/friends`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ friends: userId }),
+      });
 
       const data = await res.json();
 
@@ -535,21 +525,18 @@ export const addToFriends = createAsyncThunk(
 
 export const removeFromFriends = createAsyncThunk(
   "auth/removeFromFriends",
-  async ({user}, thunkAPI) => {
+  async ({ userId }, thunkAPI) => {
     try {
-      const state = thunkAPI.getState()
+      const state = thunkAPI.getState();
 
-      const res = await fetch(
-        `http://localhost:3042/users/friends/remove`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${state.auth.token}`,
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({ friends: user }),
-        }
-      );
+      const res = await fetch(`http://localhost:3042/users/friends/remove`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ friends: userId }),
+      });
 
       const data = await res.json();
 
@@ -793,17 +780,6 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(removeFromFavourites.pending, (state, action) => {
-        state.loading = true;
-      })
-      .addCase(removeFromFavourites.fulfilled, (state, action) => {
-        state.loading = false;
-        state.authUser = action.payload;
-      })
-      .addCase(removeFromFavourites.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
       .addCase(addToFriends.pending, (state, action) => {
         state.loading = true;
       })
@@ -815,6 +791,17 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      .addCase(removeFromFriends.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(removeFromFriends.fulfilled, (state, action) => {
+        state.loading = false;
+        state.authUser = action.payload;
+      })
+      .addCase(removeFromFriends.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 

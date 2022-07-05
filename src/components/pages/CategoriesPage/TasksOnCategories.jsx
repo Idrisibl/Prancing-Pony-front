@@ -33,10 +33,14 @@ const TasksOnCategories = () => {
   }
 
   return (
-    <>
+    <div className={styles.wrapper}>
       {loading && <LoadPreloader />}
-      <div>
-        <input type="text" onChange={(event) => setValue(event.target.value)} />
+      <div className={styles.search}>
+        <input
+          type="text"
+          placeholder="Поиск заданий"
+          onChange={(event) => setValue(event.target.value)}
+        />
       </div>
       {value ? (
         <div className={styles.tasks}>
@@ -73,7 +77,7 @@ const TasksOnCategories = () => {
           </button>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -1,40 +1,22 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllUsers } from "../../../features/authSlice";
+import { fetchAllUsers, fetchAuthUser } from "../../../features/authSlice";
 import UserCard from "../../UserCard";
-import {
-  alfMaxSort,
-  alfMinSort,
-  ratingMaxSort,
-  ratingMinSort,
-} from "../../../features/authSlice";
 import { useState } from "react";
 import LoadPreloader from "../../LoadPreloader";
 import button from "../CategoriesPage/Categories.module.css";
+import styles from "./AllUsers.module.css";
+import SortUsers from "../../SortPrice/SortUsers";
 
 const AllUsersPage = () => {
   const users = useSelector((state) => state.auth.users);
+  const friends = useSelector((state) => state.auth.authUser.friends);
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.tasksSlice.loading);
 
-  const nameSortMax = () => {
-    dispatch(alfMaxSort());
-  };
-
-  const nameSortMin = () => {
-    dispatch(alfMinSort());
-  };
-
-  const ratingSortMax = () => {
-    dispatch(ratingMaxSort());
-  };
-
-  const ratingSortMin = () => {
-    dispatch(ratingMinSort());
-  };
-
   useEffect(() => {
     dispatch(fetchAllUsers());
+    dispatch(fetchAuthUser());
   }, [dispatch]);
 
   const [visible, setVisible] = useState(7);
@@ -50,36 +32,21 @@ const AllUsersPage = () => {
   };
 
   return (
-    <>
+    <div className={styles.content}>
       {loading && <LoadPreloader />}
       <h1>Пользователи</h1>
-      <div>
-        <input type="text" onChange={(event) => setValue(event.target.value)} />
+      <div className={styles.search}>
+        <input
+          placeholder="Поиск пользователей..."
+          type="text"
+          onChange={(event) => setValue(event.target.value)}
+        />
       </div>
-      <div>
-        Упорядочить по алфавиту
-        <button class="material-symbols-outlined" onClick={nameSortMax}>
-          А-Я
-        </button>
-        <button class="material-symbols-outlined" onClick={nameSortMin}>
-          Я-А
-        </button>
-      </div>
-      <div>
-        Упорядочить по рейтингу
-        <button class="material-symbols-outlined" onClick={ratingSortMax}>
-          Сначала по топовым
-        </button>
-        <button class="material-symbols-outlined" onClick={ratingSortMin}>
-          Сначала по низким
-        </button>
-      </div>
-
+      <SortUsers />
       {value ? (
         <div>
-          {" "}
           {filteredUsers.map((user) => (
-            <UserCard key={user._id} user={user} />
+            <UserCard key={user._id} user={user} friends={friends} />
           ))}{" "}
           <button
             className={
@@ -96,7 +63,7 @@ const AllUsersPage = () => {
       ) : (
         <div>
           {users.slice(0, visible).map((user) => (
-            <UserCard key={user._id} user={user} />
+            <UserCard key={user._id} user={user} friends={friends} />
           ))}{" "}
           <button
             className={
@@ -111,7 +78,7 @@ const AllUsersPage = () => {
           </button>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { GiCheckMark } from "react-icons/gi";
 import { useDispatch } from "react-redux";
 import { addWallet, deductFromWallet } from "../../features/authSlice";
 import { getTaskById, patchTasks } from "../../features/tasksSlice";
@@ -73,9 +74,9 @@ const TaskUpdateModal = ({ task, setOpened, id }) => {
                 placeholder="Изменить вознаграждение..."
               />
             </div>
-            <div>
+            <div className={styles.addBtn}>
               <button disabled={!disabled} onClick={patchTask}>
-                Добавить изменения
+                <GiCheckMark size="3rem" fill={!disabled ? "gray" : "green"} />
               </button>
             </div>
           </div>

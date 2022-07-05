@@ -20,7 +20,7 @@ const AddTaskModal = ({ setOpened }) => {
 
   const addTask = () => {
     dispatch(addTasks({ title, text, price, categories }));
-    dispatch(deductFromWallet({price}));
+    dispatch(deductFromWallet({ price }));
     setCategory("");
     setTitle("");
     setText("");
@@ -51,7 +51,7 @@ const AddTaskModal = ({ setOpened }) => {
             />
           </div>
           <div>
-            <input
+            <textarea
               type="text"
               onChange={(e) => setText(e.target.value)}
               value={text}

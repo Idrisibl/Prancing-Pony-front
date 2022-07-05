@@ -46,16 +46,6 @@ const Sidebar = () => {
           Друзья
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          className={({ isActive }) =>
-            isActive ? `${styles.link} ${styles.active}` : styles.link
-          }
-          to={`/profile/${id}/blacklist`}
-        >
-          Черный список
-        </NavLink>
-      </li>
       <li onClick={exitFromAccaunt}>
         <NavLink
           className={({ isActive }) =>
