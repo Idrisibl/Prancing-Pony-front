@@ -22,7 +22,7 @@ const Convaersation = ({data, currentUser}) => {
         getUserData()
     }, [])
   return (
-    <div className={styles.name}>{userData?.name} {userData?.lastname} <hr />
+    <div className={styles.listName}>{userData?.name} {userData?.lastname} 
     </div>
   )
 }

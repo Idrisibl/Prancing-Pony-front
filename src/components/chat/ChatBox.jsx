@@ -70,7 +70,7 @@ const ChatBox = ({chat, currentUser, setSendMessage, receiveMessage, opened}) =>
         }
 
         const receiverId = chat.members.find((id) => id !== currentUser)
-        setSendMessage({...messages, receiverId})
+        setSendMessage({...message, receiverId})
 
     }
     
