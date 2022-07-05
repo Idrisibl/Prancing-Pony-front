@@ -1,0 +1,75 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: auto;
+  margin-top: 50px;
+  width: 650px;
+  height: 650px;
+}
+
+.signin {
+  background: url("../../../assets/images/paper_sheet_PNG7231.png") center
+    center / contain no-repeat;
+  height: 100%;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.signin h1 {
+  margin-bottom: 30px;
+  color: #000;
+}
+
+.form {
+  width: 60%;
+}
+
+.form input {
+  outline: 0;
+  border: none;
+  padding: 15px 20px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.input {
+  margin-bottom: 35px;
+}
+
+.error {
+  margin-bottom: 10px;
+  color: red;
+}
+
+.password {
+  position: relative;
+}
+
+.eye {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.form button {
+  cursor: pointer;
+  padding: 15px 40px;
+  border: none;
+  margin-bottom: 40px;
+}
+
+.form button:disabled {
+  cursor: not-allowed;
+}
+
+.signinLink a {
+  cursor: pointer;
+  color: green;
+}

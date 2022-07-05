@@ -31,7 +31,6 @@ export const addCommunity = createAsyncThunk(
       formData.append("name", data.name);
       formData.append("description", data.description);
       formData.append("emblem", data.emblem);
-      console.log(data.emblem);
       const state = thunkAPI.getState();
       const res = await fetch("http://localhost:3042/communities", {
         method: "POST",
@@ -41,7 +40,6 @@ export const addCommunity = createAsyncThunk(
         },
         // с бэка эмблема пустая, по дефолту стоит эмблема
       });
-      console.log(res);
       data.callback();
       return await res.json();
     } catch (e) {
@@ -69,7 +67,6 @@ export const leaveRequest = createAsyncThunk(
   async ({ id, userId, callback }, thunkAPI) => {
     try {
       const state = thunkAPI.getState();
-      console.log(userId);
       const res = await fetch(
         `http://localhost:3042/communities/request/${id}`,
         {
@@ -93,9 +90,7 @@ export const addMember = createAsyncThunk(
   "communities/addMember",
   async ({ communityId, requests, getCommunityById }, thunkAPI) => {
     try {
-      console.log(communityId);
       const state = thunkAPI.getState();
-      console.log(requests);
       const res = await fetch(
         `http://localhost:3042/communities/member/${communityId}`,
         {
@@ -119,8 +114,6 @@ export const deleteFromRequest = createAsyncThunk(
   "communities/deleteFromRequest",
   async ({ communityId, requests, getCommunityById }, thunkAPI) => {
     try {
-      const state = thunkAPI.getState();
-      console.log(requests, 777);
       const res = await fetch(
         `http://localhost:3042/communities/clean/request/${communityId}`,
         {
@@ -141,20 +134,22 @@ export const deleteFromRequest = createAsyncThunk(
 
 export const editEmblem = createAsyncThunk(
   "auth/editEmblem",
-  async ({ file, community, getCommunityById}, thunkAPI) => {
+  async ({ file, community, getCommunityById }, thunkAPI) => {
     try {
       const formData = new FormData();
       formData.append("emblem", file);
 
-
-      const res = await fetch(`http://localhost:3042/communities/emblem/${community._id}`, {
-        method: "PATCH",
-        body: formData,
-      });
+      const res = await fetch(
+        `http://localhost:3042/communities/emblem/${community._id}`,
+        {
+          method: "PATCH",
+          body: formData,
+        }
+      );
 
       const data = await res.json();
 
-      thunkAPI.dispatch(getCommunityById(community._id))
+      thunkAPI.dispatch(getCommunityById(community._id));
       if (data.error) {
         return thunkAPI.rejectWithValue(data.error);
       } else {
@@ -170,6 +165,7 @@ export const editCommunity = createAsyncThunk(
   "communitiesEdit/editCommunity",
   async ({ formData, community, getCommunityById }, thunkAPI) => {
     try {
+      const state = thunkAPI.getState();
       const res = await fetch(
         `http://localhost:3042/communities/edit/community/${community._id}`,
         {
@@ -180,10 +176,11 @@ export const editCommunity = createAsyncThunk(
           body: JSON.stringify({
             description: formData.description,
             name: formData.name,
+            
           }),
         }
       );
-      thunkAPI.dispatch(getCommunityById(community._id))
+      thunkAPI.dispatch(getCommunityById(community._id));
       return await res.json();
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -193,19 +190,16 @@ export const editCommunity = createAsyncThunk(
 
 export const addRating = createAsyncThunk(
   "communities/addRating",
-  async ({ member, id }, thunkAPI) => {
+  async ({ rating, id }, thunkAPI) => {
     try {
-      const state = thunkAPI.getState();
-
       const res = await fetch(
-        `http://localhost:3001/books/communities/rating/${id}`,
+        `http://localhost:3042/communities/rating/${id}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${state.auth.token}`,
           },
-          body: JSON.stringify({ rating: member }),
+          body: JSON.stringify({ rating: rating }),
         }
       );
 
@@ -215,6 +209,35 @@ export const addRating = createAsyncThunk(
     }
   }
 );
+
+// export const deleteUser = createAsyncThunk(
+//   "communities/deleteUser",
+//   async ({ members, community }, thunkAPI) => {
+//     try {
+//       const state = thunkAPI.getState();
+//       console.log(members, community);
+//       const res = await fetch(
+//         `http://localhost:3042/communities/delete/user/${community._id}`,
+//         {
+//           method: "PATCH",
+//           headers: {
+            
+//             "Content-Type": "application/json",
+//             Authorization: `Bearer ${state.auth.token}`,
+//           },
+//           body: JSON.stringify({
+//             members: members,
+//           }),
+//         }
+//       );
+
+//       return await res.json();
+//     } catch (e) {
+//       return thunkAPI.rejectWithValue(e);
+//     }
+//   }
+// );
+
 export const deleteCommunity = createAsyncThunk(
   "community/deleteCommunity",
   async (id, thunkAPI) => {
@@ -234,16 +257,24 @@ export const communitySlice = createSlice({
   initialState,
   reducers: {
     nameMaxSort(state) {
-      state.communities = state.communities.sort((a, b) => (a.name > b.name ? 1 : -1));
+      state.communities = state.communities.sort((a, b) =>
+        a.name > b.name ? 1 : -1
+      );
     },
     nameMinSort(state) {
-      state.communities = state.communities.sort((a, b) => (a.name < b.name ? 1 : -1));
+      state.communities = state.communities.sort((a, b) =>
+        a.name < b.name ? 1 : -1
+      );
     },
     membersMaxSort(state) {
-      state.communities = state.communities.sort((a, b) => (a.members < b.members ? 1 : -1));
+      state.communities = state.communities.sort((a, b) =>
+        a.members < b.members ? 1 : -1
+      );
     },
     membersMinSort(state) {
-      state.communities = state.communities.sort((a, b) => (a.members > b.members ? 1 : -1));
+      state.communities = state.communities.sort((a, b) =>
+        a.members > b.members ? 1 : -1
+      );
     },
   },
   extraReducers: (builder) => {
@@ -256,13 +287,12 @@ export const communitySlice = createSlice({
         // state.comunnityById = action.payload;
         state.loading = true;
       })
-      .addCase(editCommunity.fulfilled, (state, action)=>{
+      .addCase(editCommunity.fulfilled, (state, action) => {
         // state.comunnityById = action.payload
-        state.editLoading = false
+        state.editLoading = false;
       })
-      .addCase(editCommunity.pending, (state, action)=>{
-
-        state.editLoading = false
+      .addCase(editCommunity.pending, (state, action) => {
+        state.editLoading = false;
       })
       .addCase(addCommunity.fulfilled, (state, action) => {
         state.communities.push(action.payload);
@@ -277,11 +307,10 @@ export const communitySlice = createSlice({
       })
       .addCase(getAllCommunities.pending, (state, action) => {
         state.loading = true;
-      })
-      
+      });
   },
 });
 
-
-export const { nameMaxSort, nameMinSort, membersMaxSort, membersMinSort } = communitySlice.actions;
+export const { nameMaxSort, nameMinSort, membersMaxSort, membersMinSort } =
+  communitySlice.actions;
 export default communitySlice.reducer;

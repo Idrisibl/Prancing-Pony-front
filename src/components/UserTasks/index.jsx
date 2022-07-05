@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchOneUser } from "../../features/authSlice";
+import { fetchAuthUser } from "../../features/authSlice";
 import Bag from "./Bag";
 import Failed from "./Failed";
 import Finished from "./Finished";
@@ -11,15 +11,15 @@ import styles from "./UserTasks.module.css";
 const UserTasks = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
+  const authUser = useSelector((state) => state.auth.authUser);
   const [bag, setBag] = useState(false);
   const [finished, setFinished] = useState(false);
   const [failed, setFailed] = useState(false);
   const [myTasks, setMyTasks] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchOneUser(id));
-  }, [dispatch, id]);
+    dispatch(fetchAuthUser());
+  }, [dispatch]);
 
   const handleChangeBag = () => {
     setBag(true);
@@ -58,9 +58,9 @@ const UserTasks = () => {
         <div onClick={handleChangeFailed}>Проваленные</div>
       </div>
       <div className={styles.content}>
-        {bag && <Bag bag={user.bag} />}
-        {finished && <Finished finished={user.finished} />}
-        {failed && <Failed failed={user.failed} />}
+        {bag && <Bag bag={authUser.bag} />}
+        {finished && <Finished finished={authUser.finished} />}
+        {failed && <Failed failed={authUser.failed} />}
         {myTasks && <MyTasks id={id} />}
       </div>
     </div>

@@ -288,6 +288,269 @@ export const confirm = createAsyncThunk(
   }
 );
 
+export const sendConfirmation = createAsyncThunk(
+  "auth/sendConfirmation",
+  async ({ id, task }, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(
+        `http://localhost:3042/users/confirmation/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${state.auth.token}`,
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({ task }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const addToFinished = createAsyncThunk(
+  "auth/addToFinished",
+  async ({ userId, taskId }, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(
+        `http://localhost:3042/users/${userId}/finished/${taskId}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${state.auth.token}`,
+            "Content-type": "application/json",
+          },
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const addToFailed = createAsyncThunk(
+  "auth/addToFailed",
+  async ({ userId, taskId }, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(
+        `http://localhost:3042/users/${userId}/failed/${taskId}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${state.auth.token}`,
+            "Content-type": "application/json",
+          },
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const removeFromConfirmation = createAsyncThunk(
+  "auth/removeFromConfirmation",
+  async (id, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(
+        `http://localhost:3042/users/confirmation/remove/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${state.auth.token}`,
+            "Content-type": "application/json",
+          },
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const removeFromBag = createAsyncThunk(
+  "auth/removeFromBag",
+  async ({ userId, taskId }, thunkAPI) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3042/users/bag/remove/${userId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({ bag: taskId }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const addToFavourites = createAsyncThunk(
+  "auth/addToFavourites",
+  async ({ taskId }, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(`http://localhost:3042/users/favourites`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ favourites: taskId }),
+      });
+
+      const data = await res.json();
+      console.log(data);
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const removeFromFavourites = createAsyncThunk(
+  "auth/removeFromFavourites",
+  async ({ taskId }, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(`http://localhost:3042/users/favourites/remove`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ favourites: taskId }),
+      });
+
+      const data = await res.json();
+      console.log(data);
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const addToFriends = createAsyncThunk(
+  "auth/addToFriends",
+  async ({ userId }, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(`http://localhost:3042/users/friends`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ friends: userId }),
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const removeFromFriends = createAsyncThunk(
+  "auth/removeFromFriends",
+  async ({ userId }, thunkAPI) => {
+    try {
+      const state = thunkAPI.getState();
+
+      const res = await fetch(`http://localhost:3042/users/friends/remove`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`,
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ friends: userId }),
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        return thunkAPI.rejectWithValue(data.error);
+      } else {
+        return thunkAPI.fulfillWithValue(data);
+      }
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
 const initialState = {
   signupIn: false,
   signinUp: false,
@@ -412,7 +675,6 @@ const authSlice = createSlice({
       })
       .addCase(deductFromWallet.fulfilled, (state, action) => {
         state.loading = false;
-        console.log(action.payload);
         state.authUser = action.payload;
       })
       .addCase(deductFromWallet.rejected, (state, action) => {
@@ -438,6 +700,105 @@ const authSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(confirm.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(sendConfirmation.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(sendConfirmation.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(sendConfirmation.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(addToFinished.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(addToFinished.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(addToFinished.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(removeFromConfirmation.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(removeFromConfirmation.fulfilled, (state, action) => {
+        state.loading = false;
+        state.authUser = action.payload;
+      })
+      .addCase(removeFromConfirmation.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(removeFromBag.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(removeFromBag.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(removeFromBag.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(addToFailed.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(addToFailed.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(addToFailed.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(addToFavourites.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(addToFavourites.fulfilled, (state, action) => {
+        state.loading = false;
+        state.authUser = action.payload;
+      })
+      .addCase(addToFavourites.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(removeFromFavourites.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(removeFromFavourites.fulfilled, (state, action) => {
+        state.loading = false;
+        state.authUser = action.payload;
+      })
+      .addCase(removeFromFavourites.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(addToFriends.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(addToFriends.fulfilled, (state, action) => {
+        state.loading = false;
+        state.authUser = action.payload;
+      })
+      .addCase(addToFriends.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(removeFromFriends.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(removeFromFriends.fulfilled, (state, action) => {
+        state.loading = false;
+        state.authUser = action.payload;
+      })
+      .addCase(removeFromFriends.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
