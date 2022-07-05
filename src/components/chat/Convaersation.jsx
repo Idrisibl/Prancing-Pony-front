@@ -22,7 +22,9 @@ const Convaersation = ({data, currentUser}) => {
         getUserData()
     }, [])
   return (
-    <div className={styles.listName}>{userData?.name} {userData?.lastname} 
+    <div className={styles.listContain}>
+        <div className={styles.listName}>{userData?.name} {userData?.lastname} 
+    </div>
     </div>
   )
 }
