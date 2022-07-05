@@ -2,7 +2,10 @@ import {useState, useEffect, useRef} from 'react'
 import { addMessage, getMessages, getUser } from '../../features/chatRequests'
 import styles from "./style.module.css"
 import { format } from 'timeago.js'
-import InputEmoji from 'react-input-emoji'
+import InputEmoji from 'react-input-emoji';
+import './index.css';
+import icon from '../../assets/images/send.png'
+import { style } from '@mui/system';
 
 const ChatBox = ({chat, currentUser, setSendMessage, receiveMessage, opened}) => {
 
@@ -76,7 +79,7 @@ const ChatBox = ({chat, currentUser, setSendMessage, receiveMessage, opened}) =>
     
   return (
     <>
-        <div className={styles.chat}>
+        <div className={opened? styles.chat : styles.chatClosed}>
             {opened? (<>
             <div className={styles.header}>
                 <div><img className={styles.ava} src={`http://localhost:3042/${userData?.avatar}`} alt="" /></div>
@@ -93,7 +96,7 @@ const ChatBox = ({chat, currentUser, setSendMessage, receiveMessage, opened}) =>
                     <>
                     <div className={item.senderId === currentUser? `${styles.messageOwn}` : `${styles.message}`}>
                         <div>{item.text}</div>
-                        <div>{format(item.createdAt)}</div>
+                        <div className={styles.time}>{format(item.createdAt)}</div>
                     </div>
                     
                     </>
@@ -102,10 +105,12 @@ const ChatBox = ({chat, currentUser, setSendMessage, receiveMessage, opened}) =>
             </div>
             <div className={styles.chatSender}>
                         <InputEmoji value = {newMessages} onChange = {handleChange} />
-                        {newMessages && <button onClick={(e) =>hendlSend(e)}>Send</button>}
+                        {newMessages && <button  onClick={(e) =>hendlSend(e)}>
+                            <img className={styles.sendMessage} src={icon} alt="" />
+                            </button>}
                     </div>{" "} 
                     </>) 
-        : (<div>Нажмите чтобы открыть чат</div>)}
+        : (<h2 className={styles.closedDialogs}>С кем изволите беседовать, милорд?</h2>)}
             
         </div>
     </>

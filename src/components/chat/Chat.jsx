@@ -67,7 +67,7 @@ const Chat = () => {
    <div className={styles.main}>
     <div className={styles.left}>
       <div className={styles.chatContainer}>
-        <h2>Chats</h2>
+        <h2 className={styles.listNameDialogs}>Диалоги</h2>
         <div className={styles.chatList}>
           {chats.map((chat) => {
             return (

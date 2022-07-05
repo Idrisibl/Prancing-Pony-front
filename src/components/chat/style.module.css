@@ -1,57 +1,6 @@
  .main{
     display: flex;
 }
-/*
-.users{
-    color: white;
-}
-.list{
-    display: flex;
-    justify-content: space-between;
-    width: 300px;
-    margin-top: 10px;
-    border-bottom: 1px solid white;
-    max-height: 100%;
-    cursor: pointer;
-}
-.list:hover{
-    background-color: rgb(111, 105, 105);
-}
-.img{
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-}
-.contain{
-    background-color: white;
-    max-height: 100%;
-    width: 600px;
-    margin-left: 50px;
-    border: 4px solid burlywood;
-    position: relative;
-}
-.bot{
-   bottom: 0;
-   position: absolute;
-   display: flex;
-   margin-bottom: 5px;
-
-}
-.bot textarea{
-    width: 450px;
-    border: 2px solid blue;
-    height: 50px;
-    max-width: 500px;
-    margin-right: 10px;
-}
-.bot button{
-    background-color: blue;
-    border: none;
-    height: 50px;
-    width: 100px;
-    border-radius: 10%;
-    cursor: pointer;
-} */
 .ava{
     width: 50px;
     height: 50px;
@@ -60,52 +9,140 @@
 }
 .header{
     display: flex;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid rgba(37, 36, 36, 0.766);
 }
-.name{
-    color: white;
-    width: 150px;
-    cursor: pointer;
+.listContain{
+    background-image: url("../../assets/images/svitok1.png");
+    background-repeat: no-repeat;
+    width: 200px;
+    height: 50px;
+    background-size:200px;
     margin-right: 20px;
+    margin-top: 10px;
+    transition: all 0.5s ease-in-out;
+    text-align: center;
+    padding-top: 12px;
+    cursor: pointer;
+    margin-left: 20px;
 }
-.name:hover{
-    background-color: rgb(48, 44, 44);
+.listName{
+    color: black;
+    margin: auto;
+}
+.listContain:hover{
+    -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
 }
 .chat{
-    border: 1px solid white;
+    background-image: url("../../assets/images/paper_sheet_PNG7231.png");
+    background-repeat: no-repeat;
+    background-size: 110%;
+    background-position: center;
     width: 500px;
-    height: 650px;
     padding: 10px;
-    color: white;
+    color: black;
     position: relative;
 }
 .nameUser{
-    color: white;
-    width: 150px;
+    color: black;
     margin-left: 20px;
     margin-top: 15px;
+    font-size: 20px;
+    font-weight: bold;
 }
 .chatSender{
     display: flex;
-    position: bottom;
+    align-items: center;
+    width: 90%;
+    margin: auto;
+    bottom: 0;
     margin-top: 10px;
+    border-top: 1px solid rgba(150, 146, 146, 0.73);
+    color: black;
 }
+.sendMessage{
+    width: 25px;
+    background-color: inherit;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.chatSender button{
+    border: none;
+    background-color: inherit;
+    margin-left: 5px;
+}
+
 .messageOwn{
-    background-color: blue;
+    background-color: rgba(58, 10, 10, 0.822);
     margin-top: 20px;
-    margin-right: 0;
-    width: 200px;
+    margin-left: auto;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 50%;
+    width: fit-content;
+    color: white;
+    font-weight: bold;
+    font-family: sans-serif;
+    word-break: break-all;
 }
 .message{
-    background-color: orange;
+    background-color: rgba(100, 96, 96, 0.919);
     margin-top: 20px;
     margin-right: 0;
     width: 200px;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 50%;
+    width: fit-content;
+    color: white;
+    font-weight: bold;
+    font-family: sans-serif;
+    word-break: break-all;
 }
 .chatBody{
     overflow: scroll;
-    max-height: 500px;
+    height: 500px;
 }
+
+.time {
+    width: fit-content;
+    font-size: 10px;
+    margin-left: auto;
+    font-weight: normal;
+    margin-top: 10px;
+}
+
+.chatBody::-webkit-scrollbar {
+    width: 0;
+}
+
 .data{
     text-align: center;
+}
+.listNameDialogs{
+    background-image: url("../../assets/images/svitok1.png");
+    background-repeat: no-repeat;
+    width: 200px;
+    height: 50px;
+    background-size:200px;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+.closedDialogs{
+    text-align: center;
+    margin-top: 50%;
+}
+.chatClosed{
+    background-image: url("../../assets/images/paper_sheet_PNG7231.png");
+    background-repeat: no-repeat;
+    background-size: 110%;
+    background-position: center;
+    width: 500px;
+    height: 630px;
+    padding: 10px;
+    color: black;
+    position: relative;
 }
