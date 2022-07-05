@@ -793,17 +793,6 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(removeFromFavourites.pending, (state, action) => {
-        state.loading = true;
-      })
-      .addCase(removeFromFavourites.fulfilled, (state, action) => {
-        state.loading = false;
-        state.authUser = action.payload;
-      })
-      .addCase(removeFromFavourites.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
       .addCase(addToFriends.pending, (state, action) => {
         state.loading = true;
       })

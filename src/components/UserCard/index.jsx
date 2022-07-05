@@ -5,22 +5,22 @@ import styles from "./UserCard.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { addChat } from "../../features/chatRequests";
+import Rangs from "../Rangs";
 
 const UserCard = ({ user }) => {
-
   const senderId = useSelector((state) => state.auth.id);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleAddChat = async (receiverId) => {
-    const data = {receiverId, senderId}
+    const data = { receiverId, senderId };
     try {
-        const res = await addChat(data)
-        console.log(res);
+      const res = await addChat(data);
+      console.log(res);
     } catch (error) {
       console.log(error);
     }
-    navigate("/chat")
-  }
+    navigate("/chat");
+  };
 
   return (
     <Link to={`/profile/${user._id}`}>
@@ -33,15 +33,24 @@ const UserCard = ({ user }) => {
           <span>{user.lastname}</span>
         </div>
         <div className={styles.rating}>
-          <span>{user.rating}</span>
-          <span>Ранг</span>
+          <span>Очки:{user.rating}</span>
+          {``}
+          <div className={styles.rangWrapper}>
+            <div>Ранг:</div>
+            <div className={styles.rangsIconWrapper}>
+              <Rangs user={user} />
+            </div>
+          </div>
         </div>
         <div className={styles.btn}>
           <span>
             <FaUserFriends size="3rem" />
           </span>
           <span>
-            <BiMessageDots onClick={() =>handleAddChat(user._id)} size="3rem" />
+            <BiMessageDots
+              onClick={() => handleAddChat(user._id)}
+              size="3rem"
+            />
           </span>
         </div>
       </div>
